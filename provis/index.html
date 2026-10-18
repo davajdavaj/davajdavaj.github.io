@@ -316,9 +316,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     <button class="chip" id="buildBtn">Сложение</button>
     <button class="chip" id="clothBtn">Одежда</button>
     <button class="chip" id="actorAdd">+ Актёр</button>
+    <button class="chip" id="actorReset">Вернуть</button>
     <button class="chip warn" id="actorDel">Удалить</button>
     <button class="chip on" id="actorsDone">Готово</button>
-    <div class="hint" id="actorHint">Коснитесь пола, чтобы переставить актёра. Касание манекена выбирает его.</div>
+    <div class="hint" id="actorHint">Касание манекена выбирает его, тащите его пальцем по полу. «Вернуть» ставит актёра как в сцене.</div>
   </div>
 
   <div class="actorbar" id="editBar" hidden>
@@ -1204,6 +1205,10 @@ function groundAt(x, y) { const p = new THREE.Vector3(); return rayAt(x, y).ray.
   let id = null, sx = 0, sy = 0, lx = 0, ly = 0, moved = false, drag = null;
   glCanvas.addEventListener('pointerdown', ev => {
     if (id !== null) return; id = ev.pointerId; sx = lx = ev.clientX; sy = ly = ev.clientY; moved = false; drag = null; glCanvas.setPointerCapture(id); wake(); closePops();
+    if (mode === 'actors') { // press on a mannequin and drag it over the floor
+      const hA = rayAt(ev.clientX, ev.clientY).intersectObjects(actors.map(a => a.rig), true)[0], g = groundAt(ev.clientX, ev.clientY);
+      if (hA && g) { const i = hA.object.userData.actorIdx, p = C.cast[i].pos; drag = { actor: i, gx: g.x, gz: g.z, px: p[0], pz: p[1] }; }
+    }
     if (mode === 'edit' && editSel >= 0 && freeItem(C.items[editSel])) {
       const h = rayAt(ev.clientX, ev.clientY).intersectObject(ITEM_OBJS[editSel], true)[0], g = groundAt(ev.clientX, ev.clientY);
       if (h && g) { const p = C.items[editSel].pos; drag = { gx: g.x, gz: g.z, px: p[0], pz: p.length === 3 ? p[2] : p[1] }; }
@@ -1214,6 +1219,11 @@ function groundAt(x, y) { const p = new THREE.Vector3(); return rayAt(x, y).ray.
     const dx = ev.clientX - lx, dy = ev.clientY - ly; lx = ev.clientX; ly = ev.clientY;
     if (Math.hypot(ev.clientX - sx, ev.clientY - sy) > 6) { if (!moved) stopPlay(); moved = true; }
     if (!moved) return;
+    if (drag && drag.actor != null) {
+      const g = groundAt(ev.clientX, ev.clientY); if (!g) return;
+      if (sel !== drag.actor) { sel = drag.actor; refreshActorBar(); }
+      C.cast[drag.actor].pos = [r3(drag.px + g.x - drag.gx), r3(drag.pz + g.z - drag.gz)]; clearAnim(); return;
+    }
     if (drag) {
       const g = groundAt(ev.clientX, ev.clientY); if (!g) return;
       const it = C.items[editSel], p = it.pos, nx = r3(drag.px + g.x - drag.gx), nz = r3(drag.pz + g.z - drag.gz);
@@ -1233,12 +1243,10 @@ function groundAt(x, y) { const p = new THREE.Vector3(); return rayAt(x, y).ray.
   };
   glCanvas.addEventListener('pointerup', end); glCanvas.addEventListener('pointercancel', end);
 })();
-function tapActors(x, y) {
-  const r = rayAt(x, y);
-  const hitA = r.intersectObjects(actors.map(a => a.rig), true)[0];
+function tapActors(x, y) { // a tap only selects; moving takes a drag, so a stray tap never relocates anyone
+  const hitA = rayAt(x, y).intersectObjects(actors.map(a => a.rig), true)[0];
   if (hitA) { sel = hitA.object.userData.actorIdx; clearAnim(); refreshActorBar(); return; }
-  const g = groundAt(x, y);
-  if (g && C.cast[sel]) { C.cast[sel].pos = [r3(g.x), r3(g.z)]; clearAnim(); save(); }
+  toast('Чтобы переставить актёра, тащите его пальцем по полу.');
 }
 
 const keys = {};
@@ -2084,6 +2092,11 @@ $('actorAdd').addEventListener('click', () => {
   C.cast.push({ id: 'a' + Date.now(), name: 'Актёр ' + (n + 1), desc: 'a person', h: 1.75, top: CLOTHES[n % CLOTHES.length], bottom: '#3a3a40', skin: '#e2b48c', hair: '#3b2a20',
     pos: [r3(C.cam.x + A.fx * 2.2), r3(C.cam.z + A.fz * 2.2)], rot: Math.round(Math.atan2(-A.fx, -A.fz) * R2D), pose: 'stand' });
   sel = C.cast.length - 1; rebuildCast();
+});
+$('actorReset').addEventListener('click', () => {
+  const a = C.cast[sel]; if (!a) return; const orig = (DEF.actors || []).find(x => x.id === a.id);
+  if (!orig) { toast('Этого актёра нет в исходной сцене, его можно только удалить.'); return; }
+  C.cast[sel] = clone(orig); clearAnim(); rebuildCast(); toast(orig.name + ' на месте, как в сцене.');
 });
 let delArmA = 0;
 $('actorDel').addEventListener('click', () => {
