@@ -69,14 +69,15 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums;
 }
 .chip.on { background: var(--frame); border-color: var(--frame); color: #17120a; font-weight: 500; }
+.chip.warn { border-color: var(--rec); color: #ff8a86; }
 
 /* side tools */
 .tools {
   position: absolute; right: max(16px, env(safe-area-inset-right, 0px)); top: 50%; transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 6px; align-items: stretch;
+  display: flex; flex-direction: column; gap: 5px; align-items: stretch;
 }
 .tool {
-  background: rgba(22,24,28,.86); border: 1px solid var(--line); border-radius: 7px; padding: 7px 9px; min-width: 70px;
+  background: rgba(22,24,28,.86); border: 1px solid var(--line); border-radius: 7px; padding: 6px 9px; min-width: 70px;
   font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; text-align: center;
 }
 .tool.on { border-color: var(--frame); color: var(--frame); }
@@ -121,18 +122,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 1.05;
 }
 .save-btn small { display: block; font-size: 9.5px; letter-spacing: .08em; color: var(--dim); font-weight: 600; }
-.wv { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; max-width: 1100px; }
-.wv figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; }
-.wv figure img { display: block; width: 100%; -webkit-touch-callout: default; -webkit-user-select: auto; user-select: auto; }
-.wv figcaption { padding: 10px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--dim); line-height: 1.4; }
-.wv figcaption b { color: var(--fg); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
-.wv-prompt { max-width: 1100px; margin-top: 14px; }
-.wv-prompt textarea {
-  width: 100%; box-sizing: border-box; min-height: 150px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 8px;
-  padding: 10px; font-family: var(--mono); font-size: 12.5px; line-height: 1.55; resize: vertical;
-}
-.wv-prompt .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
-.wv-prompt p { margin: 0; font-size: 13px; color: var(--dim); line-height: 1.45; max-width: 70ch; }
 .board-btn {
   position: relative; width: 58px; height: 44px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel) center/cover no-repeat;
   padding: 0;
@@ -142,33 +131,44 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   font-family: var(--mono); font-size: 11px; font-weight: 500; display: grid; place-items: center;
 }
 
-/* actor bar */
+/* bottom bars: actors, editor, take recording */
 .actorbar {
-  position: absolute; left: 50%; transform: translateX(-50%); bottom: 14px;
+  position: absolute; left: 0; right: 0; margin-inline: auto; width: fit-content; bottom: 14px;
   display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-width: calc(100% - 340px);
-  background: rgba(22,24,28,.9); border: 1px solid var(--line); border-radius: 10px; padding: 8px;
+  background: rgba(22,24,28,.92); border: 1px solid var(--line); border-radius: 10px; padding: 8px;
 }
 .actorbar .hint { flex-basis: 100%; text-align: center; font-size: 12px; color: var(--dim); }
+.actorbar .name { flex-basis: 100%; text-align: center; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--frame); font-weight: 700; }
+.recbar {
+  position: absolute; left: 50%; transform: translateX(-50%); bottom: 18px; display: flex; align-items: center; gap: 10px;
+  background: var(--rec); color: #fff; border: 0; border-radius: 999px; padding: 10px 18px; font-size: 15px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+.recbar span { font-family: var(--mono); font-weight: 500; letter-spacing: 0; }
 
 /* popovers & sheets */
 .pop {
   position: absolute; right: calc(max(16px, env(safe-area-inset-right, 0px)) + 86px); top: 50%; transform: translateY(-50%);
   background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 6px; display: flex; flex-direction: column; gap: 2px; min-width: 210px;
-  max-width: min(420px, 70vw); max-height: 80vh; overflow-y: auto; touch-action: pan-y; box-shadow: 0 10px 30px rgba(0,0,0,.5);
+  max-width: min(560px, 74vw); max-height: 82vh; overflow-y: auto; touch-action: pan-y; box-shadow: 0 10px 30px rgba(0,0,0,.5); z-index: 4;
 }
 .pop button { background: none; border: 0; text-align: left; padding: 9px 10px; border-radius: 6px; font-size: 15px; font-weight: 600; }
 .pop button small { display: block; font-weight: 500; font-size: 12px; color: var(--dim); }
 .pop button:active { background: var(--panel-2); }
 .pop .empty { padding: 10px; font-size: 14px; }
-.shotrow { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 4px; border-bottom: 1px solid var(--line); padding: 2px 0; }
+.pop h4 { margin: 8px 10px 4px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.shotrow { display: grid; grid-template-columns: 1fr auto auto auto auto; align-items: center; gap: 4px; border-bottom: 1px solid var(--line); padding: 2px 0; }
 .shotrow:last-child { border-bottom: 0; }
 .shotrow .go { min-width: 0; }
-.shotrow .play, .shotrow .add {
-  font-family: var(--mono); font-size: 12px; font-weight: 500; text-align: center; padding: 8px 9px; border: 1px solid var(--line); background: var(--panel-2);
+.pop .mini {
+  font-family: var(--mono); font-size: 12px; font-weight: 500; text-align: center; padding: 8px 8px; border: 1px solid var(--line); background: var(--panel-2); white-space: nowrap;
 }
-.shotrow .play { color: #17120a; background: var(--frame); border-color: var(--frame); }
+.pop .mini.play { color: #17120a; background: var(--frame); border-color: var(--frame); }
+.pop .mini.recd { color: #fff; background: var(--rec); border-color: var(--rec); }
+.pop .wide { text-align: center; border: 1px solid var(--line); background: var(--panel-2); margin: 4px 0; }
+.libgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+.libgrid button { text-align: center; border: 1px solid var(--line); background: var(--panel-2); font-size: 14px; padding: 9px 4px; }
 .sheet {
-  position: absolute; inset: 0; background: rgba(11,12,14,.96); overflow-y: auto; touch-action: pan-y; -webkit-user-select: text; user-select: text;
+  position: absolute; inset: 0; background: rgba(11,12,14,.97); overflow-y: auto; touch-action: pan-y; -webkit-user-select: text; user-select: text;
   padding-block: 14px 24px;
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
@@ -177,14 +177,15 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .btn { background: var(--panel-2); border: 1px solid var(--line); border-radius: 7px; padding: 8px 12px; font-size: 14px; font-weight: 600; letter-spacing: .04em; }
 .btn.primary { background: var(--frame); color: #17120a; border-color: var(--frame); }
 .btn.ghost { background: none; }
+.btn:disabled { opacity: .5; }
 .set { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px 28px; max-width: 980px; }
 .field h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); font-weight: 600; }
 .field.wide { grid-column: 1 / -1; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.field p { margin: 8px 0 0; font-size: 13px; color: var(--dim); line-height: 1.4; max-width: 60ch; }
-.field textarea {
+.field p, .note { margin: 8px 0 0; font-size: 13px; color: var(--dim); line-height: 1.45; max-width: 70ch; }
+.field textarea, .ta {
   width: 100%; box-sizing: border-box; min-height: 64px; margin-top: 8px; background: var(--bg); color: var(--fg); border: 1px solid var(--line);
-  border-radius: 6px; padding: 8px; font-family: var(--mono); font-size: 12px; resize: vertical;
+  border-radius: 6px; padding: 8px; font-family: var(--mono); font-size: 12px; line-height: 1.5; resize: vertical;
 }
 .range-row { display: flex; align-items: center; gap: 10px; }
 .range-row input { flex: 1; accent-color: var(--frame); }
@@ -211,16 +212,26 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 .empty { color: var(--dim); font-size: 15px; max-width: 46ch; line-height: 1.5; }
 .preview img { max-width: 100%; border-radius: 6px; display: block; margin-top: 10px; -webkit-touch-callout: default; }
 
+/* exports */
+.wv { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; max-width: 1200px; }
+.wv figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; }
+.wv figure img, .wv figure video { display: block; width: 100%; background: #000; -webkit-touch-callout: default; -webkit-user-select: auto; user-select: auto; }
+.wv figcaption { padding: 10px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--dim); line-height: 1.4; }
+.wv figcaption b { color: var(--fg); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
+.block { max-width: 1200px; margin-top: 14px; }
+.block .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+.progress { font-family: var(--mono); font-size: 13px; color: var(--frame); }
+.plan-img { display: block; max-width: 100%; max-height: 70vh; border-radius: 8px; border: 1px solid var(--line); background: #000; }
 .toast {
   position: absolute; left: 50%; top: 84px; transform: translateX(-50%); max-width: min(90vw, 520px);
   background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 9px 14px; font-size: 14px; line-height: 1.4; text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,.5);
+  box-shadow: 0 10px 30px rgba(0,0,0,.5); z-index: 5;
 }
 
 @media (max-width: 560px), (max-height: 420px) {
   .lens-btn .mm { font-size: 18px; }
   .readout { font-size: 10.5px; }
-  .tool { min-width: 60px; padding: 6px 7px; font-size: 11px; }
+  .tool { min-width: 60px; padding: 5px 7px; font-size: 11px; }
   .height { right: calc(max(16px, env(safe-area-inset-right, 0px)) + 78px); }
   .joy { width: 108px; height: 108px; }
   .actorbar { max-width: calc(100% - 250px); }
@@ -230,10 +241,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .height { top: auto; bottom: 96px; transform: none; height: min(22vh, 180px); }
   .height label { display: none; }
   .pop { top: auto; bottom: 96px; transform: none; }
-  .actorbar { bottom: 150px; max-width: calc(100% - 32px); }
+  .actorbar { bottom: 150px; left: 16px; right: 104px; width: auto; max-width: none; margin: 0; }
+  .shotrow { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .shotrow .go { grid-column: 1 / -1; }
   .readout { display: none; }
   .shot { align-items: flex-end; }
 }
+@media (orientation: landscape) and (max-height: 500px) { .actorbar .hint { display: none; } }
 @media (prefers-reduced-motion: reduce) { .rec::after { transition: none; } }
 </style>
 
@@ -266,10 +280,13 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     <button class="tool on" id="tGrid">Сетка</button>
     <button class="tool" id="tPos">Позиции</button>
     <button class="tool" id="tActors">Актёры</button>
+    <button class="tool" id="tEdit">Сцена</button>
+    <button class="tool" id="tPlan">План</button>
     <button class="tool" id="tSet">Настр</button>
   </div>
 
   <div class="pop" id="shotPop" hidden></div>
+  <div class="pop" id="libPop" hidden></div>
 
   <div class="pop" id="posPop" hidden>
     <button data-preset="front">Фронтально<small>средний план на уровне глаз</small></button>
@@ -281,19 +298,44 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 
   <div class="joy" id="joy" aria-label="Движение камеры"><div class="nub" id="nub"></div><div class="lbl">движение</div></div>
 
-  <div class="shoot">
+  <div class="shoot" id="shootBar">
     <button class="save-btn" id="saveBtn" aria-label="Сохранить кадр для Weavy">Сохранить<small>для Weavy</small></button>
     <button class="board-btn" id="boardBtn" aria-label="Открыть раскадровку"><span class="n" id="boardN">0</span></button>
     <button class="rec" id="recBtn" aria-label="Снять кадр"></button>
   </div>
+
+  <button class="recbar" id="recBar" hidden>■ Стоп дубля <span id="recTime">0.0</span></button>
 
   <div class="actorbar" id="actorBar" hidden>
     <span id="actorChips" style="display:contents"></span>
     <button class="chip" id="poseBtn">Поза: стоит</button>
     <button class="chip" id="rotL" aria-label="Повернуть влево">⟲ 45°</button>
     <button class="chip" id="rotR" aria-label="Повернуть вправо">⟳ 45°</button>
+    <button class="chip" id="hMinus">Рост −</button>
+    <button class="chip" id="hPlus">Рост +</button>
+    <button class="chip" id="buildBtn">Сложение</button>
+    <button class="chip" id="clothBtn">Одежда</button>
+    <button class="chip" id="actorAdd">+ Актёр</button>
+    <button class="chip warn" id="actorDel">Удалить</button>
     <button class="chip on" id="actorsDone">Готово</button>
-    <div class="hint">Коснитесь пола, чтобы переставить актёра. Касание манекена выбирает его.</div>
+    <div class="hint" id="actorHint">Коснитесь пола, чтобы переставить актёра. Касание манекена выбирает его.</div>
+  </div>
+
+  <div class="actorbar" id="editBar" hidden>
+    <div class="name" id="editName">Коснитесь предмета</div>
+    <button class="chip" data-mv="-1,0" aria-label="Влево">←</button>
+    <button class="chip" data-mv="1,0" aria-label="Вправо">→</button>
+    <button class="chip" data-mv="0,1" aria-label="Дальше">↑</button>
+    <button class="chip" data-mv="0,-1" aria-label="Ближе">↓</button>
+    <button class="chip" id="edRotL">⟲ 15°</button>
+    <button class="chip" id="edRotR">⟳ 15°</button>
+    <button class="chip" id="edUp">Выше</button>
+    <button class="chip" id="edDown">Ниже</button>
+    <button class="chip" id="edDup">Копия</button>
+    <button class="chip warn" id="edDel">Удалить</button>
+    <button class="chip" id="edAdd">+ Добавить</button>
+    <button class="chip on" id="edDone">Готово</button>
+    <div class="hint">Коснитесь предмета, чтобы выбрать. Тащите выбранный предмет пальцем по полу. Стрелки двигают на 10 см.</div>
   </div>
 
   <section class="sheet" id="setSheet" hidden>
@@ -304,15 +346,19 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         <div class="chips" style="margin-top:8px">
           <button class="btn primary" id="sceneOpen">Открыть сцену</button>
           <button class="btn" id="sceneFileBtn">Файл сцены</button>
+          <button class="btn" id="sceneLinkBtn">Ссылка на сцену с правками</button>
+          <button class="btn" id="sceneSaveBtn">Сохранить файл сцены</button>
           <button class="btn ghost" id="sceneDelete">Удалить эту сцену</button>
           <input type="file" id="sceneFile" accept=".json,application/json" hidden>
         </div>
-        <p>Сцену проекта я присылаю ссылкой. Если ссылка открылась не в том окне, скопируйте её и вставьте сюда.</p></div>
+        <p>Сцену проекта я присылаю ссылкой. Ссылка с правками собирает текущую сцену со всеми изменениями из режима «Сцена» и «Актёры»: её можно прислать мне или открыть на другом устройстве.</p></div>
       <div class="field"><h3>Сенсор</h3><div class="chips" id="sensorChips"></div>
         <p>Full Frame по умолчанию. Super 35 даёт уже угол на той же линзе.</p></div>
       <div class="field"><h3>Формат</h3><div class="chips" id="aspectChips"></div></div>
+      <div class="field"><h3>Джойстик</h3><div class="chips" id="speedChips"></div>
+        <p>Медленно для плавного наезда, быстро для проходки. Камера разгоняется и тормозит мягко.</p></div>
       <div class="field"><h3>Масштаб актёров</h3><div class="chips" id="scaleChips"></div>
-        <p>Игрушки: манекены 30 см, камера опускается до 1 см и двигается медленнее. Для пролётов на уровне игрушек.</p></div>
+        <p>Игрушки: манекены 30 см, камера опускается до 1 см и двигается медленнее.</p></div>
       <div class="field"><h3>Крен</h3>
         <div class="range-row"><input type="range" id="roll" min="-180" max="180" step="1" value="0"><output id="rollOut">0°</output></div>
         <div class="chips" style="margin-top:8px" id="rollChips"></div></div>
@@ -320,7 +366,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
         <p>Горизонт зафиксирован: крен берётся только из ползунка. Свободный: крен идёт от наклона телефона.</p></div>
       <div class="field"><h3>Потолок</h3><div class="chips" id="ceilChips"></div></div>
       <div class="field"><h3>Сетки</h3><div class="chips" id="gridChips"></div></div>
-      <div class="field"><h3>Сцена по умолчанию</h3><div class="chips"><button class="btn" id="resetScene">Вернуть актёров и камеру</button></div></div>
+      <div class="field"><h3>Сцена по умолчанию</h3><div class="chips"><button class="btn" id="resetScene">Вернуть предметы, актёров и камеру</button></div></div>
     </div>
   </section>
 
@@ -338,28 +384,57 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   <section class="sheet" id="weavySheet" hidden>
     <div class="sheet-head">
       <h2>Кадр для Weavy</h2>
-      <button class="btn" id="wvShare" hidden>Поделиться обоими</button>
+      <button class="btn" id="wvShare" hidden>Поделиться всеми</button>
       <button class="btn primary" id="wvClose">К камере</button>
     </div>
-    <div class="wv">
-      <figure><img id="wvFrame" alt="Кадр"><figcaption><b>Кадр</b><span id="wvFrameInfo"></span>
-        <button class="btn primary" id="wvSaveFrame">Сохранить кадр</button></figcaption></figure>
-      <figure><img id="wvDepth" alt="Карта глубины"><figcaption><b>Карта глубины</b><span>Светлое ближе, тёмное дальше. Для depth control.</span>
-        <button class="btn" id="wvSaveDepth">Сохранить глубину</button></figcaption></figure>
-    </div>
-    <div class="wv-prompt">
+    <div class="wv" id="wvGrid"></div>
+    <div class="block">
       <div class="field"><h3>Промпт</h3></div>
-      <textarea id="wvPrompt" aria-label="Промпт для Weavy"></textarea>
-      <div class="row"><button class="btn primary" id="wvCopy">Скопировать промпт</button>
-        <p>В Weavy: кадр как референс композиции (image to image), карта глубины в depth control, промпт в текст. Блок про план и камеру собран из этого кадра, остальное из сцены. Правьте прямо здесь перед копированием.</p></div>
+      <textarea class="ta" id="wvPrompt" style="min-height:170px" aria-label="Промпт для Weavy"></textarea>
+      <div class="row"><button class="btn primary" id="wvCopy">Скопировать промпт</button></div>
+      <p class="note">В Weavy: кадр как референс композиции, глубина в depth control, контуры в line art или canny, маска показывает, где какой объект. Промпт сам описывает расстановку и камеру по этому кадру. Правьте его прямо здесь.</p>
     </div>
     <div class="preview" id="wvHint" hidden></div>
+  </section>
+
+  <section class="sheet" id="videoSheet" hidden>
+    <div class="sheet-head">
+      <h2 id="vdTitle">Видео для Seedance</h2>
+      <button class="btn primary" id="vdClose">К камере</button>
+    </div>
+    <div class="set" style="max-width:1200px">
+      <div class="field"><h3>Рендер</h3><div class="chips" id="vdLook"></div>
+        <p>Clay: белые формы без цвета. Seedance превращает такое видео в живой кадр и держит движение камеры.</p></div>
+      <div class="field"><h3>Размер</h3><div class="chips" id="vdRes"></div></div>
+      <div class="field"><h3>Готово</h3><div class="chips"><button class="btn primary" id="vdMake">Сделать видео</button><span class="progress" id="vdProg"></span></div></div>
+    </div>
+    <div class="wv" style="margin-top:14px"><figure id="vdFig" hidden><video id="vdVideo" controls playsinline muted loop></video>
+      <figcaption><span id="vdInfo"></span><button class="btn primary" id="vdSave">Сохранить видео</button></figcaption></figure></div>
+    <div class="block">
+      <div class="field"><h3>Промпт для Seedance</h3></div>
+      <textarea class="ta" id="vdPrompt" style="min-height:150px" aria-label="Промпт для Seedance"></textarea>
+      <div class="row"><button class="btn primary" id="vdCopy">Скопировать промпт</button></div>
+    </div>
+  </section>
+
+  <section class="sheet" id="planSheet" hidden>
+    <div class="sheet-head">
+      <h2 id="plTitle">План сверху</h2>
+      <button class="btn" id="plSave">Сохранить план</button>
+      <button class="btn" id="plMdCopy">Скопировать шотлист</button>
+      <button class="btn" id="plMdSave">Сохранить шотлист .md</button>
+      <button class="btn primary" id="plClose">К камере</button>
+    </div>
+    <img class="plan-img" id="plImg" alt="План сверху">
+    <p class="note">Жёлтый конус: текущая камера. Номера: кадры из плана, пунктир ведёт к финишу движения. Тонкие линии: записанные дубли. Сетка 1 м.</p>
+    <div class="block"><div class="field"><h3>Шотлист</h3></div><textarea class="ta" id="plMd" style="min-height:220px" aria-label="Шотлист"></textarea></div>
   </section>
 
   <div class="toast" id="toast" role="status" hidden></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.2.1/build/mp4-muxer.js"></script>
 <script>
 (() => {
 'use strict';
@@ -367,17 +442,24 @@ const $ = id => document.getElementById(id);
 const D2R = Math.PI / 180, R2D = 180 / Math.PI;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const lerp = (a, b, t) => a + (b - a) * t;
+const r3 = v => Math.round(v * 1000) / 1000;
+const clone = o => JSON.parse(JSON.stringify(o));
+const tick0 = () => new Promise(r => setTimeout(r, 0));
 
 // ---------- data ----------
 const LENSES = [12, 14, 16, 18, 21, 25, 27, 32, 35, 40, 50, 65, 75, 85, 100, 135].map(mm => ({ mm, label: String(mm) }))
   .concat([{ mm: 24, label: 'P24', probe: true }]);
 const SENSORS = { s35: { name: 'Super 35', short: 'S35', w: 24.89 }, ff: { name: 'Full Frame', short: 'FF', w: 36.0 } };
 const ASPECTS = [['16:9', 16 / 9], ['2.39', 2.39], ['1.85', 1.85], ['1.44', 1.44], ['4:3', 4 / 3], ['4:5', 0.8], ['9:16', 9 / 16]];
-const POSES = [['stand', 'стоит'], ['walk', 'идёт'], ['sit', 'сидит'], ['arms', 'руки вверх'], ['lie', 'лежит']];
+const POSES = [['stand', 'стоит'], ['walk', 'идёт'], ['sit', 'сидит'], ['arms', 'руки вверх'], ['lie', 'лежит'], ['tuck', 'спрятался'], ['hide', 'выглядывает']];
+const poseRu = p => (POSES.find(x => x[0] === p) || [p, p])[1];
 const MOVES = ['статика', 'наезд', 'отъезд', 'крэш-зум', 'панорама', 'проезд', 'кран', 'облёт', 'с рук', 'сверху', 'whip pan'];
+const BUILDS = [['slim', 'худой'], ['normal', 'обычный'], ['heavy', 'крупный']];
+const CLOTHES = ['#3d6fb5', '#7a2f3a', '#2f5a34', '#c98a5b', '#6f8db3', '#e8e4dc', '#232427', '#c8b496', '#9e1c22', '#5b5f45'];
 const TOY = 0.3 / 1.8;
 const KEY = 'provis.v1';
-// camera and optics defaults: Full Frame, 16:9, 18 mm. Bump CFG when they change so saved sessions pick them up.
+const SPEEDS = { slow: 0.35, norm: 1, fast: 2.2 };
+const SITE = 'https://davajdavaj.github.io/provis/';
 const CFG = 2;
 const lensIndex = mm => LENSES.findIndex(l => l.mm === mm && !l.probe);
 const DEFAULT_LENS = lensIndex(18);
@@ -406,12 +488,12 @@ const ROOM_DEF = {
     { type: 'floorLamp', pos: [-2.95, -1.4] }
   ],
   actors: [
-    { id: 'a1', name: 'Актёр 1', h: 1.8, color: '#c98a5b', pos: [-0.6, -0.4], rot: 20, pose: 'stand' },
-    { id: 'a2', name: 'Актёр 2', h: 1.68, color: '#6f8db3', pos: [1.2, -1.4], rot: -35, pose: 'walk' }
+    { id: 'a1', name: 'Актёр 1', desc: 'a man', h: 1.8, color: '#c98a5b', pos: [-0.6, -0.4], rot: 20, pose: 'stand' },
+    { id: 'a2', name: 'Актёр 2', desc: 'a woman', h: 1.68, color: '#6f8db3', pos: [1.2, -1.4], rot: -35, pose: 'walk' }
   ],
   camera: { mm: 18, sensor: 'ff', aspect: '16:9', pos: [-0.4, 1.55, 2.6], yaw: -8, pitch: -4 },
   shots: [],
-  // prompt blocks 1 to 4 for Weavy; block 5 (shot, angle, lens) is written from the live camera
+  // prompt blocks 1 to 4 for Weavy and Seedance; layout and camera are written from the live frame
   weavy: {
     subject: 'Two adults in everyday clothes stand in a living room, one turning towards the other mid-sentence, weight on one leg.',
     location: 'A lived-in apartment living room with a large steel-framed gridded window, a worn fabric sofa, a wooden table with chairs, a patterned tile floor.',
@@ -422,7 +504,7 @@ const ROOM_DEF = {
 
 // ---------- state ----------
 const GLOBAL_DEFAULTS = () => ({
-  cfg: CFG, lens: DEFAULT_LENS, zoom: null, sensor: 'ff', aspect: '16:9', toy: false, horizonLock: true, ceiling: 'auto', roll: 0,
+  cfg: CFG, lens: DEFAULT_LENS, zoom: null, sensor: 'ff', aspect: '16:9', toy: false, horizonLock: true, ceiling: 'auto', roll: 0, speed: 'norm',
   grid: { thirds: true, center: true, vp: true, horizon: true }, gridOn: true, sceneId: 'room', per: {}, defs: {}
 });
 let S = GLOBAL_DEFAULTS();
@@ -441,7 +523,7 @@ try {
 let saveTimer = 0;
 function save(now) {
   clearTimeout(saveTimer);
-  const run = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('Не хватает места в памяти браузера. Удалите часть кадров.'); } };
+  const run = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('Не хватает места в памяти браузера. Удалите часть кадров или дублей.'); } };
   if (now) run(); else saveTimer = setTimeout(run, 400);
 }
 let DEF = ROOM_DEF, C = null; // current scene definition and its saved state
@@ -460,7 +542,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(40, 1, 0.005, 200);
 camera.rotation.order = 'YXZ';
-let world = new THREE.Group(), cast = new THREE.Group(), ceilingObj = null;
+let world = new THREE.Group(), cast = new THREE.Group(), ceilingObj = null, PARENT = world;
 scene.add(world); scene.add(cast);
 
 const matCache = {};
@@ -470,10 +552,10 @@ const M = (color, opts) => {
   const key = color + JSON.stringify(opts || {});
   return matCache[key] || (matCache[key] = make());
 };
-const Basic = color => new THREE.MeshBasicMaterial({ color });
-function mesh(geo, mat, parent, x, y, z) { const m = new THREE.Mesh(geo, mat); m.position.set(x || 0, y || 0, z || 0); m.castShadow = true; m.receiveShadow = true; (parent || world).add(m); return m; }
+const Basic = color => matCache['b' + color] || (matCache['b' + color] = new THREE.MeshBasicMaterial({ color }));
+function mesh(geo, mat, parent, x, y, z) { const m = new THREE.Mesh(geo, mat); m.position.set(x || 0, y || 0, z || 0); m.castShadow = true; m.receiveShadow = true; (parent || PARENT).add(m); return m; }
 function box(w, h, d, mat, x, y, z, parent) { return mesh(new THREE.BoxGeometry(w, h, d), mat, parent, x, y, z); }
-function group(x, z, rotDeg, parent) { const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = (rotDeg || 0) * D2R; (parent || world).add(g); return g; }
+function group(x, z, rotDeg, parent) { const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = (rotDeg || 0) * D2R; (parent || PARENT).add(g); return g; }
 function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
 function floorTexture(f, sx, sz) {
@@ -502,18 +584,24 @@ function ceilingTexture(cfg, sx, sz) {
 }
 
 // walls: start point a, end point b. The wall faces the viewer who stands inside with a on the left.
-let WALLS = {}, H = 3, BBOX = null;
+let WALLS = {}, WALL_LIST = [], H = 3, BBOX = null;
 function wallFrame(w) {
   const dx = w.b[0] - w.a[0], dz = w.b[1] - w.a[1], len = Math.hypot(dx, dz), th = Math.atan2(-dz, dx);
-  return { ax: w.a[0], az: w.a[1], ux: dx / len, uz: dz / len, len, th, nx: Math.sin(th), nz: Math.cos(th), h: w.h || H };
+  return { id: w.id, ax: w.a[0], az: w.a[1], bx: w.b[0], bz: w.b[1], ux: dx / len, uz: dz / len, len, th, nx: Math.sin(th), nz: Math.cos(th), h: w.h || H };
 }
 function onWall(f, u, y, off) { return new THREE.Vector3(f.ax + f.ux * u + f.nx * off, y, f.az + f.uz * u + f.nz * off); }
-function wallGroup(f, u, y, off) { const g = new THREE.Group(); g.position.copy(onWall(f, u, y, off)); g.rotation.y = f.th; world.add(g); return g; }
+function wallGroup(f, u, y, off) { const g = new THREE.Group(); g.position.copy(onWall(f, u, y, off)); g.rotation.y = f.th; PARENT.add(g); return g; }
 
 const ITEMS = {
   box(it) { const m = box(it.size[0], it.size[1], it.size[2], it.emissive ? Basic(it.color) : M(it.color || '#9a958c'), it.pos[0], it.pos[1], it.pos[2]); m.rotation.y = (it.rot || 0) * D2R; },
-  cyl(it) { const m = mesh(new THREE.CylinderGeometry(it.r, it.r2 || it.r, it.h, 20), M(it.color || '#9a958c'), world, it.pos[0], it.pos[1], it.pos[2]); },
-  rug(it) { const m = new THREE.Mesh(new THREE.PlaneGeometry(it.size[0], it.size[1]), M(it.color || '#7b4b3a')); m.rotation.set(-Math.PI / 2, 0, (it.rot || 0) * D2R); m.position.set(it.pos[0], 0.004, it.pos[1]); m.receiveShadow = true; world.add(m); },
+  cyl(it) { mesh(new THREE.CylinderGeometry(it.r, it.r2 || it.r, it.h, 20), M(it.color || '#9a958c'), null, it.pos[0], it.pos[1], it.pos[2]); },
+  wallSeg(it) { const g = group(it.pos[0], it.pos[1], it.rot), h = it.h || H; box(it.w || 2, h, it.d || 0.12, M(it.color || (DEF.room && DEF.room.wall) || '#d8d3ca'), 0, h / 2, 0, g); },
+  car(it) {
+    const g = group(it.pos[0], it.pos[1], it.rot), body = M(it.color || '#9c2b2b', { roughness: 0.4, metalness: 0.2 }), dark = M('#1d1f22'), gl = M('#6f7d86', { roughness: 0.2 });
+    box(1.8, 0.62, 4.4, body, 0, 0.62, 0, g); box(1.6, 0.55, 2.3, gl, 0, 1.2, -0.15, g);
+    [[-0.82, 1.35], [0.82, 1.35], [-0.82, -1.35], [0.82, -1.35]].forEach(p => { const w = mesh(new THREE.CylinderGeometry(0.33, 0.33, 0.24, 18), dark, g, p[0], 0.33, p[1]); w.rotation.z = Math.PI / 2; });
+  },
+  rug(it) { const m = new THREE.Mesh(new THREE.PlaneGeometry(it.size[0], it.size[1]), M(it.color || '#7b4b3a')); m.rotation.set(-Math.PI / 2, 0, (it.rot || 0) * D2R); m.position.set(it.pos[0], 0.004, it.pos[1]); m.receiveShadow = true; PARENT.add(m); },
   strip(it) {
     const dx = it.b[0] - it.a[0], dz = it.b[1] - it.a[1], L = Math.hypot(dx, dz);
     const g = group((it.a[0] + it.b[0]) / 2, (it.a[1] + it.b[1]) / 2, Math.atan2(-dz, dx) * R2D);
@@ -522,7 +610,7 @@ const ITEMS = {
   window(it) {
     const f = WALLS[it.wall]; if (!f) return;
     const glass = new THREE.Mesh(new THREE.PlaneGeometry(it.w, it.h), Basic(it.glass || '#f3efe6'));
-    glass.position.copy(onWall(f, it.u, it.y + it.h / 2, 0.012)); glass.rotation.y = f.th; world.add(glass);
+    glass.position.copy(onWall(f, it.u, it.y + it.h / 2, 0.012)); glass.rotation.y = f.th; PARENT.add(glass);
     const g = wallGroup(f, it.u, it.y, 0.04), mm = M(it.frame || '#2b2e33'), cols = it.cols || 4, rows = it.rows || 3;
     for (let i = 0; i <= cols; i++) box(0.05, it.h, 0.06, mm, -it.w / 2 + i * it.w / cols, it.h / 2, 0, g);
     for (let j = 0; j <= rows; j++) box(it.w, 0.05, 0.06, mm, 0, j * it.h / rows, 0, g);
@@ -563,14 +651,14 @@ const ITEMS = {
     mesh(new THREE.TubeGeometry(curve, 48, 0.045, 6, false), M('#2c5a2f'));
     const count = it.bulbs || Math.round(curve.getLength() * 14), im = new THREE.InstancedMesh(new THREE.SphereGeometry(0.014, 6, 4), Basic('#ffe2a0'), count), m4 = new THREE.Matrix4(), r = rng(5);
     for (let i = 0; i < count; i++) { const p = curve.getPointAt(i / Math.max(1, count - 1)); m4.makeTranslation(p.x + (r() - 0.5) * 0.06, p.y + (r() - 0.5) * 0.06, p.z + (r() - 0.5) * 0.06); im.setMatrixAt(i, m4); }
-    world.add(im);
-    if (it.ornaments) { const om = M('#c22631', { roughness: 0.3 }); for (let i = 1; i < 5; i++) { const p = curve.getPointAt(i / 5); mesh(new THREE.SphereGeometry(0.035, 10, 8), om, world, p.x, p.y - 0.06, p.z); } }
+    PARENT.add(im);
+    if (it.ornaments) { const om = M('#c22631', { roughness: 0.3 }); for (let i = 1; i < 5; i++) { const p = curve.getPointAt(i / 5); mesh(new THREE.SphereGeometry(0.035, 10, 8), om, null, p.x, p.y - 0.06, p.z); } }
   },
   sign(it) { const m = box(it.w || 0.4, it.h || 0.15, 0.06, Basic(it.color || '#1f9d55'), it.pos[0], it.pos[1], it.pos[2]); m.rotation.y = (it.rot || 0) * D2R; m.castShadow = false; },
   ceilLight(it) {
     const m = new THREE.Mesh(new THREE.PlaneGeometry(it.size ? it.size[0] : 0.6, it.size ? it.size[1] : 0.6), Basic(it.color || '#fffbea'));
-    m.rotation.x = Math.PI / 2; m.position.set(it.pos[0], H - 0.012, it.pos[1]); world.add(m);
-    if (it.light) { const pl = new THREE.PointLight(0xfff3df, it.light, 7, 2); pl.position.set(it.pos[0], H - 0.35, it.pos[1]); world.add(pl); }
+    m.rotation.x = Math.PI / 2; m.position.set(it.pos[0], H - 0.012, it.pos[1]); PARENT.add(m);
+    if (it.light) { const pl = new THREE.PointLight(0xfff3df, it.light, 7, 2); pl.position.set(it.pos[0], H - 0.35, it.pos[1]); PARENT.add(pl); }
   },
   coatRack(it) {
     const w = it.w || 1.8, h = it.h || 1.7, g = group(it.pos[0], it.pos[1], it.rot), wood = M(it.color || '#c0894a', { roughness: 0.6 });
@@ -612,34 +700,52 @@ const ITEMS = {
   },
   pendant(it) {
     const drop = it.drop || 0.78; box(0.01, drop - 0.1, 0.01, M('#3a3d43'), it.pos[0], H - (drop - 0.1) / 2, it.pos[1]);
-    const b = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 12), Basic('#fff1cf')); b.position.set(it.pos[0], H - drop, it.pos[1]); world.add(b);
-    const pl = new THREE.PointLight(0xffd9a0, it.light || 0.35, 6, 2); pl.position.set(it.pos[0], H - drop - 0.12, it.pos[1]); world.add(pl);
+    const b = new THREE.Mesh(new THREE.SphereGeometry(0.13, 16, 12), Basic('#fff1cf')); b.position.set(it.pos[0], H - drop, it.pos[1]); PARENT.add(b);
+    const pl = new THREE.PointLight(0xffd9a0, it.light || 0.35, 6, 2); pl.position.set(it.pos[0], H - drop - 0.12, it.pos[1]); PARENT.add(pl);
   },
   floorLamp(it) {
     const g = group(it.pos[0], it.pos[1], 0); box(0.05, 1.6, 0.05, M('#3a3d43'), 0, 0.8, 0, g);
     const sh = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.24, 0.28, 20, 1, true), Basic('#fff1cf')); sh.position.y = 1.65; g.add(sh);
   }
 };
+// how items read in prompts (English) and in the editor (Russian); null keeps an item out of prompts and masks
+const ITEM_EN = {
+  coatRack: 'the free-standing wooden coat rack on two legs with coats hanging from its top bar', door: 'a door', window: 'a large gridded window',
+  panel: it => it.papers ? 'a cork notice board with flyers' : 'a framed sign', clock: 'a round wall clock', wreath: 'a Christmas wreath', garland: 'a pine garland with fairy lights',
+  sign: 'an exit sign', sofa: 'a sofa', table: 'a table', chair: 'a chair', shelf: 'a shelf unit', pendant: 'a pendant lamp', floorLamp: 'a floor lamp',
+  box: 'a box', cyl: 'a column', car: 'a car', wallSeg: 'a free-standing wall', rug: null, strip: null, ceilLight: null
+};
+const ITEM_RU = { coatRack: 'Вешалка', door: 'Дверь', window: 'Окно', panel: 'Доска', clock: 'Часы', wreath: 'Венок', garland: 'Гирлянда', sign: 'Табличка', sofa: 'Диван', table: 'Стол', chair: 'Стул', shelf: 'Стеллаж', pendant: 'Светильник', floorLamp: 'Торшер', box: 'Куб', cyl: 'Колонна', car: 'Машина', wallSeg: 'Стена', rug: 'Ковёр', strip: 'Полоса на полу', ceilLight: 'Свет на потолке' };
+function itemEn(it) { if (it.label !== undefined) return it.label; const v = ITEM_EN[it.type]; return typeof v === 'function' ? v(it) : (v === undefined ? null : v); }
+function itemRu(it) { return it.name || ITEM_RU[it.type] || it.type; }
 
-function disposeGroup(g) {
+function disposeObj(g) {
   g.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material && o.material.map) { o.material.map.dispose(); o.material.dispose(); } });
-  scene.remove(g);
+  if (g.parent) g.parent.remove(g);
 }
+let ITEM_OBJS = [];
+function buildItem(i) {
+  const it = C.items[i], g = new THREE.Group(); world.add(g); PARENT = g;
+  try { ITEMS[it.type] && ITEMS[it.type](it); } catch (e) { console.warn('item', it.type, e); }
+  PARENT = world; g.traverse(o => { o.userData.itemIdx = i; }); ITEM_OBJS[i] = g;
+}
+function rebuildItem(i) { if (ITEM_OBJS[i]) disposeObj(ITEM_OBJS[i]); buildItem(i); refreshSelBox(); }
+function rebuildAllItems() { ITEM_OBJS.forEach(g => g && disposeObj(g)); ITEM_OBJS = []; C.items.forEach((_, i) => buildItem(i)); refreshSelBox(); }
 function buildWorld(def) {
-  disposeGroup(world); world = new THREE.Group(); scene.add(world);
+  disposeObj(world); world = new THREE.Group(); scene.add(world); PARENT = world; ITEM_OBJS = [];
   H = (def.room && def.room.h) || 3;
   scene.background = new THREE.Color(def.bg || '#1b1d21');
-  WALLS = {};
+  WALLS = {}; WALL_LIST = [];
   const walls = def.walls || rectWalls(6, 6);
   let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
   walls.forEach(w => { [w.a, w.b].forEach(p => { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]); }); });
   BBOX = { x0, x1, z0, z1 };
   const wallMat = M((def.room && def.room.wall) || '#d8d3ca'), bb = def.room && def.room.baseboard;
   walls.forEach(w => {
-    const f = wallFrame(w); WALLS[w.id] = f;
+    const f = wallFrame(w); WALLS[w.id] = f; WALL_LIST.push(f);
     const m = new THREE.Mesh(new THREE.PlaneGeometry(f.len, f.h), w.color ? M(w.color) : wallMat);
-    m.position.copy(onWall(f, f.len / 2, f.h / 2, 0)); m.rotation.y = f.th; m.receiveShadow = true; world.add(m);
-    if (bb) { const b = box(f.len, bb.h || 0.1, 0.02, M(bb.color || '#4a3328', { roughness: 0.5 }), 0, 0, 0); b.position.copy(onWall(f, f.len / 2, (bb.h || 0.1) / 2, 0.011)); b.rotation.y = f.th; b.castShadow = false; }
+    m.position.copy(onWall(f, f.len / 2, f.h / 2, 0)); m.rotation.y = f.th; m.receiveShadow = true; m.userData.wallId = w.id; world.add(m);
+    if (bb) { const b = box(f.len, bb.h || 0.1, 0.02, M(bb.color || '#4a3328', { roughness: 0.5 }), 0, 0, 0); b.position.copy(onWall(f, f.len / 2, (bb.h || 0.1) / 2, 0.011)); b.rotation.y = f.th; b.castShadow = false; b.userData.wallId = w.id; }
   });
   const fw = x1 - x0, fd = z1 - z0, fcx = (x0 + x1) / 2, fcz = (z0 + z1) / 2;
   const fl = new THREE.Mesh(new THREE.PlaneGeometry(fw, fd), M('#ffffff', { map: floorTexture(def.floor || {}, fw, fd), roughness: (def.floor && def.floor.rough) || 0.88 }));
@@ -647,8 +753,7 @@ function buildWorld(def) {
   const gr = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), M('#2a2c30')); gr.rotation.x = -Math.PI / 2; gr.position.y = -0.003; gr.receiveShadow = true; gr.userData.floor = true; world.add(gr);
   const cc = def.ceiling || { type: 'plain', color: '#cfcac1' };
   ceilingObj = new THREE.Mesh(new THREE.PlaneGeometry(fw, fd), M('#ffffff', { map: ceilingTexture(cc, fw, fd) }));
-  ceilingObj.rotation.x = Math.PI / 2; ceilingObj.position.set(fcx, H, fcz); world.add(ceilingObj);
-  (def.items || []).forEach(it => { try { ITEMS[it.type] && ITEMS[it.type](it); } catch (e) { console.warn('item', it.type, e); } });
+  ceilingObj.rotation.x = Math.PI / 2; ceilingObj.position.set(fcx, H, fcz); ceilingObj.userData.ceiling = true; world.add(ceilingObj);
   const L = def.light || {};
   const hm = L.hemi || {}; world.add(new THREE.HemisphereLight(new THREE.Color(hm.sky || '#e9eef6'), new THREE.Color(hm.ground || '#7d7264'), hm.i == null ? 0.62 : hm.i));
   if (L.sun !== null) {
@@ -660,13 +765,14 @@ function buildWorld(def) {
     sun.shadow.bias = -0.0008; world.add(sun); world.add(sun.target);
   }
   (L.points || []).forEach(p => { const pl = new THREE.PointLight(new THREE.Color(p.color || '#fff3df'), p.i || 0.4, p.dist || 7, 2); pl.position.set(p.pos[0], p.pos[1], p.pos[2]); world.add(pl); });
+  C.items.forEach((_, i) => buildItem(i));
 }
 
 // ---------- actors ----------
-let actors = [];
+let actors = [], animOv = {};
 function cyl(rt, rb, h, mat) { const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, 14), mat); m.castShadow = true; return m; }
 function sph(r, mat) { const m = new THREE.Mesh(new THREE.SphereGeometry(r, 18, 14), mat); m.castShadow = true; return m; }
-function makeActor(def) {
+function makeActor(def, idx) {
   const s = def.h || 1.75, k = { slim: 0.84, normal: 1, heavy: 1.28 }[def.build || 'normal'] || 1;
   const base = def.color || '#c98a5b';
   const skin = M(def.skin || base, { roughness: 0.6 }), top = M(def.top || base, { roughness: 0.75 }), bot = M(def.bottom || base, { roughness: 0.75 }), shoe = M(def.shoes || (def.bottom ? '#2a2b2e' : base), { roughness: 0.6 });
@@ -708,46 +814,55 @@ function makeActor(def) {
   mark(J.pelvis, 0, 0, 'hips');
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.34, 0.4, 40), new THREE.MeshBasicMaterial({ color: 0xffb31a, transparent: true, opacity: 0.9 }));
   ring.rotation.x = -Math.PI / 2; ring.position.y = 0.01; ring.visible = false; root.add(ring);
+  root.traverse(o => { o.userData.actorIdx = idx; });
   return { root, rig, J, L, ring, h: s, def };
 }
-function buildCast(def) {
-  disposeGroup(cast); cast = new THREE.Group(); scene.add(cast);
-  actors = (def.actors || []).map(makeActor);
+function buildCast() {
+  disposeObj(cast); cast = new THREE.Group(); scene.add(cast);
+  actors = C.cast.map(makeActor);
 }
-function setPose(a, pose) {
-  const J = a.J, s = a.h;
-  [J.spine, J.neck, J.head, J.shL, J.shR, J.elL, J.elR, J.hipL, J.hipR, J.knL, J.knR].forEach(j => j.rotation.set(0, 0, 0));
-  a.rig.rotation.set(0, 0, 0); a.rig.position.set(0, 0, 0);
-  J.shL.rotation.z = 0.09; J.shR.rotation.z = -0.09;
+const JOINTS = ['spine', 'neck', 'head', 'shL', 'shR', 'elL', 'elR', 'hipL', 'hipR', 'knL', 'knR'];
+function poseVals(pose, s) {
+  const v = { rigPos: [0, 0, 0], rigRot: [0, 0, 0] }; JOINTS.forEach(j => { v[j] = [0, 0, 0]; });
+  v.shL[2] = 0.09; v.shR[2] = -0.09;
   if (pose === 'walk') {
-    J.hipL.rotation.x = -0.42; J.hipR.rotation.x = 0.34; J.knR.rotation.x = 0.42; J.knL.rotation.x = 0.08;
-    J.shL.rotation.x = 0.38; J.shR.rotation.x = -0.4; J.elL.rotation.x = -0.25; J.elR.rotation.x = -0.35; J.spine.rotation.x = 0.04;
+    v.hipL[0] = -0.42; v.hipR[0] = 0.34; v.knR[0] = 0.42; v.knL[0] = 0.08; v.shL[0] = 0.38; v.shR[0] = -0.4; v.elL[0] = -0.25; v.elR[0] = -0.35; v.spine[0] = 0.04;
   } else if (pose === 'sit') {
-    J.hipL.rotation.x = J.hipR.rotation.x = -1.5; J.knL.rotation.x = J.knR.rotation.x = 1.5;
-    J.elL.rotation.x = J.elR.rotation.x = -0.9; J.shL.rotation.x = J.shR.rotation.x = -0.2;
-    a.rig.position.y = 0.47 - 0.51 * s;
+    v.hipL[0] = v.hipR[0] = -1.5; v.knL[0] = v.knR[0] = 1.5; v.elL[0] = v.elR[0] = -0.9; v.shL[0] = v.shR[0] = -0.2; v.rigPos[1] = 0.47 - 0.51 * s;
   } else if (pose === 'arms') {
-    J.shL.rotation.z = 2.55; J.shR.rotation.z = -2.55; J.elL.rotation.z = 0.35; J.elR.rotation.z = -0.35; J.head.rotation.x = -0.25;
+    v.shL[2] = 2.55; v.shR[2] = -2.55; v.elL[2] = 0.35; v.elR[2] = -0.35; v.head[0] = -0.25;
   } else if (pose === 'lie') {
-    a.rig.rotation.x = -Math.PI / 2; a.rig.position.set(0, 0.075 * s, 0.45 * s);
-    J.shL.rotation.z = 0.25; J.shR.rotation.z = -0.25;
+    v.rigRot[0] = -Math.PI / 2; v.rigPos = [0, 0.075 * s, 0.45 * s]; v.shL[2] = 0.25; v.shR[2] = -0.25;
   } else if (pose === 'hide') { // leans forward so the head comes out between hanging coats
-    J.spine.rotation.x = 0.4; J.neck.rotation.x = 0.6; J.head.rotation.x = -0.75;
-    J.shL.rotation.x = J.shR.rotation.x = 0.35; J.elL.rotation.x = J.elR.rotation.x = -0.2;
+    v.spine[0] = 0.4; v.neck[0] = 0.6; v.head[0] = -0.75; v.shL[0] = v.shR[0] = 0.35; v.elL[0] = v.elR[0] = -0.2;
+  } else if (pose === 'tuck') { // stands upright and still, hidden behind whatever is in front
+    v.spine[0] = -0.04; v.neck = [0.08, -0.5, 0]; v.head = [-0.06, -0.8, 0]; v.shL[2] = 0.05; v.shR[2] = -0.05; // head turned so a long nose stays behind the coats
+  }
+  return v;
+}
+function applyPose(a, pa, pb, f, walk) {
+  const A = poseVals(pa, a.h), B = pb && pb !== pa ? poseVals(pb, a.h) : A, J = a.J;
+  JOINTS.forEach(j => { const x = A[j], y = B[j]; J[j].rotation.set(lerp(x[0], y[0], f), lerp(x[1], y[1], f), lerp(x[2], y[2], f)); });
+  a.rig.position.set(lerp(A.rigPos[0], B.rigPos[0], f), lerp(A.rigPos[1], B.rigPos[1], f), lerp(A.rigPos[2], B.rigPos[2], f));
+  a.rig.rotation.set(lerp(A.rigRot[0], B.rigRot[0], f), 0, 0);
+  if (walk != null) {
+    const sw = Math.sin(walk);
+    J.hipL.rotation.x = -sw * 0.45; J.hipR.rotation.x = sw * 0.45; J.knL.rotation.x = Math.max(0, -sw) * 0.7; J.knR.rotation.x = Math.max(0, sw) * 0.7;
+    J.shL.rotation.x = sw * 0.4; J.shR.rotation.x = -sw * 0.4; J.elL.rotation.x = J.elR.rotation.x = -0.3;
   }
 }
 let mode = 'camera', sel = 0;
 function placeActors() {
   const k = S.toy ? TOY : 1;
   actors.forEach((a, i) => {
-    const st = C.actors[i]; if (!st) return;
-    a.root.position.set(st.x, 0, st.z);
-    a.root.rotation.y = st.rot * D2R;
-    a.root.scale.setScalar(k);
-    setPose(a, st.pose);
-    a.ring.visible = mode === 'actors' && sel === i;
+    const st = C.cast[i]; if (!st) return; const o = animOv[i];
+    const pos = (o && o.pos) || st.pos, rot = o && o.rot != null ? o.rot : st.rot;
+    a.root.position.set(pos[0], 0, pos[1]); a.root.rotation.y = rot * D2R; a.root.scale.setScalar(k);
+    applyPose(a, o ? o.pose : st.pose, o ? o.pose2 : null, o ? (o.f || 0) : 0, o ? o.walk : null);
+    a.ring.visible = mode === 'actors' && sel === i && !exporting;
   });
 }
+function clearAnim() { animOv = {}; placeActors(); }
 
 // ---------- camera math ----------
 function lens() { return LENSES[S.lens] || LENSES[DEFAULT_LENS]; }
@@ -759,11 +874,11 @@ function frameDims() {
   if (A >= 16 / 9) { fw = Wd; fh = Wd / A; } else { fh = Wd * 9 / 16; fw = fh * A; }
   return { fw, fh };
 }
-function fovs() {
-  const f = focal(), d = frameDims();
+function fovs(mm) {
+  const f = mm || focal(), d = frameDims();
   return { h: 2 * Math.atan(d.fw / (2 * f)), v: 2 * Math.atan(d.fh / (2 * f)) };
 }
-let view = { cw: 1, ch: 1, dpr: 1, rect: { x: 0, y: 0, w: 1, h: 1 } };
+let view = { cw: 1, ch: 1, dpr: 1, rect: { x: 0, y: 0, w: 1, h: 1 } }, exporting = false;
 function layout() {
   const cw = window.innerWidth, ch = window.innerHeight, dpr = renderer.getPixelRatio();
   renderer.setSize(cw, ch, false);
@@ -783,7 +898,7 @@ function updateProjection() {
 }
 function setMm(mm) {
   if (!mm) return;
-  const i = lensIndex(mm);
+  const i = lensIndex(Math.round(mm * 100) / 100);
   if (i >= 0) { S.lens = i; S.zoom = null; } else S.zoom = mm;
   updateProjection(); lastHud = '';
 }
@@ -793,7 +908,7 @@ const gyro = { on: false, q: new THREE.Quaternion(), got: false, yawOffset: 0, f
 const _e = new THREE.Euler(), _q = new THREE.Quaternion(), _q2 = new THREE.Quaternion();
 const qX = new THREE.Quaternion(-Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
 const zee = new THREE.Vector3(0, 0, 1), yAxis = new THREE.Vector3(0, 1, 0);
-let play = null;
+let play = null, rec = null;
 function screenAngle() {
   const a = (screen.orientation && typeof screen.orientation.angle === 'number') ? screen.orientation.angle : (window.orientation || 0);
   return a * D2R;
@@ -808,7 +923,7 @@ function onOrientation(ev) {
 function recalibrateGyro() { if (gyro.on && gyro.got) { _e.setFromQuaternion(gyro.q, 'YXZ'); gyro.yawOffset = C.cam.yaw - _e.y; } }
 function applyOrientation() {
   const c = C.cam;
-  if (gyro.on && gyro.got && !play) {
+  if (gyro.on && gyro.got && !play && !exporting) {
     _q.setFromAxisAngle(yAxis, gyro.yawOffset).multiply(gyro.q);
     _e.setFromQuaternion(_q, 'YXZ');
     c.yaw = _e.y; c.pitch = _e.x;
@@ -840,15 +955,15 @@ async function toggleGyro() {
   }
 }
 
-// ---------- shot size ----------
+// ---------- shot size and what the frame shows ----------
 const _v = new THREE.Vector3();
-function toScreen(obj) {
-  obj.getWorldPosition(_v);
-  const camSpace = _v.clone().applyMatrix4(camera.matrixWorldInverse);
-  if (camSpace.z > -camera.near) return null;
-  _v.project(camera);
-  return { x: (_v.x + 1) / 2 * view.cw, y: (1 - _v.y) / 2 * view.ch };
+function projPoint(v) {
+  const cs = v.clone().applyMatrix4(camera.matrixWorldInverse);
+  if (cs.z > -camera.near) return null;
+  const p = v.clone().project(camera);
+  return { x: (p.x + 1) / 2 * view.cw, y: (1 - p.y) / 2 * view.ch, d: -cs.z };
 }
+function toScreen(obj) { obj.getWorldPosition(_v); return projPoint(_v); }
 function inFrame(p, tol) {
   if (!p) return false;
   const r = view.rect, t = tol || 0;
@@ -857,18 +972,19 @@ function inFrame(p, tol) {
 const CHAIN = ['top', 'eyes', 'chin', 'shoulders', 'chest', 'waist', 'hips', 'knee', 'foot'];
 function landmarks(a) {
   const P = {};
-  ['top', 'eyes', 'chin', 'shoulders', 'chest', 'waist', 'hips'].forEach(n => P[n] = toScreen(a.L[n]));
+  ['top', 'eyes', 'chin', 'shoulders', 'chest', 'waist', 'hips'].forEach(n => { P[n] = toScreen(a.L[n]); });
   const kl = toScreen(a.L.kneeL), kr = toScreen(a.L.kneeR), fl = toScreen(a.L.footL), fr = toScreen(a.L.footR);
   P.knee = inFrame(kl) ? kl : kr; P.foot = inFrame(fl) ? fl : fr;
   if (!P.knee) P.knee = kl || kr; if (!P.foot) P.foot = fl || fr;
   return P;
 }
 const occRay = new THREE.Raycaster();
-function faceHidden(a) {
-  a.L.eyes.getWorldPosition(_v);
+function occluderOf(obj) { // the first scene object between the camera and this landmark, or null
+  obj.getWorldPosition(_v);
   const dir = _v.clone().sub(camera.position), dist = dir.length(); dir.normalize();
   occRay.set(camera.position, dir); occRay.near = 0; occRay.far = Math.max(0, dist - 0.04);
-  return occRay.intersectObject(world, true).some(h => !h.object.isPoints);
+  const h = occRay.intersectObject(world, true).find(x => x.object.visible && !(x.object === ceilingObj && !ceilingObj.visible));
+  return h ? h.object : null;
 }
 let occCache = { i: -1, hidden: false, frame: 0 };
 function classify(forceOcc) {
@@ -908,12 +1024,50 @@ function classify(forceOcc) {
   else name = 'Общий';
   if (v('eyes')) {
     occCache.frame++;
-    if (forceOcc || occCache.i !== best.i || occCache.frame % 8 === 0) { occCache.i = best.i; occCache.hidden = faceHidden(a); }
+    if (forceOcc || occCache.i !== best.i || occCache.frame % 8 === 0) { occCache.i = best.i; occCache.hidden = !!occluderOf(a.L.eyes); }
     if (occCache.hidden) tags.push('лицо закрыто');
   }
   a.L.eyes.getWorldPosition(_v);
   const dist = _v.distanceTo(camera.position);
   return { name, off: false, tags, dist, actor: best.i, who: a.def.name };
+}
+function ownerLabel(obj) {
+  let o = obj; while (o && o.userData.itemIdx === undefined && !o.userData.wallId) o = o.parent;
+  if (!o) return 'something';
+  if (o.userData.wallId) return 'a wall';
+  return itemEn(C.items[o.userData.itemIdx]) || 'something';
+}
+function whereInFrame(p) {
+  const r = view.rect, fx = (p.x - r.x) / r.w, fy = (p.y - r.y) / r.h;
+  const hz = fx < 0.36 ? 'on the left' : fx > 0.64 ? 'on the right' : 'in the centre';
+  const vt = fy < 0.25 ? ', high in the frame' : fy > 0.78 ? ', low in the frame' : '';
+  return hz + vt;
+}
+function layoutText() { // plain English description of what the frame shows, for Weavy and Seedance
+  camera.updateMatrixWorld();
+  const parts = [];
+  actors.forEach((a, i) => {
+    a.root.updateMatrixWorld(true);
+    const eyes = toScreen(a.L.eyes), chest = toScreen(a.L.chest), foot = toScreen(a.L.footL) || toScreen(a.L.footR), hips = toScreen(a.L.hips);
+    const any = [eyes, chest, foot, hips].some(p => inFrame(p, 4)); if (!any) return;
+    const who = a.def.desc || 'a person', st = C.cast[i], o = animOv[i], pose = (o && (o.f > 0.5 ? o.pose2 : o.pose)) || st.pose;
+    const act = { stand: 'stands', walk: 'walks', sit: 'sits', arms: 'stands with arms raised', lie: 'lies on the floor', tuck: 'stands hidden', hide: 'leans forward' }[pose] || 'stands';
+    const anchor = inFrame(eyes) ? eyes : (inFrame(chest) ? chest : (inFrame(hips) ? hips : foot));
+    let line = who.charAt(0).toUpperCase() + who.slice(1) + ' ' + act + ' ' + whereInFrame(anchor);
+    const occE = inFrame(eyes) ? occluderOf(a.L.eyes) : null, occC = inFrame(chest) ? occluderOf(a.L.chest) : null, occF = inFrame(foot) ? occluderOf(a.L.footL) : null;
+    if (inFrame(eyes) && !occE && occC) line += '; the body is hidden behind ' + ownerLabel(occC) + ', only the head shows' + (inFrame(foot) && !occF ? ' and the legs show below it' : '');
+    else if (inFrame(eyes) && occE && !occF && inFrame(foot)) line += '; hidden behind ' + ownerLabel(occE) + ' except the legs';
+    else if (occE) line += '; the face is hidden behind ' + ownerLabel(occE);
+    parts.push(line + '.');
+  });
+  const seen = new Set();
+  ITEM_OBJS.forEach((g, i) => {
+    const lab = itemEn(C.items[i]); if (!lab || seen.has(lab)) return;
+    const bx = new THREE.Box3().setFromObject(g); if (bx.isEmpty()) return;
+    const p = projPoint(bx.getCenter(new THREE.Vector3())); if (!inFrame(p)) return;
+    seen.add(lab); parts.push(lab.charAt(0).toUpperCase() + lab.slice(1) + ' ' + whereInFrame(p) + (p.d < 1.4 ? ', close to the camera' : '') + '.');
+  });
+  return parts.join(' ');
 }
 
 // ---------- overlay ----------
@@ -964,9 +1118,10 @@ function drawOverlay() {
       });
     }
   }
-  octx.strokeStyle = play ? '#e5322d' : '#ffb31a'; octx.lineWidth = play ? 2.5 : 1.5; octx.strokeRect(r.x + 0.5, r.y + 0.5, r.w - 1, r.h - 1);
+  const live = play || rec;
+  octx.strokeStyle = live ? '#e5322d' : '#ffb31a'; octx.lineWidth = live ? 2.5 : 1.5; octx.strokeRect(r.x + 0.5, r.y + 0.5, r.w - 1, r.h - 1);
   octx.fillStyle = 'rgba(255,179,26,0.9)'; octx.font = '500 11px "IBM Plex Mono", monospace';
-  octx.fillText(S.aspect + (play ? '   ▶ ' + play.shot.name : ''), r.x + 6, r.y + 15);
+  octx.fillText(S.aspect + (play ? '   ▶ ' + play.name : '') + (rec ? '   ● запись дубля' : ''), r.x + 6, r.y + 15);
 }
 
 // ---------- HUD ----------
@@ -993,7 +1148,7 @@ function updateHud() {
 }
 
 // ---------- controls ----------
-const joy = { x: 0, y: 0, id: null };
+const joy = { x: 0, y: 0, id: null }, vel = { x: 0, z: 0 };
 (function joystick() {
   const el = $('joy'), nub = $('nub');
   const set = (ev) => {
@@ -1022,15 +1177,30 @@ function placeKnob() { $('hKnob').style.top = ((1 - clamp(hToT(C.cam.y), 0, 1)) 
   tr.addEventListener('pointerup', end); tr.addEventListener('pointercancel', end);
 })();
 
-// look drag and taps on the picture
+// look drag, taps on the picture, dragging props in the editor
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+function rayAt(x, y) { ndc.set(x / view.cw * 2 - 1, -(y / view.ch) * 2 + 1); camera.updateMatrixWorld(); ray.setFromCamera(ndc, camera); return ray; }
+function groundAt(x, y) { const p = new THREE.Vector3(); return rayAt(x, y).ray.intersectPlane(groundPlane, p) ? p : null; }
 (function lookAndTap() {
-  let id = null, sx = 0, sy = 0, lx = 0, ly = 0, moved = false;
-  glCanvas.addEventListener('pointerdown', ev => { if (id !== null) return; id = ev.pointerId; sx = lx = ev.clientX; sy = ly = ev.clientY; moved = false; glCanvas.setPointerCapture(id); wake(); closePops(); });
+  let id = null, sx = 0, sy = 0, lx = 0, ly = 0, moved = false, drag = null;
+  glCanvas.addEventListener('pointerdown', ev => {
+    if (id !== null) return; id = ev.pointerId; sx = lx = ev.clientX; sy = ly = ev.clientY; moved = false; drag = null; glCanvas.setPointerCapture(id); wake(); closePops();
+    if (mode === 'edit' && editSel >= 0 && freeItem(C.items[editSel])) {
+      const h = rayAt(ev.clientX, ev.clientY).intersectObject(ITEM_OBJS[editSel], true)[0], g = groundAt(ev.clientX, ev.clientY);
+      if (h && g) { const p = C.items[editSel].pos; drag = { gx: g.x, gz: g.z, px: p[0], pz: p.length === 3 ? p[2] : p[1] }; }
+    }
+  });
   glCanvas.addEventListener('pointermove', ev => {
     if (ev.pointerId !== id) return;
     const dx = ev.clientX - lx, dy = ev.clientY - ly; lx = ev.clientX; ly = ev.clientY;
     if (Math.hypot(ev.clientX - sx, ev.clientY - sy) > 6) { if (!moved) stopPlay(); moved = true; }
     if (!moved) return;
+    if (drag) {
+      const g = groundAt(ev.clientX, ev.clientY); if (!g) return;
+      const it = C.items[editSel], p = it.pos, nx = r3(drag.px + g.x - drag.gx), nz = r3(drag.pz + g.z - drag.gz);
+      p[0] = nx; if (p.length === 3) p[2] = nz; else p[1] = nz;
+      rebuildItem(editSel); return;
+    }
     const k = fovs().v / view.rect.h;
     const rr = S.roll * D2R, cdx = dx * Math.cos(rr) + dy * Math.sin(rr), cdy = -dx * Math.sin(rr) + dy * Math.cos(rr);
     if (gyro.on) gyro.yawOffset += cdx * k;
@@ -1038,19 +1208,18 @@ function placeKnob() { $('hKnob').style.top = ((1 - clamp(hToT(C.cam.y), 0, 1)) 
   });
   const end = ev => {
     if (ev.pointerId !== id) return; id = null;
-    if (!moved && mode === 'actors') tapScene(ev.clientX, ev.clientY);
-    save();
+    if (!moved && mode === 'actors') tapActors(ev.clientX, ev.clientY);
+    if (!moved && mode === 'edit') tapEdit(ev.clientX, ev.clientY);
+    drag = null; save();
   };
   glCanvas.addEventListener('pointerup', end); glCanvas.addEventListener('pointercancel', end);
 })();
-const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
-function tapScene(x, y) {
-  ndc.set(x / view.cw * 2 - 1, -(y / view.ch) * 2 + 1);
-  camera.updateMatrixWorld(); ray.setFromCamera(ndc, camera);
-  const hitA = ray.intersectObjects(actors.map(a => a.rig), true)[0];
-  if (hitA) { actors.forEach((a, i) => { let o = hitA.object; while (o) { if (o === a.rig) sel = i; o = o.parent; } }); refreshActorBar(); placeActors(); return; }
-  const hit = ray.intersectObjects(world.children.filter(o => o.userData.floor))[0];
-  if (hit && C.actors[sel]) { C.actors[sel].x = +hit.point.x.toFixed(2); C.actors[sel].z = +hit.point.z.toFixed(2); placeActors(); save(); }
+function tapActors(x, y) {
+  const r = rayAt(x, y);
+  const hitA = r.intersectObjects(actors.map(a => a.rig), true)[0];
+  if (hitA) { sel = hitA.object.userData.actorIdx; clearAnim(); refreshActorBar(); return; }
+  const g = groundAt(x, y);
+  if (g && C.cast[sel]) { C.cast[sel].pos = [r3(g.x), r3(g.z)]; clearAnim(); save(); }
 }
 
 const keys = {};
@@ -1065,7 +1234,7 @@ window.addEventListener('keyup', ev => { keys[ev.code] = false; });
 function actorPose(i) {
   const a = actors[i]; a.root.updateMatrixWorld(true);
   const p = new THREE.Vector3(); a.L.eyes.getWorldPosition(p);
-  const ang = C.actors[i].rot * D2R;
+  const ang = a.root.rotation.y;
   return { eyes: p, front: new THREE.Vector3(Math.sin(ang), 0, Math.cos(ang)), base: a.root.position.clone(), k: (S.toy ? TOY : 1) * a.h };
 }
 function lookAt(target) {
@@ -1090,23 +1259,19 @@ function preset(name, i) {
     const pos = P.base.clone().addScaledVector(P.front, d); c.x = pos.x; c.z = pos.z; c.y = S.toy ? 0.01 : 0.05;
     lookAt(new THREE.Vector3(P.base.x, P.base.y + 0.72 * P.k, P.base.z)); S.roll = 0;
   } else if (name === 'top') {
-    c.x = P.base.x; c.z = P.base.z + 0.001; c.y = S.toy ? 0.9 : Math.min(4.6, H + 1.4); c.pitch = -Math.PI / 2; c.yaw = C.actors[i].rot * D2R + Math.PI; S.roll = 0;
+    c.x = P.base.x; c.z = P.base.z + 0.001; c.y = S.toy ? 0.9 : Math.min(4.6, H + 1.4); c.pitch = -Math.PI / 2; c.yaw = actors[i].root.rotation.y + Math.PI; S.roll = 0;
   } else if (name === 'level') {
     c.pitch = 0; S.roll = 0;
   }
   recalibrateGyro(); syncRoll(); updateProjection(); lastHud = ''; save();
 }
 
-// ---------- shots: camera plan with moves ----------
+// ---------- timeline: shots, takes, actor tracks ----------
 function kf(k) {
   const p = k.pos; let yaw, pitch;
   if (k.look) { const dx = k.look[0] - p[0], dy = k.look[1] - p[1], dz = k.look[2] - p[2]; yaw = Math.atan2(-dx, -dz); pitch = Math.atan2(dy, Math.hypot(dx, dz)); }
   else { yaw = (k.yaw || 0) * D2R; pitch = (k.pitch || 0) * D2R; }
   return { x: p[0], y: p[1], z: p[2], yaw, pitch, mm: k.mm || null, roll: k.roll || 0 };
-}
-function setCamKF(k) {
-  Object.assign(C.cam, { x: k.x, y: k.y, z: k.z, yaw: k.yaw, pitch: k.pitch });
-  S.roll = k.roll || 0; setMm(k.mm); syncRoll(); recalibrateGyro(); lastHud = '';
 }
 const EASE = {
   linear: t => t,
@@ -1115,45 +1280,141 @@ const EASE = {
   slowin: t => t * t * t
 };
 function angLerp(a, b, t) { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return a + d * t; }
-function startShot(shot, run) {
-  closePops();
-  const a = kf(shot.from), b = shot.to ? kf(shot.to) : null;
-  setCamKF(a);
-  if (run && b) play = { shot, a, b, t0: performance.now() + (shot.hold || 0.6) * 1000, dur: (shot.dur || 2) * 1000, ease: EASE[shot.ease] || EASE.smooth };
-  else if (run) toast('Статичный кадр: камера на позиции.');
+const angLerpDeg = (a, b, t) => angLerp(a * D2R, b * D2R, t) * R2D;
+function shotTimes(sh) {
+  const hold = sh.to ? (sh.hold == null ? 0.6 : sh.hold) : 0, mv = sh.to ? (sh.dur || 2) : 0;
+  let end = hold + mv;
+  Object.keys(sh.actors || {}).forEach(id => sh.actors[id].forEach(k => { end = Math.max(end, k.t); }));
+  if (!sh.to) end = Math.max(end, sh.dur || 3);
+  return { hold, mv, total: end };
+}
+function camAtShot(sh, t) {
+  const a = kf(sh.from); if (!sh.to) return a;
+  const b = kf(sh.to), T = shotTimes(sh), e = (EASE[sh.ease] || EASE.smooth)(clamp((t - T.hold) / T.mv, 0, 1));
+  return { x: lerp(a.x, b.x, e), y: lerp(a.y, b.y, e), z: lerp(a.z, b.z, e), yaw: angLerp(a.yaw, b.yaw, e), pitch: lerp(a.pitch, b.pitch, e), roll: lerp(a.roll, b.roll, e),
+    mm: a.mm && b.mm ? Math.exp(lerp(Math.log(a.mm), Math.log(b.mm), e)) : (b.mm || a.mm) };
+}
+function trackAt(keys, t, base) {
+  let prev = { pos: base.pos, rot: base.rot, pose: base.pose };
+  const K = keys.slice().sort((p, q) => p.t - q.t).map(k => (prev = { t: k.t, pos: k.pos || prev.pos, rot: k.rot != null ? k.rot : prev.rot, pose: k.pose || prev.pose }));
+  if (!K.length) return null;
+  if (t <= K[0].t) return { pos: K[0].pos, rot: K[0].rot, pose: K[0].pose };
+  const last = K[K.length - 1]; if (t >= last.t) return { pos: last.pos, rot: last.rot, pose: last.pose };
+  let cum = 0;
+  for (let j = 0; j < K.length - 1; j++) {
+    const A = K[j], B = K[j + 1], seg = Math.hypot(B.pos[0] - A.pos[0], B.pos[1] - A.pos[1]);
+    if (t < B.t) {
+      const u = (t - A.t) / Math.max(1e-6, B.t - A.t), f = EASE.smooth(u), walking = A.pose === 'walk' && seg > 0.05, fl = walking ? u : f;
+      return { pos: [lerp(A.pos[0], B.pos[0], fl), lerp(A.pos[1], B.pos[1], fl)], rot: angLerpDeg(A.rot, B.rot, f), pose: A.pose, pose2: walking ? A.pose : B.pose, f: walking ? 0 : f, walk: walking ? (cum + seg * u) * 5.2 : null };
+    }
+    cum += seg;
+  }
+  return null;
+}
+function actorsAtShot(sh, t) {
+  const o = {}; if (!sh || !sh.actors) return o;
+  Object.keys(sh.actors).forEach(id => { const i = C.cast.findIndex(c => c.id === id); if (i < 0) return; const v = trackAt(sh.actors[id], t, C.cast[i]); if (v) o[i] = v; });
+  return o;
+}
+function camAtTake(tk, t) {
+  const s = tk.samples; let lo = 0, hi = s.length - 1;
+  while (hi - lo > 1) { const m = (lo + hi) >> 1; if (s[m][0] <= t) lo = m; else hi = m; }
+  const A = s[lo], B = s[hi], u = B[0] > A[0] ? clamp((t - A[0]) / (B[0] - A[0]), 0, 1) : 0;
+  return { x: lerp(A[1], B[1], u), y: lerp(A[2], B[2], u), z: lerp(A[3], B[3], u), yaw: angLerp(A[4], B[4], u), pitch: lerp(A[5], B[5], u), roll: lerp(A[6], B[6], u), mm: lerp(A[7], B[7], u) };
+}
+function setCamLive(c) {
+  Object.assign(C.cam, { x: c.x, y: c.y, z: c.z, yaw: c.yaw, pitch: c.pitch });
+  S.roll = c.roll || 0;
+  if (c.mm) { S.zoom = c.mm; updateProjection(); }
+}
+function srcTotal(src) { return src.kind === 'shot' ? shotTimes(src.item).total : src.item.dur; }
+function actShotOf(src) { return src.kind === 'shot' ? src.item : (DEF.shots || []).find(s => s.id === src.item.shotId) || null; }
+function applySrcAt(src, t) {
+  setCamLive(src.kind === 'shot' ? camAtShot(src.item, t) : camAtTake(src.item, t));
+  animOv = actorsAtShot(actShotOf(src), t); placeActors();
+}
+function startSrc(src, run) {
+  closePops(); stopPlay(); if (rec) stopTake();
+  applySrcAt(src, 0); setMm(focal()); syncRoll(); recalibrateGyro();
+  if (run) play = { src, name: src.item.name, t0: performance.now(), total: srcTotal(src) };
   save();
 }
 function stepPlay(now) {
   if (!play) return;
-  const t = clamp((now - play.t0) / play.dur, 0, 1), e = play.ease(t), a = play.a, b = play.b;
-  Object.assign(C.cam, { x: lerp(a.x, b.x, e), y: lerp(a.y, b.y, e), z: lerp(a.z, b.z, e), yaw: angLerp(a.yaw, b.yaw, e), pitch: lerp(a.pitch, b.pitch, e) });
-  S.roll = lerp(a.roll, b.roll, e);
-  if (a.mm && b.mm && a.mm !== b.mm) { S.zoom = Math.exp(lerp(Math.log(a.mm), Math.log(b.mm), e)); updateProjection(); }
-  if (t >= 1) { const shot = play.shot; play = null; setMm(b.mm); recalibrateGyro(); syncRoll(); save(); }
+  const t = Math.max(0, (now - play.t0) / 1000);
+  applySrcAt(play.src, Math.min(t, play.total));
+  if (t >= play.total) { play = null; setMm(focal()); recalibrateGyro(); syncRoll(); save(); }
 }
-function stopPlay() { if (play) { play = null; recalibrateGyro(); } }
-function shotToBoard(shot) {
-  const a = kf(shot.from), b = shot.to ? kf(shot.to) : null;
-  setCamKF(a); capture({ move: shot.move || (b ? 'наезд' : 'статика'), note: shot.name + (b ? ' · старт' : '') + (shot.note ? '. ' + shot.note : ''), silent: true });
-  if (b) { setCamKF(b); capture({ move: shot.move || 'наезд', note: shot.name + ' · финиш', silent: true }); }
-  toast((b ? 'Старт и финиш' : 'Кадр') + ' «' + shot.name + '» в раскадровке.');
+function stopPlay() { if (play) { play = null; setMm(focal()); recalibrateGyro(); } }
+
+// takes: the camera as you operate it, sampled 30 times a second
+function startTake(sh) {
+  closePops(); stopPlay();
+  if (sh) { applySrcAt({ kind: 'shot', item: sh }, 0); setMm(focal()); syncRoll(); recalibrateGyro(); }
+  rec = { t0: performance.now(), samples: [], shot: sh || null, last: -1 };
+  $('recBar').hidden = false; $('shootBar').hidden = true;
+  toast(sh ? 'Запись дубля под «' + sh.name + '». Актёры играют по плану, камера ваша.' : 'Запись дубля. Ведите камеру, потом нажмите «Стоп».');
+}
+function recordSample(now) {
+  if (!rec) return;
+  const t = (now - rec.t0) / 1000;
+  if (rec.shot) { animOv = actorsAtShot(rec.shot, t); placeActors(); }
+  if (t - rec.last >= 1 / 30) { const c = C.cam; rec.samples.push([t, c.x, c.y, c.z, c.yaw, c.pitch, currentRoll(), focal()].map(r3)); rec.last = t; }
+  $('recTime').textContent = t.toFixed(1);
+}
+function stopTake() {
+  const r = rec; rec = null; $('recBar').hidden = true; $('shootBar').hidden = false;
+  if (!r || r.samples.length < 6) { toast('Дубль слишком короткий, не сохранён.'); return; }
+  C.takes = C.takes || [];
+  const tk = { id: 't' + Date.now(), name: (r.shot ? r.shot.name + ' · ' : '') + 'дубль ' + (C.takes.length + 1), shotId: r.shot ? r.shot.id : null, dur: r.samples[r.samples.length - 1][0], samples: r.samples };
+  C.takes.push(tk); save(true);
+  toast('Сохранён «' + tk.name + '», ' + tk.dur.toFixed(1) + ' с. Он в «Кадры → Дубли».');
+}
+$('recBar').addEventListener('click', stopTake);
+
+function shotToBoard(sh) {
+  const src = { kind: 'shot', item: sh }, T = shotTimes(sh);
+  applySrcAt(src, 0); setMm(focal());
+  capture({ move: sh.move || (sh.to ? 'наезд' : 'статика'), note: sh.name + (sh.to ? ' · старт' : '') + (sh.note ? '. ' + sh.note : ''), silent: true });
+  if (sh.to || Object.keys(sh.actors || {}).length) { applySrcAt(src, T.total); setMm(focal()); capture({ move: sh.move || 'наезд', note: sh.name + ' · финиш', silent: true }); }
+  toast('Кадр «' + sh.name + '» в раскадровке.');
 }
 function buildShotPop() {
   const p = $('shotPop'); p.textContent = '';
+  const h = t => { const e = document.createElement('h4'); e.textContent = t; p.appendChild(e); };
+  const btn = (cls, text, label, fn) => { const b = document.createElement('button'); b.className = cls; b.textContent = text; if (label) b.setAttribute('aria-label', label); b.addEventListener('click', fn); return b; };
+  const free = btn('wide', '● Записать дубль', 'Записать дубль камеры', () => startTake(null)); p.appendChild(free);
+  h('План кадров');
   const shots = DEF.shots || [];
-  if (!shots.length) { const e = document.createElement('div'); e.className = 'empty'; e.textContent = 'В этой сцене нет плана кадров. Он появляется в сценах проектов, которые я собираю по вашей идее.'; p.appendChild(e); return; }
+  if (!shots.length) { const e = document.createElement('div'); e.className = 'empty'; e.textContent = 'В этой сцене нет плана кадров. Он есть в сценах проектов, которые я собираю по вашей идее.'; p.appendChild(e); }
   shots.forEach((s, i) => {
     const row = document.createElement('div'); row.className = 'shotrow';
-    const go = document.createElement('button'); go.className = 'go';
-    go.innerHTML = '<span></span><small></small>';
+    const go = document.createElement('button'); go.className = 'go'; go.innerHTML = '<span></span><small></small>';
     go.firstChild.textContent = (i + 1) + '. ' + s.name; go.lastChild.textContent = s.note || '';
-    go.addEventListener('click', () => startShot(s, false));
-    const pl = document.createElement('button'); pl.className = 'play'; pl.textContent = s.to ? '▶ ' + (s.dur || 2) + ' с' : 'встать'; pl.setAttribute('aria-label', 'Проиграть кадр ' + (i + 1));
-    pl.addEventListener('click', () => startShot(s, true));
-    const add = document.createElement('button'); add.className = 'add'; add.textContent = '+ раскадр'; add.setAttribute('aria-label', 'Добавить кадр ' + (i + 1) + ' в раскадровку');
-    add.addEventListener('click', () => { closePops(); shotToBoard(s); });
-    row.append(go, pl, add); p.appendChild(row);
+    go.addEventListener('click', () => startSrc({ kind: 'shot', item: s }, false));
+    const T = shotTimes(s);
+    row.append(go,
+      btn('mini play', '▶ ' + T.total.toFixed(1) + ' с', 'Проиграть кадр ' + (i + 1), () => startSrc({ kind: 'shot', item: s }, true)),
+      btn('mini recd', '● дубль', 'Записать дубль под кадр ' + (i + 1), () => startTake(s)),
+      btn('mini', 'видео', 'Видео кадра ' + (i + 1), () => openVideo({ kind: 'shot', item: s })),
+      btn('mini', '+ кадр', 'Добавить кадр ' + (i + 1) + ' в раскадровку', () => { closePops(); shotToBoard(s); }));
+    p.appendChild(row);
   });
+  const takes = C.takes || [];
+  if (takes.length) {
+    h('Дубли');
+    takes.forEach((tk, i) => {
+      const row = document.createElement('div'); row.className = 'shotrow';
+      const go = document.createElement('button'); go.className = 'go'; go.innerHTML = '<span></span><small></small>';
+      go.firstChild.textContent = tk.name; go.lastChild.textContent = tk.dur.toFixed(1) + ' с' + (tk.shotId ? ' · с актёрами' : '');
+      go.addEventListener('click', () => startSrc({ kind: 'take', item: tk }, false));
+      let arm = 0; const del = btn('mini', '✕', 'Удалить дубль', () => { if (!arm) { arm = 1; del.textContent = 'точно?'; setTimeout(() => { arm = 0; del.textContent = '✕'; }, 2500); return; } C.takes.splice(i, 1); save(true); buildShotPop(); });
+      row.append(go, btn('mini play', '▶', 'Проиграть дубль', () => startSrc({ kind: 'take', item: tk }, true)),
+        btn('mini', 'видео', 'Видео дубля', () => openVideo({ kind: 'take', item: tk })),
+        btn('mini', '+ кадр', 'Первый кадр дубля в раскадровку', () => { closePops(); startSrc({ kind: 'take', item: tk }, false); capture({ move: 'с рук', note: tk.name }); }), del);
+      p.appendChild(row);
+    });
+  }
 }
 
 // ---------- capture & storyboard ----------
@@ -1165,14 +1426,14 @@ function snapshotCaption(si) {
     tilt: fmtDeg(C.cam.pitch * R2D), roll: fmtDeg(currentRoll()), hfov: Math.round(fovs().h * R2D) + '°'
   };
 }
+function helpers(on) { actors.forEach((a, i) => { a.ring.visible = on && mode === 'actors' && sel === i; }); if (selBox) selBox.visible = on; }
 function grabFrame(maxW) {
-  const rings = actors.map(a => a.ring.visible); actors.forEach(a => a.ring.visible = false);
-  applyOrientation(); renderer.render(scene, camera);
+  helpers(false); applyOrientation(); renderer.render(scene, camera);
   const r = view.rect, d = view.dpr;
   const w = Math.min(maxW || 960, Math.round(r.w * d)), h = Math.round(w * r.h / r.w);
   const c = document.createElement('canvas'); c.width = w; c.height = h;
   c.getContext('2d').drawImage(glCanvas, Math.round(r.x * d), Math.round(r.y * d), Math.round(r.w * d), Math.round(r.h * d), 0, 0, w, h);
-  actors.forEach((a, i) => a.ring.visible = rings[i]);
+  helpers(true);
   return c.toDataURL('image/jpeg', 0.82);
 }
 function capture(opts) {
@@ -1275,24 +1536,40 @@ async function exportBoard() {
     y += rh + gap;
   });
   const blob = await new Promise(res => c.toBlob(res, 'image/png'));
-  let dl = null;
-  try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
-  if (dl) {
-    try { await dl.save({ filename: 'provis-' + DEF.id + '.png', data: blob }); toast('Раскадровка сохранена.'); return; }
-    catch (e) { if (e && e.code === 'declined') { toast('Сохранение отменено.'); return; } }
-  }
+  if (await saveBlob(blob, 'provis-' + DEF.id + '.png', 'image/png', true)) return;
   const pv = $('preview'); pv.hidden = false; pv.textContent = '';
   const p = document.createElement('p'); p.className = 'empty'; p.textContent = 'Удерживайте картинку, чтобы сохранить её в Фото.';
   const im = document.createElement('img'); im.alt = 'Раскадровка'; im.src = URL.createObjectURL(blob);
   pv.appendChild(p); pv.appendChild(im); im.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// ---------- frame for Weavy: clean picture, depth map, prompt ----------
+// ---------- saving files: Claude downloads, then the share sheet ----------
+async function saveBlob(blob, name, type, quiet) {
+  let dl = null;
+  try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
+  if (dl) {
+    try { await dl.save({ filename: name, data: blob }); toast('Сохранено: ' + name); return true; }
+    catch (e) { if (e && e.code === 'declined') { toast('Сохранение отменено.'); return true; } }
+  }
+  const file = new File([blob], name, { type });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file] }); return true; } catch (e) { if (e && e.name === 'AbortError') return true; }
+  }
+  if (!quiet) toast('Сохранить файл здесь не получилось. Удерживайте картинку или видео пальцем.');
+  return false;
+}
+function copyText(ta) {
+  try { navigator.clipboard.writeText(ta.value).then(() => toast('Скопировано.'), () => { ta.select(); toast('Текст выделен, скопируйте его вручную.'); }); }
+  catch (e) { ta.select(); toast('Текст выделен, скопируйте его вручную.'); }
+}
+
+// ---------- offscreen renders: frame, depth, mask, contours, clay ----------
 const depthMat = new THREE.ShaderMaterial({
   uniforms: { uNear: { value: 0.5 }, uFar: { value: 10 } },
   vertexShader: 'varying float vDepth; void main() { vec4 p = vec4(position, 1.0);\n#ifdef USE_INSTANCING\n p = instanceMatrix * p;\n#endif\n vec4 mv = modelViewMatrix * p; vDepth = -mv.z; gl_Position = projectionMatrix * mv; }',
   fragmentShader: 'uniform float uNear; uniform float uFar; varying float vDepth; void main() { float d = clamp((vDepth - uNear) / (uFar - uNear), 0.0, 1.0); gl_FragColor = vec4(vec3(pow(1.0 - d, 1.2)), 1.0); }'
 });
+const clayMat = new THREE.MeshStandardMaterial({ color: '#d9d4cc', roughness: 0.92, metalness: 0 });
 function depthRange() {
   const fwd = new THREE.Vector3(); camera.getWorldDirection(fwd);
   const rc = new THREE.Raycaster(), p = new THREE.Vector2(), ds = [];
@@ -1305,86 +1582,487 @@ function depthRange() {
   const near = Math.max(0.03, Math.min(...ds) * 0.96), far = Math.max(near + 0.3, Math.max(...ds) * 1.02);
   return [near, far];
 }
-function renderExport(longSide, depth) {
-  const A = aspectVal(), w = A >= 1 ? longSide : Math.round(longSide * A), h = A >= 1 ? Math.round(longSide / A) : longSide;
-  const pr = renderer.getPixelRatio(), rings = actors.map(a => a.ring.visible);
-  actors.forEach(a => a.ring.visible = false);
-  renderer.setPixelRatio(1); renderer.setSize(w, h, false);
-  camera.fov = fovs().v * R2D; camera.aspect = w / h; camera.updateProjectionMatrix();
+function exportSize(longSide) { const A = aspectVal(); return A >= 1 ? [longSide, Math.round(longSide / A)] : [Math.round(longSide * A), longSide]; }
+function beginOff(w, h) { const st = { pr: renderer.getPixelRatio(), was: exporting }; exporting = true; helpers(false); renderer.setPixelRatio(1); renderer.setSize(w, h, false); return st; }
+function endOff(st) { renderer.setPixelRatio(st.pr); exporting = st.was; helpers(true); layout(); }
+function aimExport(w, h) {
+  camera.fov = fovs().v * R2D; camera.aspect = w / h; camera.near = S.toy ? 0.002 : 0.01; camera.updateProjectionMatrix();
   applyOrientation(); camera.updateMatrixWorld();
   if (ceilingObj) ceilingObj.visible = S.ceiling === 'show' || (S.ceiling === 'auto' && C.cam.y < H - 0.15);
-  let bg = null;
-  if (depth) { const r = depthRange(); depthMat.uniforms.uNear.value = r[0]; depthMat.uniforms.uFar.value = r[1]; scene.overrideMaterial = depthMat; bg = scene.background; scene.background = new THREE.Color(0x000000); }
-  renderer.render(scene, camera);
-  const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(glCanvas, 0, 0, w, h);
-  if (depth) { scene.overrideMaterial = null; scene.background = bg; }
-  actors.forEach((a, i) => a.ring.visible = rings[i]);
-  renderer.setPixelRatio(pr); layout();
-  return c;
 }
+const PALETTE = [['red', '#e6194b'], ['blue', '#4363d8'], ['green', '#3cb44b'], ['yellow', '#ffe119'], ['magenta', '#f032e6'], ['cyan', '#42d4f4'], ['orange', '#f58231'],
+  ['purple', '#911eb4'], ['lime', '#bfef45'], ['pink', '#fabed4'], ['teal', '#469990'], ['brown', '#9a6324'], ['navy', '#000075'], ['maroon', '#800000']];
+function maskPlan() { // which colour each visible actor and item gets
+  const plan = { actors: {}, items: {}, legend: [] }; let k = 0;
+  const next = label => { const c = PALETTE[k % PALETTE.length]; k++; plan.legend.push(c[0] + ' = ' + label); return c[1]; };
+  actors.forEach((a, i) => { a.root.updateMatrixWorld(true); if (['eyes', 'chest', 'hips', 'footL'].some(n => inFrame(toScreen(a.L[n]), 4))) plan.actors[i] = next(a.def.desc || 'a person'); });
+  const byLabel = {};
+  ITEM_OBJS.forEach((g, i) => {
+    const lab = itemEn(C.items[i]); if (!lab) return;
+    const bx = new THREE.Box3().setFromObject(g); if (bx.isEmpty()) return;
+    const p = projPoint(bx.getCenter(new THREE.Vector3())); if (!inFrame(p, 40)) return;
+    plan.items[i] = byLabel[lab] || (byLabel[lab] = next(lab));
+  });
+  plan.legend.push('light grey = walls', 'dark grey = floor', 'white = ceiling');
+  return plan;
+}
+function renderMaskPass(plan) {
+  const saved = [], swap = (o, color) => { saved.push([o, o.material]); o.material = Basic(color); };
+  world.traverse(o => {
+    if (!o.isMesh && !o.isInstancedMesh) return;
+    if (o.userData.wallId) swap(o, '#b4b4b4');
+    else if (o.userData.floor) swap(o, '#505050');
+    else if (o.userData.ceiling) swap(o, '#f2f2f2');
+    else if (o.userData.itemIdx !== undefined) { const it = C.items[o.userData.itemIdx]; swap(o, plan.items[o.userData.itemIdx] || (it && (it.type === 'strip' || it.type === 'rug') ? '#505050' : it && it.type === 'ceilLight' ? '#f2f2f2' : '#b4b4b4')); }
+    else swap(o, '#b4b4b4');
+  });
+  cast.traverse(o => { if (o.isMesh) swap(o, plan.actors[o.userData.actorIdx] || '#b4b4b4'); });
+  const bg = scene.background; scene.background = new THREE.Color('#000000');
+  const tm = renderer.toneMapping, enc = renderer.outputEncoding; renderer.toneMapping = THREE.NoToneMapping; renderer.outputEncoding = THREE.LinearEncoding; // exact palette colours
+  renderer.render(scene, camera);
+  renderer.toneMapping = tm; renderer.outputEncoding = enc; scene.background = bg;
+  saved.forEach(([o, m]) => { o.material = m; });
+}
+function renderIdPass() { // every mesh in its own flat colour, so contours separate each coat, door leaf and frame
+  const saved = [], mats = []; let k = 0;
+  [world, cast].forEach(grp => grp.traverse(o => {
+    if (!o.isMesh || !o.visible) return;
+    const m = new THREE.MeshBasicMaterial({ color: new THREE.Color((Math.imul(++k, 2654435761) >>> 8) & 0xffffff) });
+    mats.push(m); saved.push([o, o.material]); o.material = m;
+  }));
+  const bg = scene.background; scene.background = new THREE.Color('#000000');
+  const tm = renderer.toneMapping, enc = renderer.outputEncoding; renderer.toneMapping = THREE.NoToneMapping; renderer.outputEncoding = THREE.LinearEncoding;
+  renderer.render(scene, camera);
+  renderer.toneMapping = tm; renderer.outputEncoding = enc; scene.background = bg;
+  saved.forEach(([o, m]) => { o.material = m; }); mats.forEach(m => m.dispose());
+}
+function canvasFromGL(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(glCanvas, 0, 0, w, h); return c; }
+function contours(mask, depth) { // outlines where the surface changes or the depth jumps: a clean line drawing for line art control
+  const w = mask.width, h = mask.height, m = mask.getContext('2d').getImageData(0, 0, w, h).data, d = depth.getContext('2d').getImageData(0, 0, w, h).data;
+  const out = document.createElement('canvas'); out.width = w; out.height = h; const og = out.getContext('2d'), img = og.createImageData(w, h), o = img.data;
+  const diff = (a, b) => Math.abs(m[a] - m[b]) + Math.abs(m[a + 1] - m[b + 1]) + Math.abs(m[a + 2] - m[b + 2]) > 40 || Math.abs(d[a] - d[b]) > 14;
+  for (let i = 0; i < o.length; i += 4) { o[i] = o[i + 1] = o[i + 2] = 255; o[i + 3] = 255; }
+  for (let y = 0; y < h - 1; y++) for (let x = 0; x < w - 1; x++) {
+    const i = (y * w + x) * 4;
+    if (diff(i, i + 4) || diff(i, i + w * 4)) { o[i] = o[i + 1] = o[i + 2] = 0; const j = i + 4; o[j] = o[j + 1] = o[j + 2] = 0; }
+  }
+  og.putImageData(img, 0, 0); return out;
+}
+function renderSet(longSide) { // frame, depth, mask, contours from the current camera
+  updateProjection(); applyOrientation(); camera.updateMatrixWorld();
+  const plan = maskPlan(), layoutTxt = layoutText(); // read the frame with the on-screen projection first
+  const [w, h] = exportSize(longSide), st = beginOff(w, h);
+  aimExport(w, h);
+  renderer.render(scene, camera); const frame = canvasFromGL(w, h);
+  const r = depthRange(); depthMat.uniforms.uNear.value = r[0]; depthMat.uniforms.uFar.value = r[1];
+  const bg = scene.background; scene.overrideMaterial = depthMat; scene.background = new THREE.Color('#000000');
+  renderer.render(scene, camera); const depth = canvasFromGL(w, h);
+  scene.overrideMaterial = null; scene.background = bg;
+  renderMaskPass(plan); const mask = canvasFromGL(w, h);
+  renderIdPass(); const ids = canvasFromGL(w, h);
+  endOff(st);
+  return { frame, depth, mask, edges: contours(ids, depth), legend: plan.legend, layoutTxt };
+}
+
+// ---------- prompts ----------
 const SHOT_EN = { 'Сверхобщий': 'Extreme wide shot', 'Общий': 'Wide shot', 'Полный рост': 'Full shot', 'Средне-общий': 'Medium wide shot', 'Средний': 'Medium shot',
   'Первый план': 'Medium close-up', 'Крупный': 'Close-up', 'Сверхкрупный': 'Extreme close-up', 'Деталь': 'Insert detail shot', 'Актёров нет в кадре': 'Wide establishing shot' };
-function weavyPrompt(si) {
-  const w = DEF.weavy || ROOM_DEF.weavy, p = C.cam.pitch * R2D, roll = currentRoll();
-  const angle = p < -55 ? 'top-down overhead angle' : p < -12 ? 'high angle looking down' : p > 25 ? 'low angle looking up from the floor' : p > 8 ? 'slightly low angle' : 'eye-level angle';
-  const dutch = Math.abs(roll) > 4 ? ', dutch tilt of ' + Math.round(Math.abs(roll)) + ' degrees' : '';
-  const shot = (SHOT_EN[si.name] || 'Medium shot') + ', ' + angle + dutch + ', camera ' + C.cam.y.toFixed(1) + ' m above the floor, ' + Math.round(focal()) + 'mm lens on ' + (S.sensor === 'ff' ? 'full frame' : 'Super 35') + ', ' + S.aspect + ' frame.';
-  return [w.subject, w.location, w.light, w.style, shot, 'Match the reference image: same composition, camera position and perspective. Turn the grey mannequins and clay shapes into real people and real materials.'].filter(Boolean).join(' ');
+function angleEn(pitchDeg) { return pitchDeg < -55 ? 'top-down overhead angle' : pitchDeg < -12 ? 'high angle looking down' : pitchDeg > 25 ? 'low angle looking up from the floor' : pitchDeg > 8 ? 'slightly low angle' : 'eye-level angle'; }
+function shotEn(si) {
+  const roll = currentRoll(), dutch = Math.abs(roll) > 4 ? ', dutch tilt of ' + Math.round(Math.abs(roll)) + ' degrees' : '';
+  return (SHOT_EN[si.name] || 'Medium shot') + ', ' + angleEn(C.cam.pitch * R2D) + dutch + ', camera ' + C.cam.y.toFixed(1) + ' m above the floor, ' + Math.round(focal()) + 'mm lens on ' + (S.sensor === 'ff' ? 'full frame' : 'Super 35') + ', ' + S.aspect + ' frame.';
 }
+const blocks = () => { const w = DEF.weavy || ROOM_DEF.weavy; return [w.subject, w.location, w.light, w.style]; };
+function weavyPrompt(si, set) {
+  return blocks().concat(['Layout: ' + set.layoutTxt, shotEn(si),
+    'Match the reference image: same composition, camera position, perspective and blocking, and keep every object where it is and as shaped as it is. Turn the grey mannequins and clay shapes into real people and real materials.',
+    'The colour mask marks: ' + set.legend.join(', ') + '.']).filter(Boolean).join(' ');
+}
+
+// ---------- Weavy sheet ----------
 let wv = null;
 const canvasBlob = c => new Promise(res => c.toBlob(res, 'image/png'));
 async function openWeavy() {
   closePops(); stopPlay();
   const si = classify(true), stamp = DEF.id + '-' + new Date().toTimeString().slice(0, 5).replace(':', '');
-  const frame = renderExport(1920, false), depth = renderExport(1920, true);
-  const [fb, db] = await Promise.all([canvasBlob(frame), canvasBlob(depth)]);
-  if (wv) { URL.revokeObjectURL(wv.fu); URL.revokeObjectURL(wv.du); }
-  wv = { fb, db, fn: 'provis-' + stamp + '.png', dn: 'provis-' + stamp + '-depth.png', fu: URL.createObjectURL(fb), du: URL.createObjectURL(db) };
-  $('wvFrame').src = wv.fu; $('wvDepth').src = wv.du;
-  $('wvFrameInfo').textContent = frame.width + ' × ' + frame.height + ' · ' + si.name + ' · ' + lensLabel() + ' ' + SENSORS[S.sensor].short + ' · выс ' + fmtH(C.cam.y);
-  $('wvPrompt').value = weavyPrompt(si);
-  const files = [new File([fb], wv.fn, { type: 'image/png' }), new File([db], wv.dn, { type: 'image/png' })];
+  const set = renderSet(1920);
+  const items = [['frame', 'Кадр', 'Референс композиции.'], ['depth', 'Глубина', 'Светлое ближе, тёмное дальше. Для depth control.'], ['edges', 'Контуры', 'Для line art или canny.'], ['mask', 'Маска', 'Каждый цвет это объект, расшифровка в промпте.']];
+  const blobs = await Promise.all(items.map(x => canvasBlob(set[x[0]])));
+  if (wv) wv.urls.forEach(u => URL.revokeObjectURL(u));
+  wv = { files: [], urls: [] };
+  const grid = $('wvGrid'); grid.textContent = '';
+  items.forEach(([k, title, note], i) => {
+    const name = 'provis-' + stamp + (k === 'frame' ? '' : '-' + k) + '.png', url = URL.createObjectURL(blobs[i]);
+    wv.files.push({ blob: blobs[i], name }); wv.urls.push(url);
+    const fig = document.createElement('figure'); fig.innerHTML = '<img alt=""><figcaption><b></b><span></span></figcaption>';
+    fig.querySelector('img').src = url; fig.querySelector('img').alt = title; fig.querySelector('b').textContent = title;
+    fig.querySelector('span').textContent = (k === 'frame' ? set.frame.width + ' × ' + set.frame.height + ' · ' + si.name + ' · ' + lensLabel() + '. ' : '') + note;
+    const b = document.createElement('button'); b.className = 'btn' + (k === 'frame' ? ' primary' : ''); b.textContent = 'Сохранить'; b.addEventListener('click', () => saveBlob(blobs[i], name, 'image/png'));
+    fig.querySelector('figcaption').appendChild(b); grid.appendChild(fig);
+  });
+  $('wvPrompt').value = weavyPrompt(si, set);
+  const files = wv.files.map(f => new File([f.blob], f.name, { type: 'image/png' }));
   $('wvShare').hidden = !(navigator.canShare && navigator.canShare({ files }));
   $('wvHint').hidden = true;
   $('weavySheet').hidden = false;
 }
-async function saveImage(blob, name) {
-  let dl = null;
-  try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
-  if (dl) {
-    try { await dl.save({ filename: name, data: blob }); toast('Сохранено: ' + name); return; }
-    catch (e) { if (e && e.code === 'declined') { toast('Сохранение отменено.'); return; } }
-  }
-  const file = new File([blob], name, { type: 'image/png' });
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    try { await navigator.share({ files: [file] }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
-  }
-  const h = $('wvHint'); h.hidden = false; h.textContent = '';
-  const p = document.createElement('p'); p.className = 'empty'; p.textContent = 'Удерживайте картинку выше и выберите «Сохранить в Фото».'; h.appendChild(p);
-}
 $('saveBtn').addEventListener('click', openWeavy);
 $('wvClose').addEventListener('click', () => { $('weavySheet').hidden = true; });
-$('wvSaveFrame').addEventListener('click', () => wv && saveImage(wv.fb, wv.fn));
-$('wvSaveDepth').addEventListener('click', () => wv && saveImage(wv.db, wv.dn));
-$('wvShare').addEventListener('click', async () => {
-  if (!wv) return;
-  try { await navigator.share({ files: [new File([wv.fb], wv.fn, { type: 'image/png' }), new File([wv.db], wv.dn, { type: 'image/png' })] }); } catch (e) { /* closed */ }
+$('wvShare').addEventListener('click', async () => { if (!wv) return; try { await navigator.share({ files: wv.files.map(f => new File([f.blob], f.name, { type: 'image/png' })) }); } catch (e) { /* closed */ } });
+$('wvCopy').addEventListener('click', () => copyText($('wvPrompt')));
+
+// ---------- video for Seedance ----------
+let vd = { src: null, look: 'clay', res: 1080, blob: null, name: '', url: null };
+function camEnd(src) { return src.kind === 'shot' ? camAtShot(src.item, srcTotal(src)) : camAtTake(src.item, src.item.dur); }
+function motionEn(src) {
+  const a = src.kind === 'shot' ? camAtShot(src.item, 0) : camAtTake(src.item, 0), b = camEnd(src), T = srcTotal(src), parts = [];
+  const fx = -Math.sin(a.yaw), fz = -Math.cos(a.yaw), rx = Math.cos(a.yaw), rz = -Math.sin(a.yaw);
+  const dx = b.x - a.x, dz = b.z - a.z, fwd = dx * fx + dz * fz, side = dx * rx + dz * rz, up = b.y - a.y;
+  const pan = angLerp(0, b.yaw - a.yaw, 1) * R2D, tilt = (b.pitch - a.pitch) * R2D;
+  const fast = src.kind === 'shot' && src.item.ease === 'snap';
+  if (Math.abs(fwd) > 0.15) parts.push((fast ? 'fast ' : '') + (fwd > 0 ? 'push in' : 'pull back') + ' of ' + Math.abs(fwd).toFixed(1) + ' m');
+  if (Math.abs(side) > 0.15) parts.push('truck ' + (side > 0 ? 'right' : 'left') + ' ' + Math.abs(side).toFixed(1) + ' m');
+  if (Math.abs(up) > 0.15) parts.push('crane ' + (up > 0 ? 'up' : 'down') + ' ' + Math.abs(up).toFixed(1) + ' m');
+  if (Math.abs(pan) > 4) parts.push('pan ' + (pan > 0 ? 'left' : 'right') + ' ' + Math.round(Math.abs(pan)) + ' degrees');
+  if (Math.abs(tilt) > 4) parts.push('tilt ' + (tilt > 0 ? 'up' : 'down') + ' ' + Math.round(Math.abs(tilt)) + ' degrees');
+  if (a.mm && b.mm && Math.abs(b.mm - a.mm) > 2) parts.push((fast ? 'crash zoom' : 'zoom') + ' from ' + Math.round(a.mm) + 'mm to ' + Math.round(b.mm) + 'mm');
+  let txt = parts.length ? parts.join(', ') : 'locked-off static camera';
+  if (src.kind === 'take') txt = 'handheld operated move: ' + txt;
+  const hold = src.kind === 'shot' ? shotTimes(src.item).hold : 0;
+  return txt + ', over ' + T.toFixed(1) + ' seconds' + (hold && parts.length ? ' after a ' + hold.toFixed(1) + ' second hold' : '') + ', starting ' + a.y.toFixed(1) + ' m above the floor on a ' + Math.round(a.mm || focal()) + 'mm lens';
+}
+function actionEn(src) { // the actors' beats in plain English, from the shot's actor tracks
+  const sh = actShotOf(src); if (!sh || !sh.actors) return '';
+  const STATE = { tuck: 'stays hidden', hide: 'has the head pushed out', walk: 'walks', stand: 'stands', sit: 'sits', arms: 'has the arms raised', lie: 'lies on the floor' };
+  const CHANGE = { tuck: 'hides', hide: 'pushes the head out', walk: 'starts walking', stand: 'stops', sit: 'sits down', arms: 'raises the arms', lie: 'lies down' };
+  return Object.keys(sh.actors).map(id => {
+    const a = C.cast.find(c => c.id === id); if (!a) return '';
+    const ks = sh.actors[id].slice().sort((p, q) => p.t - q.t); let pose = ks[0].pose || a.pose;
+    const moves = ks.some((k, j) => j && k.pos), parts = [(STATE[pose] || 'stands') + (pose === 'walk' && moves ? ' across the frame' : '')];
+    for (let j = 1; j < ks.length; j++) if (ks[j].pose && ks[j].pose !== pose) { pose = ks[j].pose; parts.push((CHANGE[pose] || pose) + ' at ' + ks[j - 1].t.toFixed(1) + ' s'); }
+    const who = a.desc || 'a person';
+    return who.charAt(0).toUpperCase() + who.slice(1) + ' ' + parts.join(', then ') + '.';
+  }).filter(Boolean).join(' ');
+}
+function seedancePrompt(src) {
+  return blocks().concat(['Camera: ' + motionEn(src) + '.', actionEn(src),
+    'Use the reference video as the exact guide for the camera move, timing, framing and blocking, frame for frame. Replace the clay shapes with real people, real materials and real light.']).filter(Boolean).join(' ');
+}
+function openVideo(src) {
+  closePops(); stopPlay();
+  vd.src = src; $('vdTitle').textContent = 'Видео · ' + src.item.name;
+  if (vd.url) { URL.revokeObjectURL(vd.url); vd.url = null; }
+  $('vdFig').hidden = true; $('vdProg').textContent = srcTotal(src).toFixed(1) + ' с';
+  applySrcAt(src, 0); setMm(focal()); applyOrientation(); camera.updateMatrixWorld();
+  $('vdPrompt').value = seedancePrompt(src);
+  buildVideoChips(); $('videoSheet').hidden = false;
+}
+function buildVideoChips() {
+  chips($('vdLook'), [['clay', 'Clay'], ['color', 'Цвет как в превью']], v => v === vd.look, v => { vd.look = v; buildVideoChips(); });
+  chips($('vdRes'), [[1080, '1080p'], [720, '720p']], v => v === vd.res, v => { vd.res = v; buildVideoChips(); });
+}
+async function encodeMp4(w, h, n, fps, draw, prog) { // frame-exact: each frame is rendered, then encoded with its own timestamp
+  if (typeof VideoEncoder === 'undefined' || typeof VideoFrame === 'undefined' || typeof Mp4Muxer === 'undefined') return null;
+  const big = w * h > 1280 * 720, rate = big ? 10e6 : 5e6;
+  const tries = (big ? ['avc1.640028', 'avc1.4d0028', 'avc1.420028'] : ['avc1.4d001f', 'avc1.42001f']).map(c => [c, 'avc']).concat([['vp09.00.40.08', 'vp9']]); // H.264 first, VP9 only where H.264 is missing
+  let cfg = null, mux = 'avc';
+  for (const [codec, m] of tries) { const c = { codec, width: w, height: h, bitrate: rate, framerate: fps }; try { if ((await VideoEncoder.isConfigSupported(c)).supported) { cfg = c; mux = m; break; } } catch (e) { /* try next */ } }
+  if (!cfg) return null;
+  const muxer = new Mp4Muxer.Muxer({ target: new Mp4Muxer.ArrayBufferTarget(), video: { codec: mux, width: w, height: h }, fastStart: 'in-memory' });
+  let err = null; const enc = new VideoEncoder({ output: (chunk, meta) => muxer.addVideoChunk(chunk, meta), error: e => { err = e; } });
+  enc.configure(cfg);
+  for (let i = 0; i < n; i++) {
+    draw(i / fps);
+    const vf = new VideoFrame(glCanvas, { timestamp: Math.round(i * 1e6 / fps), duration: Math.round(1e6 / fps) });
+    enc.encode(vf, { keyFrame: i % (fps * 2) === 0 }); vf.close();
+    if (err) throw err;
+    while (enc.encodeQueueSize > 6) await new Promise(r => setTimeout(r, 4));
+    if (i % 3 === 0) { prog(i / n); await tick0(); }
+  }
+  await enc.flush(); muxer.finalize();
+  return { blob: new Blob([muxer.target.buffer], { type: 'video/mp4' }), ext: 'mp4', codec: mux === 'avc' ? 'H.264' : 'VP9' };
+}
+async function recordRealtime(w, h, total, fps, draw, prog) { // fallback: records the canvas live, so slow devices drop frames but keep the timing
+  if (!glCanvas.captureStream || typeof MediaRecorder === 'undefined') return null;
+  const type = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'].find(t => MediaRecorder.isTypeSupported(t)); if (!type) return null;
+  draw(0);
+  const stream = glCanvas.captureStream(fps), mr = new MediaRecorder(stream, { mimeType: type, videoBitsPerSecond: 8e6 }), chunks = [];
+  mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+  const done = new Promise(r => { mr.onstop = r; }); mr.start(250);
+  const t0 = performance.now();
+  for (;;) { const t = (performance.now() - t0) / 1000; if (t >= total) break; draw(t); prog(t / total); await new Promise(r => setTimeout(r, 1000 / fps)); }
+  draw(total); await new Promise(r => setTimeout(r, 250)); mr.stop(); await done; stream.getTracks().forEach(t => t.stop());
+  const mime = type.split(';')[0]; return { blob: new Blob(chunks, { type: mime }), ext: mime === 'video/mp4' ? 'mp4' : 'webm', codec: 'live' };
+}
+async function makeVideo() {
+  const src = vd.src; if (!src) return;
+  const fps = 25, total = srcTotal(src) + 0.4, n = Math.max(2, Math.round(total * fps));
+  const [w, h] = exportSize(vd.res === 1080 ? 1920 : 1280);
+  const keep = { cam: clone(C.cam), lens: S.lens, zoom: S.zoom, roll: S.roll, anim: animOv };
+  $('vdMake').disabled = true; $('vdProg').textContent = 'Рендер 0%';
+  const st = beginOff(w, h), bg = scene.background;
+  const clay = vd.look === 'clay';
+  const draw = t => {
+    applySrcAt(src, Math.min(t, srcTotal(src))); aimExport(w, h);
+    if (clay) { scene.overrideMaterial = clayMat; scene.background = new THREE.Color('#8f8b84'); renderer.toneMappingExposure = 0.68; } // white clay needs less exposure to keep its shading
+    renderer.render(scene, camera);
+    if (clay) { scene.overrideMaterial = null; scene.background = bg; renderer.toneMappingExposure = 1.05; }
+  };
+  const prog = f => { $('vdProg').textContent = 'Рендер ' + Math.round(f * 100) + '%'; };
+  let out = null;
+  try { out = await encodeMp4(w, h, n, fps, draw, prog); } catch (e) { console.warn(e); out = null; }
+  if (!out) { $('vdProg').textContent = 'Запись в реальном времени…'; try { out = await recordRealtime(w, h, total, fps, draw, prog); } catch (e) { console.warn(e); out = null; } }
+  scene.overrideMaterial = null; scene.background = bg; endOff(st);
+  Object.assign(C.cam, keep.cam); S.lens = keep.lens; S.zoom = keep.zoom; S.roll = keep.roll; animOv = keep.anim; placeActors(); updateProjection();
+  $('vdMake').disabled = false;
+  if (!out) { $('vdProg').textContent = 'Видео в этом браузере не записывается. Откройте Provis в Safari или Chrome.'; return; }
+  vd.blob = out.blob; vd.name = 'provis-' + DEF.id + '-' + (src.item.id || 'take') + (clay ? '-clay' : '') + '.' + out.ext;
+  if (vd.url) URL.revokeObjectURL(vd.url); vd.url = URL.createObjectURL(out.blob);
+  $('vdVideo').src = vd.url; $('vdFig').hidden = false;
+  $('vdInfo').textContent = w + ' × ' + h + ' · ' + fps + ' к/с · ' + total.toFixed(1) + ' с · ' + (out.blob.size / 1e6).toFixed(1) + ' МБ · ' + out.ext + (out.codec === 'live' ? ' · записано вживую, возможны пропуски кадров' : ' · ' + out.codec);
+  $('vdProg').textContent = 'Готово';
+}
+$('vdMake').addEventListener('click', makeVideo);
+$('vdSave').addEventListener('click', () => vd.blob && saveBlob(vd.blob, vd.name, vd.blob.type));
+$('vdCopy').addEventListener('click', () => copyText($('vdPrompt')));
+$('vdClose').addEventListener('click', () => { $('videoSheet').hidden = true; $('vdVideo').pause(); });
+
+// ---------- plan from above and shot list ----------
+let planBlob = null;
+function camCone(g, P, x, z, yaw, mm, len, color, dash, label) {
+  const hf = fovs(mm || focal()).h, fx = -Math.sin(yaw), fz = -Math.cos(yaw), ang = Math.atan2(fz, fx);
+  const p0 = P(x, z), p1 = P(x + Math.cos(ang - hf / 2) * len, z + Math.sin(ang - hf / 2) * len), p2 = P(x + Math.cos(ang + hf / 2) * len, z + Math.sin(ang + hf / 2) * len);
+  g.save(); g.setLineDash(dash ? [10, 8] : []); g.fillStyle = color + '33'; g.strokeStyle = color; g.lineWidth = 3;
+  g.beginPath(); g.moveTo(p0[0], p0[1]); g.lineTo(p1[0], p1[1]); g.lineTo(p2[0], p2[1]); g.closePath(); g.fill(); g.stroke(); g.restore();
+  g.fillStyle = color; g.beginPath(); g.arc(p0[0], p0[1], label ? 17 : 9, 0, Math.PI * 2); g.fill();
+  if (label) { g.fillStyle = '#121316'; g.font = '700 20px "IBM Plex Mono", monospace'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(label, p0[0], p0[1] + 1); g.textAlign = 'left'; g.textBaseline = 'alphabetic'; }
+}
+function renderPlan() {
+  let x0 = BBOX.x0, x1 = BBOX.x1, z0 = BBOX.z0, z1 = BBOX.z1;
+  const grow = (x, z) => { x0 = Math.min(x0, x); x1 = Math.max(x1, x); z0 = Math.min(z0, z); z1 = Math.max(z1, z); };
+  grow(C.cam.x, C.cam.z); (DEF.shots || []).forEach(s => { [s.from, s.to].filter(Boolean).forEach(k => grow(k.pos[0], k.pos[2])); Object.values(s.actors || {}).forEach(ks => ks.forEach(k => k.pos && grow(k.pos[0], k.pos[1]))); });
+  x0 -= 0.8; x1 += 0.8; z0 -= 0.8; z1 += 0.8;
+  const ow = x1 - x0, oh = z1 - z0; let W = 1800, Hh = Math.round(W * oh / ow); if (Hh > 1800) { Hh = 1800; W = Math.round(Hh * ow / oh); }
+  const oc = new THREE.OrthographicCamera(-ow / 2, ow / 2, oh / 2, -oh / 2, 0.1, 100);
+  oc.position.set((x0 + x1) / 2, 40, (z0 + z1) / 2); oc.up.set(0, 0, -1); oc.lookAt((x0 + x1) / 2, 0, (z0 + z1) / 2); oc.updateMatrixWorld();
+  const st = beginOff(W, Hh), ceil = ceilingObj && ceilingObj.visible; if (ceilingObj) ceilingObj.visible = false;
+  renderer.render(scene, oc); const c = canvasFromGL(W, Hh);
+  if (ceilingObj) ceilingObj.visible = ceil; endOff(st);
+  const g = c.getContext('2d'), P = (x, z) => [(x - x0) / ow * W, (z - z0) / oh * Hh], ppm = W / ow;
+  g.fillStyle = 'rgba(11,12,14,.35)'; g.fillRect(0, 0, W, Hh);
+  const wl = DEF.walls || [], near = (p, q) => Math.hypot(p[0] - q[0], p[1] - q[1]) < 0.05;
+  if (wl.length > 2 && wl.every((w, k) => near(w.b, wl[(k + 1) % wl.length].a))) {
+    g.beginPath(); g.rect(0, 0, W, Hh); wl.forEach((w, k) => { const q = P(w.a[0], w.a[1]); if (k) g.lineTo(q[0], q[1]); else g.moveTo(q[0], q[1]); }); g.closePath();
+    g.fillStyle = 'rgba(11,12,14,.78)'; g.fill('evenodd');
+  }
+  g.strokeStyle = 'rgba(255,255,255,.12)'; g.lineWidth = 1;
+  for (let x = Math.ceil(x0); x <= x1; x++) { const p = P(x, z0); g.beginPath(); g.moveTo(p[0], 0); g.lineTo(p[0], Hh); g.stroke(); }
+  for (let z = Math.ceil(z0); z <= z1; z++) { const p = P(x0, z); g.beginPath(); g.moveTo(0, p[1]); g.lineTo(W, p[1]); g.stroke(); }
+  g.strokeStyle = '#ece9e2'; g.lineWidth = 6; g.lineCap = 'round';
+  WALL_LIST.forEach(f => { const a = P(f.ax, f.az), b = P(f.bx, f.bz); g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); });
+  (C.takes || []).forEach(tk => { g.strokeStyle = 'rgba(95,196,143,.8)'; g.lineWidth = 2; g.beginPath(); tk.samples.forEach((s, i) => { const p = P(s[1], s[3]); if (i) g.lineTo(p[0], p[1]); else g.moveTo(p[0], p[1]); }); g.stroke(); });
+  const len = Math.min(ow, oh) * 0.22, shots = DEF.shots || [];
+  camCone(g, P, C.cam.x, C.cam.z, C.cam.yaw, focal(), len * 1.1, '#ffb31a', false, null);
+  shots.forEach((s, i) => Object.keys(s.actors || {}).forEach(id => { // actor walks inside a shot
+    const ks = s.actors[id].filter(k => k.pos).sort((p, q) => p.t - q.t); if (ks.length < 2) return;
+    const pts = ks.map(k => P(k.pos[0], k.pos[1]));
+    g.strokeStyle = '#ff8a9a'; g.fillStyle = '#ff8a9a'; g.lineWidth = 3; g.setLineDash([6, 7]);
+    g.beginPath(); pts.forEach((q, j) => j ? g.lineTo(q[0], q[1]) : g.moveTo(q[0], q[1])); g.stroke(); g.setLineDash([]);
+    const A = pts[pts.length - 2], B = pts[pts.length - 1], an = Math.atan2(B[1] - A[1], B[0] - A[0]);
+    g.beginPath(); g.moveTo(B[0], B[1]); g.lineTo(B[0] - 22 * Math.cos(an - 0.4), B[1] - 22 * Math.sin(an - 0.4)); g.lineTo(B[0] - 22 * Math.cos(an + 0.4), B[1] - 22 * Math.sin(an + 0.4)); g.closePath(); g.fill();
+    g.font = '500 18px "IBM Plex Mono", monospace';
+    ks.forEach((k, j) => { const q = pts[j]; g.beginPath(); g.arc(q[0], q[1], 6, 0, Math.PI * 2); g.fill(); g.fillText((i + 1) + ': ' + k.t.toFixed(1) + ' с', q[0] + 10, q[1] + 24); });
+  }));
+  const spots = []; // shots that start from the same point share one label
+  shots.forEach((s, i) => {
+    const a = kf(s.from);
+    if (s.to) { const b = kf(s.to); const pa = P(a.x, a.z), pb = P(b.x, b.z);
+      if (Math.hypot(pb[0] - pa[0], pb[1] - pa[1]) > 6) { g.strokeStyle = '#6fb6ff'; g.lineWidth = 3; g.setLineDash([10, 8]); g.beginPath(); g.moveTo(pa[0], pa[1]); g.lineTo(pb[0], pb[1]); g.stroke(); g.setLineDash([]); }
+      camCone(g, P, b.x, b.z, b.yaw, b.mm, len * 0.8, '#6fb6ff', true, null); }
+    camCone(g, P, a.x, a.z, a.yaw, a.mm, len, '#6fb6ff', false, null);
+    const sp = spots.find(q => Math.hypot(q.x - a.x, q.z - a.z) < 0.15); if (sp) sp.n.push(i + 1); else spots.push({ x: a.x, z: a.z, n: [i + 1] });
+  });
+  g.font = '700 20px "IBM Plex Mono", monospace'; g.textBaseline = 'middle';
+  spots.forEach(sp => { const q = P(sp.x, sp.z), t = sp.n.join('·'), w = g.measureText(t).width + 18;
+    g.fillStyle = '#6fb6ff'; g.beginPath(); g.moveTo(q[0] - w / 2 + 15, q[1] - 15); g.arcTo(q[0] + w / 2, q[1] - 15, q[0] + w / 2, q[1] + 15, 15); g.arcTo(q[0] + w / 2, q[1] + 15, q[0] - w / 2, q[1] + 15, 15); g.arcTo(q[0] - w / 2, q[1] + 15, q[0] - w / 2, q[1] - 15, 15); g.arcTo(q[0] - w / 2, q[1] - 15, q[0] + w / 2, q[1] - 15, 15); g.fill();
+    g.fillStyle = '#121316'; g.textAlign = 'center'; g.fillText(t, q[0], q[1] + 1); g.textAlign = 'left'; });
+  g.textBaseline = 'alphabetic';
+  g.font = '600 24px "Barlow Semi Condensed", "Arial Narrow", sans-serif'; g.fillStyle = '#ffffff';
+  actors.forEach(a => { const p = P(a.root.position.x, a.root.position.z), tw = g.measureText(a.def.name).width; g.fillText(a.def.name, p[0] + 16 + tw > W - 8 ? p[0] - 16 - tw : p[0] + 16, p[1] - 14); });
+  g.fillStyle = '#ffffff'; g.fillRect(24, Hh - 34, ppm, 6); g.font = '500 18px "IBM Plex Mono", monospace'; g.fillText('1 м', 24 + ppm + 10, Hh - 26);
+  g.font = '700 28px "Barlow Semi Condensed", "Arial Narrow", sans-serif'; g.fillText('PROVIS · ' + DEF.title.toUpperCase() + ' · ПЛАН', 24, 40);
+  return c;
+}
+function describeAt(sh, t) { // apply a moment of a shot and read the frame
+  applySrcAt({ kind: 'shot', item: sh }, t); updateProjection(); applyOrientation(); camera.updateMatrixWorld();
+  const si = classify(true);
+  return { si, mm: Math.round(focal()), h: C.cam.y, tilt: C.cam.pitch * R2D, roll: S.roll };
+}
+function shotlistMd() {
+  const keep = { cam: clone(C.cam), lens: S.lens, zoom: S.zoom, roll: S.roll, anim: animOv };
+  const L = ['# ' + DEF.title + ' · шотлист', ''];
+  if (DEF.about) L.push(DEF.about, '');
+  L.push('Камера: ' + SENSORS[S.sensor].name + ', формат ' + S.aspect + '.', '');
+  (DEF.shots || []).forEach((sh, i) => {
+    const T = shotTimes(sh), a = describeAt(sh, 0), b = sh.to || T.total > 0.5 ? describeAt(sh, T.total) : null;
+    L.push('## ' + (i + 1) + '. ' + sh.name, '');
+    L.push('- **Движение:** ' + (sh.move || (sh.to ? 'движение' : 'статика')) + (sh.to ? ', ' + T.mv.toFixed(2) + ' с' + (T.hold ? ' после паузы ' + T.hold.toFixed(1) + ' с' : '') : ''));
+    L.push('- **Линза:** ' + a.mm + ' мм' + (b && b.mm !== a.mm ? ' → ' + b.mm + ' мм' : '') + ', ' + SENSORS[S.sensor].short);
+    L.push('- **Камера:** высота ' + a.h.toFixed(2) + ' м, наклон ' + fmtDeg(a.tilt) + (b && Math.abs(b.h - a.h) > 0.05 ? ' → высота ' + b.h.toFixed(2) + ' м' : ''));
+    L.push('- **Крупность:** ' + a.si.name + (a.si.tags.length ? ' (' + a.si.tags.join(', ') + ')' : '') + (b && b.si.name !== a.si.name ? ' → ' + b.si.name + (b.si.tags.length ? ' (' + b.si.tags.join(', ') + ')' : '') : '') + (a.si.dist ? ', до лица ' + fmtDist(a.si.dist) : ''));
+    L.push('- **Длительность:** ' + T.total.toFixed(1) + ' с');
+    Object.keys(sh.actors || {}).forEach(id => { const c = C.cast.find(x => x.id === id); if (!c) return; L.push('- **' + c.name + ':** ' + sh.actors[id].slice().sort((p, q) => p.t - q.t).map(k => k.t.toFixed(1) + ' с ' + (k.pose ? poseRu(k.pose) : 'движется')).join(' → ')); });
+    if (sh.note) L.push('- **Заметка:** ' + sh.note);
+    L.push('');
+  });
+  if ((C.takes || []).length) { L.push('## Дубли', ''); C.takes.forEach(tk => L.push('- ' + tk.name + ', ' + tk.dur.toFixed(1) + ' с')); L.push(''); }
+  Object.assign(C.cam, keep.cam); S.lens = keep.lens; S.zoom = keep.zoom; S.roll = keep.roll; animOv = keep.anim; placeActors(); updateProjection();
+  return L.join('\n');
+}
+async function openPlan() {
+  closePops(); stopPlay();
+  const c = renderPlan(); planBlob = await canvasBlob(c);
+  $('plImg').src = URL.createObjectURL(planBlob); $('plTitle').textContent = 'План · ' + DEF.title;
+  $('plMd').value = shotlistMd(); $('planSheet').hidden = false;
+}
+$('tPlan').addEventListener('click', openPlan);
+$('plClose').addEventListener('click', () => { $('planSheet').hidden = true; });
+$('plSave').addEventListener('click', () => planBlob && saveBlob(planBlob, 'provis-' + DEF.id + '-plan.png', 'image/png'));
+$('plMdCopy').addEventListener('click', () => copyText($('plMd')));
+$('plMdSave').addEventListener('click', async () => { const b = new Blob([$('plMd').value], { type: 'text/markdown' }); if (!(await saveBlob(b, DEF.id + '-shotlist.md', 'text/markdown', true))) copyText($('plMd')); });
+
+// ---------- scene editor ----------
+let editSel = -1, selBox = null;
+const freeItem = it => !!(it && it.pos && !it.wall);
+function refreshSelBox() {
+  if (selBox) { scene.remove(selBox); selBox = null; }
+  if (mode === 'edit' && editSel >= 0 && ITEM_OBJS[editSel]) { selBox = new THREE.BoxHelper(ITEM_OBJS[editSel], 0xffb31a); scene.add(selBox); }
+  const it = C && C.items[editSel]; $('editName').textContent = it ? itemRu(it) : 'Коснитесь предмета';
+}
+function tapEdit(x, y) {
+  const h = rayAt(x, y).intersectObject(world, true).find(o => o.object.userData.itemIdx !== undefined && o.object.visible);
+  editSel = h ? h.object.userData.itemIdx : -1; refreshSelBox();
+}
+function camAxes() { const y = C.cam.yaw; return { fx: -Math.sin(y), fz: -Math.cos(y), rx: Math.cos(y), rz: -Math.sin(y) }; }
+function moveSel(dx, dz) {
+  const it = C.items[editSel]; if (!it) return; const st = S.toy ? 0.02 : 0.1, A = camAxes();
+  if (it.wall) {
+    const f = WALLS[it.wall]; if (!f) return; const sgn = Math.sign(A.rx * f.ux + A.rz * f.uz) || 1;
+    if (it.from) { it.from[0] = r3(it.from[0] + dx * st * sgn); it.to[0] = r3(it.to[0] + dx * st * sgn); it.from[1] = r3(it.from[1] + dz * st); it.to[1] = r3(it.to[1] + dz * st); }
+    else { it.u = r3((it.u || 0) + dx * st * sgn); if (dz && it.y != null) it.y = r3(it.y + dz * st); }
+  } else if (it.pos) {
+    const mx = (A.rx * dx + A.fx * dz) * st, mz = (A.rz * dx + A.fz * dz) * st;
+    it.pos[0] = r3(it.pos[0] + mx); if (it.pos.length === 3) it.pos[2] = r3(it.pos[2] + mz); else it.pos[1] = r3(it.pos[1] + mz);
+  } else if (it.a && it.b) {
+    const mx = (A.rx * dx + A.fx * dz) * st, mz = (A.rz * dx + A.fz * dz) * st;
+    it.a = [r3(it.a[0] + mx), r3(it.a[1] + mz)]; it.b = [r3(it.b[0] + mx), r3(it.b[1] + mz)];
+  }
+  rebuildItem(editSel); save();
+}
+function rotSel(deg) { const it = C.items[editSel]; if (!it) return; if (it.wall || !it.pos) { toast(it.wall ? 'Этот предмет висит на стене, его можно только сдвигать.' : 'Этот предмет можно только сдвигать.'); return; } it.rot = ((it.rot || 0) + deg) % 360; rebuildItem(editSel); save(); }
+function liftSel(d) {
+  const it = C.items[editSel]; if (!it) return; const st = S.toy ? 0.02 : 0.05;
+  if (it.wall && it.y != null) it.y = r3(it.y + d * st);
+  else if (it.from) { it.from[1] = r3(it.from[1] + d * st); it.to[1] = r3(it.to[1] + d * st); }
+  else if (it.pos && it.pos.length === 3) it.pos[1] = r3(it.pos[1] + d * st);
+  else { toast('Этот предмет стоит на полу.'); return; }
+  rebuildItem(editSel); save();
+}
+function dupSel() {
+  const it = C.items[editSel]; if (!it) return; const c = clone(it), A = camAxes();
+  if (c.wall) { if (c.from) { c.from[0] += 0.5; c.to[0] += 0.5; } else c.u = r3((c.u || 0) + 0.6); }
+  else if (c.pos) { c.pos[0] = r3(c.pos[0] + A.rx * 0.6); if (c.pos.length === 3) c.pos[2] = r3(c.pos[2] + A.rz * 0.6); else c.pos[1] = r3(c.pos[1] + A.rz * 0.6); }
+  else if (c.a) { c.a = [c.a[0] + A.rx * 0.6, c.a[1] + A.rz * 0.6]; c.b = [c.b[0] + A.rx * 0.6, c.b[1] + A.rz * 0.6]; }
+  C.items.push(c); editSel = C.items.length - 1; buildItem(editSel); refreshSelBox(); save();
+}
+let delArmE = 0;
+function delSel() {
+  if (editSel < 0) return; const b = $('edDel');
+  if (!delArmE) { delArmE = setTimeout(() => { delArmE = 0; b.textContent = 'Удалить'; }, 2500); b.textContent = 'Точно?'; return; }
+  clearTimeout(delArmE); delArmE = 0; b.textContent = 'Удалить';
+  C.items.splice(editSel, 1); editSel = -1; rebuildAllItems(); save();
+}
+const LIB = [
+  ['Куб 50 см', () => ({ type: 'box', size: [0.5, 0.5, 0.5], color: '#a59d91' }), 0.25],
+  ['Стена 2 м', () => ({ type: 'wallSeg', w: 2, d: 0.12 })],
+  ['Колонна', () => ({ type: 'cyl', r: 0.2, h: H, color: '#d6d0c6' }), 'half'],
+  ['Стол', () => ({ type: 'table', size: [1.4, 0.8], h: 0.75 })],
+  ['Стул', () => ({ type: 'chair' })],
+  ['Диван', () => ({ type: 'sofa', w: 2.1 })],
+  ['Стеллаж', () => ({ type: 'shelf', w: 1.6, h: 2, d: 0.4 })],
+  ['Вешалка', () => ({ type: 'coatRack', w: 1.6, h: 1.68, coats: [{ color: '#3c3f44' }, { color: '#2b3550', hood: true }, { color: '#5b5f45' }, { color: '#c8b496', wide: true }, { color: '#232427' }, { color: '#283a5c' }] })],
+  ['Торшер', () => ({ type: 'floorLamp' })],
+  ['Ковёр', () => ({ type: 'rug', size: [2, 1.4], color: '#7b4b3a' })],
+  ['Машина', () => ({ type: 'car', color: '#9c2b2b' })],
+  ['Дверь', () => ({ type: 'door', w: 0.95, h: 2.1, color: '#6b4630' }), 'wall'],
+  ['Окно', () => ({ type: 'window', w: 1.6, h: 1.4, y: 0.9, cols: 3, rows: 2 }), 'wall'],
+  ['Доска', () => ({ type: 'panel', w: 1.1, h: 0.9, y: 1.5, color: '#5d5b59', frame: '#9a9184', papers: 5 }), 'wall'],
+  ['Постер', () => ({ type: 'panel', w: 0.5, h: 0.7, y: 1.55, color: '#1d2b4a', frame: '#111318' }), 'wall'],
+  ['Часы', () => ({ type: 'clock', y: 2.2, r: 0.17 }), 'wall']
+];
+function addItem(entry) {
+  const it = entry[1](), A = camAxes();
+  if (entry[2] === 'wall') {
+    const h = rayAt(view.rect.x + view.rect.w / 2, view.rect.y + view.rect.h / 2).intersectObject(world, true).find(o => o.object.userData.wallId);
+    if (!h) { toast('Наведите центр кадра на стену и нажмите ещё раз.'); return; }
+    const f = WALLS[h.object.userData.wallId]; it.wall = f.id; it.u = r3((h.point.x - f.ax) * f.ux + (h.point.z - f.az) * f.uz);
+    if (it.type !== 'door' && it.type !== 'window') it.y = r3(clamp(h.point.y, 0.5, H - 0.4));
+  } else {
+    const x = r3(C.cam.x + A.fx * 2), z = r3(C.cam.z + A.fz * 2), rot = Math.round(Math.atan2(-A.fx, -A.fz) * R2D);
+    if (it.type === 'box' || it.type === 'cyl') it.pos = [x, entry[2] === 'half' ? H / 2 : entry[2] || 0.25, z]; else it.pos = [x, z];
+    it.rot = rot;
+  }
+  C.items.push(it); editSel = C.items.length - 1; buildItem(editSel); refreshSelBox(); save();
+  $('libPop').hidden = true; toast('Добавлено: ' + entry[0] + '. Двигайте стрелками или пальцем.');
+}
+function buildLib() {
+  const p = $('libPop'); p.textContent = '';
+  const h1 = document.createElement('h4'); h1.textContent = 'На пол, в 2 м перед камерой'; p.appendChild(h1);
+  const g1 = document.createElement('div'); g1.className = 'libgrid'; p.appendChild(g1);
+  const h2 = document.createElement('h4'); h2.textContent = 'На стену в центре кадра'; p.appendChild(h2);
+  const g2 = document.createElement('div'); g2.className = 'libgrid'; p.appendChild(g2);
+  LIB.forEach(e => { const b = document.createElement('button'); b.textContent = e[0]; b.addEventListener('click', () => addItem(e)); (e[2] === 'wall' ? g2 : g1).appendChild(b); });
+}
+document.querySelectorAll('[data-mv]').forEach(b => b.addEventListener('click', () => { const [dx, dz] = b.dataset.mv.split(',').map(Number); moveSel(dx, dz); }));
+$('edRotL').addEventListener('click', () => rotSel(15));
+$('edRotR').addEventListener('click', () => rotSel(-15));
+$('edUp').addEventListener('click', () => liftSel(1));
+$('edDown').addEventListener('click', () => liftSel(-1));
+$('edDup').addEventListener('click', dupSel);
+$('edDel').addEventListener('click', delSel);
+$('edAdd').addEventListener('click', () => { const p = $('libPop'); const open = p.hidden; closePops(); if (open) { buildLib(); p.hidden = false; } });
+$('edDone').addEventListener('click', () => setMode('camera'));
+
+// actors editing
+function rebuildCast() { buildCast(); placeActors(); refreshActorBar(); save(); }
+$('hMinus').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; a.h = r3(clamp((a.h || 1.75) - 0.05, 0.9, 2.2)); rebuildCast(); toast(a.name + ': ' + a.h.toFixed(2) + ' м'); });
+$('hPlus').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; a.h = r3(clamp((a.h || 1.75) + 0.05, 0.9, 2.2)); rebuildCast(); toast(a.name + ': ' + a.h.toFixed(2) + ' м'); });
+$('buildBtn').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; const i = BUILDS.findIndex(b => b[0] === (a.build || 'normal')); a.build = BUILDS[(i + 1) % BUILDS.length][0]; rebuildCast(); toast(a.name + ': ' + BUILDS.find(b => b[0] === a.build)[1]); });
+$('clothBtn').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; const cur = a.top || a.color; const i = CLOTHES.indexOf(cur); a.top = CLOTHES[(i + 1) % CLOTHES.length]; if (!a.bottom) a.bottom = '#3a3a40'; if (!a.skin) a.skin = '#e2b48c'; rebuildCast(); });
+$('actorAdd').addEventListener('click', () => {
+  const A = camAxes(), n = C.cast.length;
+  C.cast.push({ id: 'a' + Date.now(), name: 'Актёр ' + (n + 1), desc: 'a person', h: 1.75, top: CLOTHES[n % CLOTHES.length], bottom: '#3a3a40', skin: '#e2b48c', hair: '#3b2a20',
+    pos: [r3(C.cam.x + A.fx * 2.2), r3(C.cam.z + A.fz * 2.2)], rot: Math.round(Math.atan2(-A.fx, -A.fz) * R2D), pose: 'stand' });
+  sel = C.cast.length - 1; rebuildCast();
 });
-$('wvCopy').addEventListener('click', () => {
-  const ta = $('wvPrompt');
-  const done = () => toast('Промпт скопирован.');
-  try { navigator.clipboard.writeText(ta.value).then(done, () => { ta.select(); toast('Текст выделен, скопируйте его вручную.'); }); }
-  catch (e) { ta.select(); toast('Текст выделен, скопируйте его вручную.'); }
+let delArmA = 0;
+$('actorDel').addEventListener('click', () => {
+  if (!C.cast[sel]) return; const b = $('actorDel');
+  if (!delArmA) { delArmA = setTimeout(() => { delArmA = 0; b.textContent = 'Удалить'; }, 2500); b.textContent = 'Точно?'; return; }
+  clearTimeout(delArmA); delArmA = 0; b.textContent = 'Удалить';
+  C.cast.splice(sel, 1); sel = 0; clearAnim(); rebuildCast();
 });
 
-// ---------- scenes: switch, import ----------
+// ---------- scenes: switch, import, export ----------
 function freshPer(def) {
   const cam = kf(def.camera && def.camera.pos ? def.camera : ROOM_DEF.camera);
-  return {
-    v: def.v || 1,
-    actors: (def.actors || []).map(a => ({ x: a.pos[0], z: a.pos[1], rot: a.rot || 0, pose: a.pose || 'stand' })),
-    cam: { x: cam.x, y: cam.y, z: cam.z, yaw: cam.yaw, pitch: cam.pitch }, frames: [], seeded: false
-  };
+  return { v: def.v || 1, items: clone(def.items || []), cast: clone(def.actors || []), cam: { x: cam.x, y: cam.y, z: cam.z, yaw: cam.yaw, pitch: cam.pitch }, frames: [], takes: [], seeded: false };
+}
+function migratePer(p, def) { // older saves kept only actor positions
+  if (!p.items) p.items = clone(def.items || []);
+  if (!p.cast) { p.cast = clone(def.actors || []).map((a, i) => { const o = p.actors && p.actors[i]; if (o) { a.pos = [o.x, o.z]; a.rot = o.rot; a.pose = o.pose; } return a; }); delete p.actors; }
+  if (!p.takes) p.takes = [];
+  if (!p.frames) p.frames = [];
 }
 function applyOptics(def) {
   const c = def.camera || {};
@@ -1395,17 +2073,19 @@ function applyOptics(def) {
 }
 function switchScene(id) {
   const def = getDef(id); if (!def) return;
-  stopPlay();
+  stopPlay(); if (rec) stopTake();
   let fresh = false;
   if (!S.per[id]) { S.per[id] = freshPer(def); fresh = true; }
-  else if ((S.per[id].v || 1) !== (def.v || 1)) { const keepFrames = S.per[id].frames; S.per[id] = freshPer(def); S.per[id].frames = keepFrames || []; fresh = true; }
-  S.sceneId = id; DEF = def; C = S.per[id]; sel = 0;
+  else if ((S.per[id].v || 1) !== (def.v || 1)) { const k = S.per[id]; S.per[id] = freshPer(def); S.per[id].frames = k.frames || []; S.per[id].takes = k.takes || []; fresh = true; }
+  migratePer(S.per[id], def);
+  S.sceneId = id; DEF = def; C = S.per[id]; sel = 0; editSel = -1; animOv = {};
   if (fresh) applyOptics(def);
-  buildWorld(def); buildCast(def); placeActors(); layout(); syncRoll();
-  refreshActorBar(); refreshBoardBtn(); lastHud = ''; closePops();
+  buildWorld(def); buildCast(); placeActors(); layout(); syncRoll();
+  refreshActorBar(); refreshBoardBtn(); refreshSelBox(); lastHud = ''; closePops();
   save(true);
 }
 function b64urlToBytes(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const bin = atob(s); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; }
+function bytesToB64url(u) { let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
 async function parseSceneText(text) {
   text = (text || '').trim();
   const m = text.match(/#scene=([A-Za-z0-9_\-]+)/) || (/^[A-Za-z0-9_\-]{40,}$/.test(text) ? [null, text] : null);
@@ -1420,23 +2100,45 @@ async function parseSceneText(text) {
 }
 function importScene(def) {
   if (!def || !def.id || !def.title || def.id === 'room') throw new Error('bad');
-  def.builtin = false; S.defs[def.id] = def; switchScene(def.id);
+  def.builtin = false;
+  const old = S.defs[def.id], per = S.per[def.id];
+  if (old && per && (JSON.stringify(old.items) !== JSON.stringify(def.items) || JSON.stringify(old.actors) !== JSON.stringify(def.actors))) {
+    per.items = clone(def.items || []); per.cast = clone(def.actors || []); // the scene changed at the source: take its props and cast, keep frames and takes
+  }
+  S.defs[def.id] = def; switchScene(def.id);
   toast('Сцена «' + def.title + '» загружена. План кадров в кнопке «Кадры».');
 }
 async function openSceneText(text) {
   try { importScene(await parseSceneText(text)); $('sceneText').value = ''; buildSettings(); }
   catch (e) { toast('Не получилось прочитать сцену. Проверьте, что ссылка скопирована целиком.'); }
 }
+function editedDef() {
+  const d = clone(DEF); delete d.builtin;
+  d.items = clone(C.items); d.actors = clone(C.cast);
+  d.camera = { mm: Math.round(focal()), sensor: S.sensor, aspect: S.aspect, pos: [r3(C.cam.x), r3(C.cam.y), r3(C.cam.z)], yaw: Math.round(C.cam.yaw * R2D * 10) / 10, pitch: Math.round(C.cam.pitch * R2D * 10) / 10, roll: S.roll };
+  if (d.id === 'room') { d.id = 'room-' + Date.now().toString(36); d.title = 'Комната · правки'; }
+  return d;
+}
+async function sceneLink(d) {
+  let bytes = new TextEncoder().encode(JSON.stringify(d));
+  if (typeof CompressionStream !== 'undefined') { const st = new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw')); bytes = new Uint8Array(await new Response(st).arrayBuffer()); }
+  return SITE + '#scene=' + bytesToB64url(bytes);
+}
+$('sceneLinkBtn').addEventListener('click', async () => {
+  const link = await sceneLink(editedDef()); const ta = $('sceneText'); ta.value = link;
+  try { await navigator.clipboard.writeText(link); toast('Ссылка на сцену скопирована. Пришлите её мне или откройте на другом устройстве.'); } catch (e) { ta.select(); toast('Ссылка в поле выше, скопируйте её.'); }
+});
+$('sceneSaveBtn').addEventListener('click', () => { const d = editedDef(); saveBlob(new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' }), d.id + '.json', 'application/json'); });
 
 // ---------- UI wiring ----------
 let toastTimer = 0;
-function toast(msg) { const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, msg.length > 70 ? 5200 : 2400); }
-function closePops() { $('posPop').hidden = true; $('shotPop').hidden = true; $('lensStrip').hidden = true; $('tPos').classList.remove('on'); $('tShots').classList.remove('on'); }
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { t.hidden = true; }, msg.length > 70 ? 5200 : 2400); }
+function closePops() { ['posPop', 'shotPop', 'libPop'].forEach(id => { $(id).hidden = true; }); $('lensStrip').hidden = true; $('tPos').classList.remove('on'); $('tShots').classList.remove('on'); }
 function chips(el, items, isOn, onPick) {
   el.textContent = '';
   items.forEach(([val, label]) => {
     const b = document.createElement('button'); b.className = 'chip' + (isOn(val) ? ' on' : ''); b.textContent = label;
-    b.addEventListener('click', () => { onPick(val); buildSettings(); });
+    b.addEventListener('click', () => { onPick(val); if (el.closest('#setSheet')) buildSettings(); });
     el.appendChild(b);
   });
 }
@@ -1447,6 +2149,7 @@ function buildSettings() {
   $('sceneDelete').hidden = S.sceneId === 'room';
   chips($('sensorChips'), Object.keys(SENSORS).map(k => [k, SENSORS[k].name]), v => v === S.sensor, v => { S.sensor = v; updateProjection(); save(); });
   chips($('aspectChips'), ASPECTS.map(a => [a[0], a[0]]), v => v === S.aspect, v => { S.aspect = v; layout(); save(); });
+  chips($('speedChips'), [['slow', 'Медленно'], ['norm', 'Обычно'], ['fast', 'Быстро']], v => v === S.speed, v => { S.speed = v; save(); });
   chips($('scaleChips'), [[false, '1:1'], [true, 'Игрушки 30 см']], v => v === S.toy, v => {
     const was = S.toy; S.toy = v; placeActors(); updateProjection();
     if (was !== v) C.cam.y = clamp(v ? C.cam.y * TOY : C.cam.y / TOY, HMIN(), HMAX());
@@ -1489,26 +2192,30 @@ $('posPop').querySelectorAll('[data-preset]').forEach(b => b.addEventListener('c
 $('tSet').addEventListener('click', () => { closePops(); buildSettings(); $('setSheet').hidden = false; });
 $('setClose').addEventListener('click', () => { $('setSheet').hidden = true; lastHud = ''; });
 $('resetScene').addEventListener('click', () => {
-  const keep = C.frames; S.per[S.sceneId] = freshPer(DEF); S.per[S.sceneId].frames = keep; S.per[S.sceneId].seeded = true; S.toy = false;
-  C = S.per[S.sceneId]; applyOptics(DEF); placeActors(); layout(); buildSettings(); save(); toast('Актёры и камера на исходных местах сцены.');
+  const k = C; S.per[S.sceneId] = freshPer(DEF); Object.assign(S.per[S.sceneId], { frames: k.frames, takes: k.takes || [], seeded: true }); S.toy = false;
+  C = S.per[S.sceneId]; applyOptics(DEF); editSel = -1; animOv = {}; buildWorld(DEF); buildCast(); placeActors(); layout(); buildSettings(); save(); toast('Предметы, актёры и камера на исходных местах сцены.');
 });
 function setMode(m) {
-  mode = m; $('tActors').classList.toggle('on', m === 'actors'); $('actorBar').hidden = m !== 'actors';
-  refreshActorBar(); placeActors();
+  mode = m; $('tActors').classList.toggle('on', m === 'actors'); $('tEdit').classList.toggle('on', m === 'edit');
+  $('actorBar').hidden = m !== 'actors'; $('editBar').hidden = m !== 'edit'; $('shootBar').hidden = m !== 'camera' || !!rec;
+  if (m !== 'camera') clearAnim();
+  if (m !== 'edit') editSel = -1;
+  refreshActorBar(); refreshSelBox(); placeActors();
 }
 function refreshActorBar() {
   const box = $('actorChips'); box.textContent = '';
   actors.forEach((a, i) => { const b = document.createElement('button'); b.className = 'chip' + (i === sel ? ' on' : ''); b.textContent = a.def.name || ('Актёр ' + (i + 1)); b.addEventListener('click', () => { sel = i; refreshActorBar(); placeActors(); }); box.appendChild(b); });
-  const st = C && C.actors[sel]; const p = st && POSES.find(x => x[0] === st.pose); $('poseBtn').textContent = 'Поза: ' + (p ? p[1] : (st ? st.pose : ''));
+  const st = C && C.cast[sel]; $('poseBtn').textContent = 'Поза: ' + (st ? poseRu(st.pose) : '');
 }
 $('tActors').addEventListener('click', () => { closePops(); setMode(mode === 'actors' ? 'camera' : 'actors'); });
+$('tEdit').addEventListener('click', () => { closePops(); setMode(mode === 'edit' ? 'camera' : 'edit'); });
 $('actorsDone').addEventListener('click', () => setMode('camera'));
 $('poseBtn').addEventListener('click', () => {
-  const st = C.actors[sel]; if (!st) return; const i = POSES.findIndex(p => p[0] === st.pose);
-  st.pose = POSES[(i + 1) % POSES.length][0]; placeActors(); refreshActorBar(); save();
+  const st = C.cast[sel]; if (!st) return; const i = POSES.findIndex(p => p[0] === st.pose);
+  st.pose = POSES[(i + 1) % POSES.length][0]; clearAnim(); refreshActorBar(); save();
 });
-$('rotL').addEventListener('click', () => { if (!C.actors[sel]) return; C.actors[sel].rot += 45; placeActors(); save(); });
-$('rotR').addEventListener('click', () => { if (!C.actors[sel]) return; C.actors[sel].rot -= 45; placeActors(); save(); });
+$('rotL').addEventListener('click', () => { if (!C.cast[sel]) return; C.cast[sel].rot += 45; clearAnim(); save(); });
+$('rotR').addEventListener('click', () => { if (!C.cast[sel]) return; C.cast[sel].rot -= 45; clearAnim(); save(); });
 $('recBtn').addEventListener('click', () => capture());
 $('boardBtn').addEventListener('click', () => { closePops(); renderBoard(); $('preview').hidden = true; $('boardSheet').hidden = false; });
 $('boardClose').addEventListener('click', () => { $('boardSheet').hidden = true; });
@@ -1522,33 +2229,36 @@ $('boardClear').addEventListener('click', () => {
 });
 
 let wakeLock = null;
-async function wake() { try { if (!wakeLock && navigator.wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => wakeLock = null); } } catch (e) { /* optional */ } }
+async function wake() { try { if (!wakeLock && navigator.wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } } catch (e) { /* optional */ } }
 
 // ---------- loop ----------
 let last = performance.now();
 function tick(now) {
+  requestAnimationFrame(tick);
+  if (exporting) return;
   const dt = Math.min(0.05, (now - last) / 1000); last = now;
-  const c = C.cam, sp = (S.toy ? 0.28 : 1.6) * dt;
+  const c = C.cam, base = (S.toy ? 0.28 : 1.6) * (SPEEDS[S.speed] || 1);
   stepPlay(now);
   if (!play) {
     let jx = joy.x, jy = joy.y;
     if (keys.KeyW) jy += 1; if (keys.KeyS) jy -= 1; if (keys.KeyD) jx += 1; if (keys.KeyA) jx -= 1;
-    if (jx || jy) {
-      const fx = -Math.sin(c.yaw), fz = -Math.cos(c.yaw), rx = Math.cos(c.yaw), rz = -Math.sin(c.yaw);
-      c.x += (fx * jy + rx * jx) * sp; c.z += (fz * jy + rz * jx) * sp;
-    }
-    if (keys.KeyE) c.y = clamp(c.y + sp * 0.6, HMIN(), HMAX());
-    if (keys.KeyQ) c.y = clamp(c.y - sp * 0.6, HMIN(), HMAX());
+    const fx = -Math.sin(c.yaw), fz = -Math.cos(c.yaw), rx = Math.cos(c.yaw), rz = -Math.sin(c.yaw);
+    const tx = (fx * jy + rx * jx) * base, tz = (fz * jy + rz * jx) * base, k = 1 - Math.exp(-dt * 6); // soft start and stop
+    vel.x += (tx - vel.x) * k; vel.z += (tz - vel.z) * k;
+    if (Math.abs(vel.x) + Math.abs(vel.z) > 1e-4) { c.x += vel.x * dt; c.z += vel.z * dt; } else { vel.x = vel.z = 0; }
+    if (keys.KeyE) c.y = clamp(c.y + base * dt * 0.6, HMIN(), HMAX());
+    if (keys.KeyQ) c.y = clamp(c.y - base * dt * 0.6, HMIN(), HMAX());
     if (keys.ArrowLeft) c.yaw += dt * 0.8; if (keys.ArrowRight) c.yaw -= dt * 0.8;
     if (keys.ArrowUp) c.pitch = clamp(c.pitch + dt * 0.6, -Math.PI / 2, Math.PI / 2);
     if (keys.ArrowDown) c.pitch = clamp(c.pitch - dt * 0.6, -Math.PI / 2, Math.PI / 2);
   }
   applyOrientation();
+  recordSample(now);
   if (ceilingObj) ceilingObj.visible = S.ceiling === 'show' || (S.ceiling === 'auto' && c.y < H - 0.15);
+  if (selBox) selBox.update();
   renderer.render(scene, camera);
   drawOverlay();
   updateHud();
-  requestAnimationFrame(tick);
 }
 
 // ---------- start ----------
@@ -1559,8 +2269,8 @@ switchScene(getDef(S.sceneId) ? S.sceneId : 'room');
 buildSettings();
 
 if (DEF.id === 'room' && !C.seeded) {
-  const keep = JSON.parse(JSON.stringify({ cam: C.cam, lens: S.lens, zoom: S.zoom, roll: S.roll }));
-  const shot = (k, mm, opts) => { setCamKF(kf(k)); if (mm) { S.lens = lensIndex(mm); S.zoom = null; updateProjection(); } capture(Object.assign({ example: true }, opts)); };
+  const keep = clone({ cam: C.cam, lens: S.lens, zoom: S.zoom, roll: S.roll });
+  const shot = (k, mm, opts) => { applySrcAt({ kind: 'shot', item: { name: '', from: Object.assign({ mm }, k) } }, 0); setMm(mm); capture(Object.assign({ example: true }, opts)); };
   shot({ pos: [0, 1.45, 4.1], yaw: 0, pitch: -2 }, 21, { move: 'статика', note: 'Фронтальная симметрия по оси комнаты' });
   preset('widecu', 0); capture({ example: true, move: 'наезд', note: 'Широкий крупный: лицо у самой линзы' });
   S.lens = lensIndex(21); updateProjection(); preset('top', 1); capture({ example: true, move: 'сверху', note: 'Кадр сверху, узор пола работает как графика' });
