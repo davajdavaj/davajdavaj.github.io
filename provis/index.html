@@ -2330,11 +2330,14 @@ if (DEF.id === 'room' && !C.seeded) {
   Object.assign(C, { cam: keep.cam, seeded: true }); Object.assign(S, { lens: keep.lens, zoom: keep.zoom, roll: keep.roll });
   updateProjection(); syncRoll(); refreshBoardBtn(); save(true);
 }
-if (location.hash.indexOf('#scene=') === 0) {
+function sceneFromHash() { // a scene link opened at start, or in a tab where Provis is already open
+  if (location.hash.indexOf('#scene=') !== 0) return;
   const h = location.hash;
   try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* keep hash */ }
   openSceneText(h);
 }
+window.addEventListener('hashchange', sceneFromHash);
+sceneFromHash();
 requestAnimationFrame(tick);
 })();
 </script>
