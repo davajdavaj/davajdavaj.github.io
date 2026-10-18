@@ -116,6 +116,23 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 }
 .rec::after { content: ""; width: 52px; height: 52px; border-radius: 50%; background: var(--rec); transition: transform .12s; }
 .rec:active::after { transform: scale(.88); }
+.save-btn {
+  height: 44px; padding: 0 10px; border-radius: 6px; border: 1px solid var(--frame); background: rgba(22,24,28,.86); color: var(--frame);
+  font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; line-height: 1.05;
+}
+.save-btn small { display: block; font-size: 9.5px; letter-spacing: .08em; color: var(--dim); font-weight: 600; }
+.wv { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; max-width: 1100px; }
+.wv figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; min-width: 0; }
+.wv figure img { display: block; width: 100%; -webkit-touch-callout: default; -webkit-user-select: auto; user-select: auto; }
+.wv figcaption { padding: 10px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--dim); line-height: 1.4; }
+.wv figcaption b { color: var(--fg); font-size: 14px; letter-spacing: .06em; text-transform: uppercase; }
+.wv-prompt { max-width: 1100px; margin-top: 14px; }
+.wv-prompt textarea {
+  width: 100%; box-sizing: border-box; min-height: 150px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 8px;
+  padding: 10px; font-family: var(--mono); font-size: 12.5px; line-height: 1.55; resize: vertical;
+}
+.wv-prompt .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+.wv-prompt p { margin: 0; font-size: 13px; color: var(--dim); line-height: 1.45; max-width: 70ch; }
 .board-btn {
   position: relative; width: 58px; height: 44px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel) center/cover no-repeat;
   padding: 0;
@@ -265,6 +282,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   <div class="joy" id="joy" aria-label="Движение камеры"><div class="nub" id="nub"></div><div class="lbl">движение</div></div>
 
   <div class="shoot">
+    <button class="save-btn" id="saveBtn" aria-label="Сохранить кадр для Weavy">Сохранить<small>для Weavy</small></button>
     <button class="board-btn" id="boardBtn" aria-label="Открыть раскадровку"><span class="n" id="boardN">0</span></button>
     <button class="rec" id="recBtn" aria-label="Снять кадр"></button>
   </div>
@@ -315,6 +333,27 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
     </div>
     <div class="board" id="board"></div>
     <div class="preview" id="preview" hidden></div>
+  </section>
+
+  <section class="sheet" id="weavySheet" hidden>
+    <div class="sheet-head">
+      <h2>Кадр для Weavy</h2>
+      <button class="btn" id="wvShare" hidden>Поделиться обоими</button>
+      <button class="btn primary" id="wvClose">К камере</button>
+    </div>
+    <div class="wv">
+      <figure><img id="wvFrame" alt="Кадр"><figcaption><b>Кадр</b><span id="wvFrameInfo"></span>
+        <button class="btn primary" id="wvSaveFrame">Сохранить кадр</button></figcaption></figure>
+      <figure><img id="wvDepth" alt="Карта глубины"><figcaption><b>Карта глубины</b><span>Светлое ближе, тёмное дальше. Для depth control.</span>
+        <button class="btn" id="wvSaveDepth">Сохранить глубину</button></figcaption></figure>
+    </div>
+    <div class="wv-prompt">
+      <div class="field"><h3>Промпт</h3></div>
+      <textarea id="wvPrompt" aria-label="Промпт для Weavy"></textarea>
+      <div class="row"><button class="btn primary" id="wvCopy">Скопировать промпт</button>
+        <p>В Weavy: кадр как референс композиции (image to image), карта глубины в depth control, промпт в текст. Блок про план и камеру собран из этого кадра, остальное из сцены. Правьте прямо здесь перед копированием.</p></div>
+    </div>
+    <div class="preview" id="wvHint" hidden></div>
   </section>
 
   <div class="toast" id="toast" role="status" hidden></div>
@@ -371,7 +410,14 @@ const ROOM_DEF = {
     { id: 'a2', name: 'Актёр 2', h: 1.68, color: '#6f8db3', pos: [1.2, -1.4], rot: -35, pose: 'walk' }
   ],
   camera: { mm: 18, sensor: 'ff', aspect: '16:9', pos: [-0.4, 1.55, 2.6], yaw: -8, pitch: -4 },
-  shots: []
+  shots: [],
+  // prompt blocks 1 to 4 for Weavy; block 5 (shot, angle, lens) is written from the live camera
+  weavy: {
+    subject: 'Two adults in everyday clothes stand in a living room, one turning towards the other mid-sentence, weight on one leg.',
+    location: 'A lived-in apartment living room with a large steel-framed gridded window, a worn fabric sofa, a wooden table with chairs, a patterned tile floor.',
+    light: 'Soft daylight from the window behind them, warm pendant lamps as practicals. Grey steel, warm oak, terracotta.',
+    style: 'Photographic film still, 35mm film, fine grain, natural skin texture.'
+  }
 };
 
 // ---------- state ----------
@@ -1240,6 +1286,96 @@ async function exportBoard() {
   const im = document.createElement('img'); im.alt = 'Раскадровка'; im.src = URL.createObjectURL(blob);
   pv.appendChild(p); pv.appendChild(im); im.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+// ---------- frame for Weavy: clean picture, depth map, prompt ----------
+const depthMat = new THREE.ShaderMaterial({
+  uniforms: { uNear: { value: 0.5 }, uFar: { value: 10 } },
+  vertexShader: 'varying float vDepth; void main() { vec4 p = vec4(position, 1.0);\n#ifdef USE_INSTANCING\n p = instanceMatrix * p;\n#endif\n vec4 mv = modelViewMatrix * p; vDepth = -mv.z; gl_Position = projectionMatrix * mv; }',
+  fragmentShader: 'uniform float uNear; uniform float uFar; varying float vDepth; void main() { float d = clamp((vDepth - uNear) / (uFar - uNear), 0.0, 1.0); gl_FragColor = vec4(vec3(pow(1.0 - d, 1.2)), 1.0); }'
+});
+function depthRange() {
+  const fwd = new THREE.Vector3(); camera.getWorldDirection(fwd);
+  const rc = new THREE.Raycaster(), p = new THREE.Vector2(), ds = [];
+  for (let i = 0; i <= 8; i++) for (let j = 0; j <= 5; j++) {
+    p.set(-0.96 + i * 0.24, -0.95 + j * 0.38); rc.setFromCamera(p, camera);
+    const h = rc.intersectObjects([world, cast], true).find(x => x.object !== ceilingObj || ceilingObj.visible);
+    if (h) ds.push(h.distance * rc.ray.direction.dot(fwd));
+  }
+  if (!ds.length) return [0.3, 10];
+  const near = Math.max(0.03, Math.min(...ds) * 0.96), far = Math.max(near + 0.3, Math.max(...ds) * 1.02);
+  return [near, far];
+}
+function renderExport(longSide, depth) {
+  const A = aspectVal(), w = A >= 1 ? longSide : Math.round(longSide * A), h = A >= 1 ? Math.round(longSide / A) : longSide;
+  const pr = renderer.getPixelRatio(), rings = actors.map(a => a.ring.visible);
+  actors.forEach(a => a.ring.visible = false);
+  renderer.setPixelRatio(1); renderer.setSize(w, h, false);
+  camera.fov = fovs().v * R2D; camera.aspect = w / h; camera.updateProjectionMatrix();
+  applyOrientation(); camera.updateMatrixWorld();
+  if (ceilingObj) ceilingObj.visible = S.ceiling === 'show' || (S.ceiling === 'auto' && C.cam.y < H - 0.15);
+  let bg = null;
+  if (depth) { const r = depthRange(); depthMat.uniforms.uNear.value = r[0]; depthMat.uniforms.uFar.value = r[1]; scene.overrideMaterial = depthMat; bg = scene.background; scene.background = new THREE.Color(0x000000); }
+  renderer.render(scene, camera);
+  const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(glCanvas, 0, 0, w, h);
+  if (depth) { scene.overrideMaterial = null; scene.background = bg; }
+  actors.forEach((a, i) => a.ring.visible = rings[i]);
+  renderer.setPixelRatio(pr); layout();
+  return c;
+}
+const SHOT_EN = { 'Сверхобщий': 'Extreme wide shot', 'Общий': 'Wide shot', 'Полный рост': 'Full shot', 'Средне-общий': 'Medium wide shot', 'Средний': 'Medium shot',
+  'Первый план': 'Medium close-up', 'Крупный': 'Close-up', 'Сверхкрупный': 'Extreme close-up', 'Деталь': 'Insert detail shot', 'Актёров нет в кадре': 'Wide establishing shot' };
+function weavyPrompt(si) {
+  const w = DEF.weavy || ROOM_DEF.weavy, p = C.cam.pitch * R2D, roll = currentRoll();
+  const angle = p < -55 ? 'top-down overhead angle' : p < -12 ? 'high angle looking down' : p > 25 ? 'low angle looking up from the floor' : p > 8 ? 'slightly low angle' : 'eye-level angle';
+  const dutch = Math.abs(roll) > 4 ? ', dutch tilt of ' + Math.round(Math.abs(roll)) + ' degrees' : '';
+  const shot = (SHOT_EN[si.name] || 'Medium shot') + ', ' + angle + dutch + ', camera ' + C.cam.y.toFixed(1) + ' m above the floor, ' + Math.round(focal()) + 'mm lens on ' + (S.sensor === 'ff' ? 'full frame' : 'Super 35') + ', ' + S.aspect + ' frame.';
+  return [w.subject, w.location, w.light, w.style, shot, 'Match the reference image: same composition, camera position and perspective. Turn the grey mannequins and clay shapes into real people and real materials.'].filter(Boolean).join(' ');
+}
+let wv = null;
+const canvasBlob = c => new Promise(res => c.toBlob(res, 'image/png'));
+async function openWeavy() {
+  closePops(); stopPlay();
+  const si = classify(true), stamp = DEF.id + '-' + new Date().toTimeString().slice(0, 5).replace(':', '');
+  const frame = renderExport(1920, false), depth = renderExport(1920, true);
+  const [fb, db] = await Promise.all([canvasBlob(frame), canvasBlob(depth)]);
+  if (wv) { URL.revokeObjectURL(wv.fu); URL.revokeObjectURL(wv.du); }
+  wv = { fb, db, fn: 'provis-' + stamp + '.png', dn: 'provis-' + stamp + '-depth.png', fu: URL.createObjectURL(fb), du: URL.createObjectURL(db) };
+  $('wvFrame').src = wv.fu; $('wvDepth').src = wv.du;
+  $('wvFrameInfo').textContent = frame.width + ' × ' + frame.height + ' · ' + si.name + ' · ' + lensLabel() + ' ' + SENSORS[S.sensor].short + ' · выс ' + fmtH(C.cam.y);
+  $('wvPrompt').value = weavyPrompt(si);
+  const files = [new File([fb], wv.fn, { type: 'image/png' }), new File([db], wv.dn, { type: 'image/png' })];
+  $('wvShare').hidden = !(navigator.canShare && navigator.canShare({ files }));
+  $('wvHint').hidden = true;
+  $('weavySheet').hidden = false;
+}
+async function saveImage(blob, name) {
+  let dl = null;
+  try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
+  if (dl) {
+    try { await dl.save({ filename: name, data: blob }); toast('Сохранено: ' + name); return; }
+    catch (e) { if (e && e.code === 'declined') { toast('Сохранение отменено.'); return; } }
+  }
+  const file = new File([blob], name, { type: 'image/png' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file] }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  const h = $('wvHint'); h.hidden = false; h.textContent = '';
+  const p = document.createElement('p'); p.className = 'empty'; p.textContent = 'Удерживайте картинку выше и выберите «Сохранить в Фото».'; h.appendChild(p);
+}
+$('saveBtn').addEventListener('click', openWeavy);
+$('wvClose').addEventListener('click', () => { $('weavySheet').hidden = true; });
+$('wvSaveFrame').addEventListener('click', () => wv && saveImage(wv.fb, wv.fn));
+$('wvSaveDepth').addEventListener('click', () => wv && saveImage(wv.db, wv.dn));
+$('wvShare').addEventListener('click', async () => {
+  if (!wv) return;
+  try { await navigator.share({ files: [new File([wv.fb], wv.fn, { type: 'image/png' }), new File([wv.db], wv.dn, { type: 'image/png' })] }); } catch (e) { /* closed */ }
+});
+$('wvCopy').addEventListener('click', () => {
+  const ta = $('wvPrompt');
+  const done = () => toast('Промпт скопирован.');
+  try { navigator.clipboard.writeText(ta.value).then(done, () => { ta.select(); toast('Текст выделен, скопируйте его вручную.'); }); }
+  catch (e) { ta.select(); toast('Текст выделен, скопируйте его вручную.'); }
+});
 
 // ---------- scenes: switch, import ----------
 function freshPer(def) {
