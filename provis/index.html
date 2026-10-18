@@ -1,4 +1,4 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Provis"><meta name="robots" content="noindex"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:#0b0c0e}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Provis</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Provis"><meta name="robots" content="noindex"><style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:#0b0c0e}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Provis</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -252,131 +252,131 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 </style>
 
 <div id="app">
-  <canvas id="gl" aria-label="Вид с камеры"></canvas>
+  <canvas id="gl" aria-label="Camera view"></canvas>
   <canvas id="ov"></canvas>
 
   <div class="hud-top">
-    <button class="lens-btn" id="lensBtn" aria-label="Выбрать линзу">
-      <span class="mm" id="lensMm">18<small>мм</small></span>
+    <button class="lens-btn" id="lensBtn" aria-label="Choose a lens">
+      <span class="mm" id="lensMm">18<small>mm</small></span>
       <span class="meta" id="lensMeta">FF · 16:9 · HFOV 90°</span>
-      <span class="scene" id="sceneName">Комната</span>
+      <span class="scene" id="sceneName">Room</span>
     </button>
     <div class="shot">
-      <div class="shot-chip" id="shotChip">Средний</div>
-      <div class="shot-sub" id="shotSub">до лица 1.80 м</div>
+      <div class="shot-chip" id="shotChip">Medium</div>
+      <div class="shot-sub" id="shotSub">face 1.80 m</div>
     </div>
     <div class="readout" id="readout"></div>
   </div>
   <div class="strip" id="lensStrip" hidden></div>
 
   <div class="height" id="height">
-    <label>выс</label>
+    <label>height</label>
     <div class="track" id="hTrack"><div class="knob" id="hKnob"></div></div>
   </div>
 
   <div class="tools">
-    <button class="tool" id="tShots">Кадры</button>
-    <button class="tool" id="tGyro">Гиро</button>
-    <button class="tool on" id="tGrid">Сетка</button>
-    <button class="tool" id="tPos">Позиции</button>
-    <button class="tool" id="tActors">Актёры</button>
-    <button class="tool" id="tEdit">Сцена</button>
-    <button class="tool" id="tPlan">План</button>
-    <button class="tool" id="tSet">Настр</button>
+    <button class="tool" id="tShots">Shots</button>
+    <button class="tool" id="tGyro">Gyro</button>
+    <button class="tool on" id="tGrid">Grid</button>
+    <button class="tool" id="tPos">Presets</button>
+    <button class="tool" id="tActors">Actors</button>
+    <button class="tool" id="tEdit">Scene</button>
+    <button class="tool" id="tPlan">Plan</button>
+    <button class="tool" id="tSet">Setup</button>
   </div>
 
   <div class="pop" id="shotPop" hidden></div>
   <div class="pop" id="libPop" hidden></div>
 
   <div class="pop" id="posPop" hidden>
-    <button data-preset="front">Фронтально<small>средний план на уровне глаз</small></button>
-    <button data-preset="widecu">Широкий крупный<small>14 мм, 55 см до лица</small></button>
-    <button data-preset="low">С пола<small>камера у самого пола, снизу вверх</small></button>
-    <button data-preset="top">Сверху<small>god's eye над актёром</small></button>
-    <button data-preset="level">Выровнять горизонт<small>наклон 0°, крен 0°</small></button>
+    <button data-preset="front">Frontal<small>medium shot at eye level</small></button>
+    <button data-preset="widecu">Wide close-up<small>14mm, 55 cm from the face</small></button>
+    <button data-preset="low">From the floor<small>camera at floor level, looking up</small></button>
+    <button data-preset="top">Top shot<small>god's eye above the actor</small></button>
+    <button data-preset="level">Level the horizon<small>tilt 0°, roll 0°</small></button>
   </div>
 
-  <div class="joy" id="joy" aria-label="Движение камеры"><div class="nub" id="nub"></div><div class="lbl">движение</div></div>
+  <div class="joy" id="joy" aria-label="Move the camera"><div class="nub" id="nub"></div><div class="lbl">move</div></div>
 
   <div class="shoot" id="shootBar">
-    <button class="save-btn" id="saveBtn" aria-label="Сохранить кадр для Weavy">Сохранить<small>для Weavy</small></button>
-    <button class="board-btn" id="boardBtn" aria-label="Открыть раскадровку"><span class="n" id="boardN">0</span></button>
-    <button class="rec" id="recBtn" aria-label="Снять кадр"></button>
+    <button class="save-btn" id="saveBtn" aria-label="Save the frame for Weavy">Save<small>for Weavy</small></button>
+    <button class="board-btn" id="boardBtn" aria-label="Open the storyboard"><span class="n" id="boardN">0</span></button>
+    <button class="rec" id="recBtn" aria-label="Take a frame"></button>
   </div>
 
-  <button class="recbar" id="recBar" hidden>■ Стоп дубля <span id="recTime">0.0</span></button>
+  <button class="recbar" id="recBar" hidden>■ Stop take <span id="recTime">0.0</span></button>
 
   <div class="actorbar" id="actorBar" hidden>
     <span id="actorChips" style="display:contents"></span>
-    <button class="chip" id="poseBtn">Поза: стоит</button>
-    <button class="chip" id="rotL" aria-label="Повернуть влево">⟲ 45°</button>
-    <button class="chip" id="rotR" aria-label="Повернуть вправо">⟳ 45°</button>
-    <button class="chip" id="hMinus">Рост −</button>
-    <button class="chip" id="hPlus">Рост +</button>
-    <button class="chip" id="buildBtn">Сложение</button>
-    <button class="chip" id="clothBtn">Одежда</button>
-    <button class="chip" id="actorAdd">+ Актёр</button>
-    <button class="chip" id="actorReset">Вернуть</button>
-    <button class="chip warn" id="actorDel">Удалить</button>
-    <button class="chip on" id="actorsDone">Готово</button>
-    <div class="hint" id="actorHint">Касание манекена выбирает его, тащите его пальцем по полу. «Вернуть» ставит актёра как в сцене.</div>
+    <button class="chip" id="poseBtn">Pose: standing</button>
+    <button class="chip" id="rotL" aria-label="Turn left">⟲ 45°</button>
+    <button class="chip" id="rotR" aria-label="Turn right">⟳ 45°</button>
+    <button class="chip" id="hMinus">Height −</button>
+    <button class="chip" id="hPlus">Height +</button>
+    <button class="chip" id="buildBtn">Build</button>
+    <button class="chip" id="clothBtn">Wardrobe</button>
+    <button class="chip" id="actorAdd">+ Actor</button>
+    <button class="chip" id="actorReset">Reset</button>
+    <button class="chip warn" id="actorDel">Delete</button>
+    <button class="chip on" id="actorsDone">Done</button>
+    <div class="hint" id="actorHint">Tap a mannequin to select it, drag it across the floor to move it. Reset puts the actor back where the scene has them.</div>
   </div>
 
   <div class="actorbar" id="editBar" hidden>
-    <div class="name" id="editName">Коснитесь предмета</div>
-    <button class="chip" data-mv="-1,0" aria-label="Влево">←</button>
-    <button class="chip" data-mv="1,0" aria-label="Вправо">→</button>
-    <button class="chip" data-mv="0,1" aria-label="Дальше">↑</button>
-    <button class="chip" data-mv="0,-1" aria-label="Ближе">↓</button>
+    <div class="name" id="editName">Tap an object</div>
+    <button class="chip" data-mv="-1,0" aria-label="Left">←</button>
+    <button class="chip" data-mv="1,0" aria-label="Right">→</button>
+    <button class="chip" data-mv="0,1" aria-label="Further">↑</button>
+    <button class="chip" data-mv="0,-1" aria-label="Closer">↓</button>
     <button class="chip" id="edRotL">⟲ 15°</button>
     <button class="chip" id="edRotR">⟳ 15°</button>
-    <button class="chip" id="edUp">Выше</button>
-    <button class="chip" id="edDown">Ниже</button>
-    <button class="chip" id="edDup">Копия</button>
-    <button class="chip warn" id="edDel">Удалить</button>
-    <button class="chip" id="edAdd">+ Добавить</button>
-    <button class="chip on" id="edDone">Готово</button>
-    <div class="hint">Коснитесь предмета, чтобы выбрать. Тащите выбранный предмет пальцем по полу. Стрелки двигают на 10 см.</div>
+    <button class="chip" id="edUp">Higher</button>
+    <button class="chip" id="edDown">Lower</button>
+    <button class="chip" id="edDup">Duplicate</button>
+    <button class="chip warn" id="edDel">Delete</button>
+    <button class="chip" id="edAdd">+ Add</button>
+    <button class="chip on" id="edDone">Done</button>
+    <div class="hint">Tap an object to select it. Drag the selected object across the floor. Arrows move it 10 cm.</div>
   </div>
 
   <section class="sheet" id="setSheet" hidden>
-    <div class="sheet-head"><h2>Настройки</h2><button class="btn primary" id="setClose">Готово</button></div>
+    <div class="sheet-head"><h2>Settings</h2><button class="btn primary" id="setClose">Done</button></div>
     <div class="set">
-      <div class="field wide"><h3>Сцена</h3><div class="chips" id="sceneChips"></div>
-        <textarea id="sceneText" placeholder="Вставьте ссылку на сцену или её текст" aria-label="Ссылка на сцену"></textarea>
+      <div class="field wide"><h3>Scene</h3><div class="chips" id="sceneChips"></div>
+        <textarea id="sceneText" placeholder="Paste a scene link or the scene text" aria-label="Scene link"></textarea>
         <div class="chips" style="margin-top:8px">
-          <button class="btn primary" id="sceneOpen">Открыть сцену</button>
-          <button class="btn" id="sceneFileBtn">Файл сцены</button>
-          <button class="btn" id="sceneLinkBtn">Ссылка на сцену с правками</button>
-          <button class="btn" id="sceneSaveBtn">Сохранить файл сцены</button>
-          <button class="btn ghost" id="sceneDelete">Удалить эту сцену</button>
+          <button class="btn primary" id="sceneOpen">Open scene</button>
+          <button class="btn" id="sceneFileBtn">Scene file</button>
+          <button class="btn" id="sceneLinkBtn">Link to the scene with edits</button>
+          <button class="btn" id="sceneSaveBtn">Save scene file</button>
+          <button class="btn ghost" id="sceneDelete">Delete this scene</button>
           <input type="file" id="sceneFile" accept=".json,application/json" hidden>
         </div>
-        <p>Сцену проекта я присылаю ссылкой. Ссылка с правками собирает текущую сцену со всеми изменениями из режима «Сцена» и «Актёры»: её можно прислать мне или открыть на другом устройстве.</p></div>
-      <div class="field"><h3>Сенсор</h3><div class="chips" id="sensorChips"></div>
-        <p>Full Frame по умолчанию. Super 35 даёт уже угол на той же линзе.</p></div>
-      <div class="field"><h3>Формат</h3><div class="chips" id="aspectChips"></div></div>
-      <div class="field"><h3>Джойстик</h3><div class="chips" id="speedChips"></div>
-        <p>Медленно для плавного наезда, быстро для проходки. Камера разгоняется и тормозит мягко.</p></div>
-      <div class="field"><h3>Масштаб актёров</h3><div class="chips" id="scaleChips"></div>
-        <p>Игрушки: манекены 30 см, камера опускается до 1 см и двигается медленнее.</p></div>
-      <div class="field"><h3>Крен</h3>
+        <p>Project scenes arrive as links. The link with edits packs the current scene with every change from the Scene and Actors modes: send it to Claude or open it on another device.</p></div>
+      <div class="field"><h3>Sensor</h3><div class="chips" id="sensorChips"></div>
+        <p>Full Frame by default. Super 35 gives a narrower angle on the same lens.</p></div>
+      <div class="field"><h3>Aspect</h3><div class="chips" id="aspectChips"></div></div>
+      <div class="field"><h3>Joystick</h3><div class="chips" id="speedChips"></div>
+        <p>Slow for a gentle push in, fast for a walkthrough. The camera speeds up and slows down smoothly.</p></div>
+      <div class="field"><h3>Actor scale</h3><div class="chips" id="scaleChips"></div>
+        <p>Toys: 30 cm mannequins, the camera goes down to 1 cm and moves slower.</p></div>
+      <div class="field"><h3>Roll</h3>
         <div class="range-row"><input type="range" id="roll" min="-180" max="180" step="1" value="0"><output id="rollOut">0°</output></div>
         <div class="chips" style="margin-top:8px" id="rollChips"></div></div>
-      <div class="field"><h3>Гироскоп</h3><div class="chips" id="horizonChips"></div>
-        <p>Горизонт зафиксирован: крен берётся только из ползунка. Свободный: крен идёт от наклона телефона.</p></div>
-      <div class="field"><h3>Потолок</h3><div class="chips" id="ceilChips"></div></div>
-      <div class="field"><h3>Сетки</h3><div class="chips" id="gridChips"></div></div>
-      <div class="field"><h3>Сцена по умолчанию</h3><div class="chips"><button class="btn" id="resetScene">Вернуть предметы, актёров и камеру</button></div></div>
+      <div class="field"><h3>Gyroscope</h3><div class="chips" id="horizonChips"></div>
+        <p>Horizon locked: roll comes only from the slider. Free: roll follows the tilt of the phone.</p></div>
+      <div class="field"><h3>Ceiling</h3><div class="chips" id="ceilChips"></div></div>
+      <div class="field"><h3>Guides</h3><div class="chips" id="gridChips"></div></div>
+      <div class="field"><h3>Scene defaults</h3><div class="chips"><button class="btn" id="resetScene">Reset objects, actors and camera</button></div></div>
     </div>
   </section>
 
   <section class="sheet" id="boardSheet" hidden>
     <div class="sheet-head">
-      <h2 id="boardTitle">Раскадровка</h2>
-      <button class="btn" id="boardSave">Сохранить PNG</button>
-      <button class="btn ghost" id="boardClear">Очистить</button>
-      <button class="btn primary" id="boardClose">К камере</button>
+      <h2 id="boardTitle">Storyboard</h2>
+      <button class="btn" id="boardSave">Save PNG</button>
+      <button class="btn ghost" id="boardClear">Clear</button>
+      <button class="btn primary" id="boardClose">Back to camera</button>
     </div>
     <div class="board" id="board"></div>
     <div class="preview" id="preview" hidden></div>
@@ -384,51 +384,51 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 
   <section class="sheet" id="weavySheet" hidden>
     <div class="sheet-head">
-      <h2>Кадр для Weavy</h2>
-      <button class="btn" id="wvShare" hidden>Поделиться всеми</button>
-      <button class="btn primary" id="wvClose">К камере</button>
+      <h2>Frame for Weavy</h2>
+      <button class="btn" id="wvShare" hidden>Share all</button>
+      <button class="btn primary" id="wvClose">Back to camera</button>
     </div>
     <div class="wv" id="wvGrid"></div>
     <div class="block">
-      <div class="field"><h3>Промпт</h3></div>
-      <textarea class="ta" id="wvPrompt" style="min-height:170px" aria-label="Промпт для Weavy"></textarea>
-      <div class="row"><button class="btn primary" id="wvCopy">Скопировать промпт</button></div>
-      <p class="note">В Weavy: кадр как референс композиции, глубина в depth control, контуры в line art или canny, маска показывает, где какой объект. Промпт сам описывает расстановку и камеру по этому кадру. Правьте его прямо здесь.</p>
+      <div class="field"><h3>Prompt</h3></div>
+      <textarea class="ta" id="wvPrompt" style="min-height:170px" aria-label="Prompt for Weavy"></textarea>
+      <div class="row"><button class="btn primary" id="wvCopy">Copy prompt</button></div>
+      <p class="note">In Weavy: the frame as the composition reference, depth for depth control, contours for line art or canny, the mask shows which object is where. The prompt describes the blocking and the camera from this frame. Edit it right here.</p>
     </div>
     <div class="preview" id="wvHint" hidden></div>
   </section>
 
   <section class="sheet" id="videoSheet" hidden>
     <div class="sheet-head">
-      <h2 id="vdTitle">Видео для Seedance</h2>
-      <button class="btn primary" id="vdClose">К камере</button>
+      <h2 id="vdTitle">Video for Seedance</h2>
+      <button class="btn primary" id="vdClose">Back to camera</button>
     </div>
     <div class="set" style="max-width:1200px">
-      <div class="field"><h3>Рендер</h3><div class="chips" id="vdLook"></div>
-        <p>Clay: белые формы без цвета. Seedance превращает такое видео в живой кадр и держит движение камеры.</p></div>
-      <div class="field"><h3>Размер</h3><div class="chips" id="vdRes"></div></div>
-      <div class="field"><h3>Готово</h3><div class="chips"><button class="btn primary" id="vdMake">Сделать видео</button><span class="progress" id="vdProg"></span></div></div>
+      <div class="field"><h3>Render</h3><div class="chips" id="vdLook"></div>
+        <p>Clay: white shapes without colour. Seedance turns this video into a live shot and keeps the camera move.</p></div>
+      <div class="field"><h3>Size</h3><div class="chips" id="vdRes"></div></div>
+      <div class="field"><h3>Export</h3><div class="chips"><button class="btn primary" id="vdMake">Make video</button><span class="progress" id="vdProg"></span></div></div>
     </div>
     <div class="wv" style="margin-top:14px"><figure id="vdFig" hidden><video id="vdVideo" controls playsinline muted loop></video>
-      <figcaption><span id="vdInfo"></span><button class="btn primary" id="vdSave">Сохранить видео</button></figcaption></figure></div>
+      <figcaption><span id="vdInfo"></span><button class="btn primary" id="vdSave">Save video</button></figcaption></figure></div>
     <div class="block">
-      <div class="field"><h3>Промпт для Seedance</h3></div>
-      <textarea class="ta" id="vdPrompt" style="min-height:150px" aria-label="Промпт для Seedance"></textarea>
-      <div class="row"><button class="btn primary" id="vdCopy">Скопировать промпт</button></div>
+      <div class="field"><h3>Prompt for Seedance</h3></div>
+      <textarea class="ta" id="vdPrompt" style="min-height:150px" aria-label="Prompt for Seedance"></textarea>
+      <div class="row"><button class="btn primary" id="vdCopy">Copy prompt</button></div>
     </div>
   </section>
 
   <section class="sheet" id="planSheet" hidden>
     <div class="sheet-head">
-      <h2 id="plTitle">План сверху</h2>
-      <button class="btn" id="plSave">Сохранить план</button>
-      <button class="btn" id="plMdCopy">Скопировать шотлист</button>
-      <button class="btn" id="plMdSave">Сохранить шотлист .md</button>
-      <button class="btn primary" id="plClose">К камере</button>
+      <h2 id="plTitle">Plan view</h2>
+      <button class="btn" id="plSave">Save plan</button>
+      <button class="btn" id="plMdCopy">Copy shot list</button>
+      <button class="btn" id="plMdSave">Save shot list .md</button>
+      <button class="btn primary" id="plClose">Back to camera</button>
     </div>
-    <img class="plan-img" id="plImg" alt="План сверху">
-    <p class="note">Жёлтый конус: текущая камера. Номера: кадры из плана, пунктир ведёт к финишу движения. Тонкие линии: записанные дубли. Сетка 1 м.</p>
-    <div class="block"><div class="field"><h3>Шотлист</h3></div><textarea class="ta" id="plMd" style="min-height:220px" aria-label="Шотлист"></textarea></div>
+    <img class="plan-img" id="plImg" alt="Plan view">
+    <p class="note">Yellow cone: the current camera. Numbers: shots from the plan, the dashed line leads to the end of the move. Pink: actor paths. Thin green lines: recorded takes. Grid 1 m.</p>
+    <div class="block"><div class="field"><h3>Shot list</h3></div><textarea class="ta" id="plMd" style="min-height:220px" aria-label="Shot list"></textarea></div>
   </section>
 
   <div class="toast" id="toast" role="status" hidden></div>
@@ -452,10 +452,10 @@ const LENSES = [12, 14, 16, 18, 21, 25, 27, 32, 35, 40, 50, 65, 75, 85, 100, 135
   .concat([{ mm: 24, label: 'P24', probe: true }, { mm: 24, label: '24' }]); // appended, so lens numbers saved on devices keep their meaning
 const SENSORS = { s35: { name: 'Super 35', short: 'S35', w: 24.89 }, ff: { name: 'Full Frame', short: 'FF', w: 36.0 } };
 const ASPECTS = [['16:9', 16 / 9], ['2.39', 2.39], ['1.85', 1.85], ['1.44', 1.44], ['4:3', 4 / 3], ['4:5', 0.8], ['9:16', 9 / 16]];
-const POSES = [['stand', 'стоит'], ['walk', 'идёт'], ['sit', 'сидит'], ['arms', 'руки вверх'], ['lie', 'лежит'], ['tuck', 'спрятался'], ['hide', 'выглядывает']];
-const poseRu = p => (POSES.find(x => x[0] === p) || [p, p])[1];
-const MOVES = ['статика', 'наезд', 'отъезд', 'крэш-зум', 'панорама', 'проезд', 'кран', 'облёт', 'с рук', 'сверху', 'whip pan'];
-const BUILDS = [['slim', 'худой'], ['normal', 'обычный'], ['heavy', 'крупный']];
+const POSES = [['stand', 'standing'], ['walk', 'walking'], ['sit', 'sitting'], ['arms', 'arms up'], ['lie', 'lying'], ['tuck', 'tucked away'], ['hide', 'peeking out']];
+const poseName = p => (POSES.find(x => x[0] === p) || [p, p])[1];
+const MOVES = ['static', 'push in', 'pull out', 'crash zoom', 'pan', 'tracking', 'crane', 'orbit', 'handheld', 'top shot', 'whip pan'];
+const BUILDS = [['slim', 'slim'], ['normal', 'average'], ['heavy', 'heavy']];
 const CLOTHES = ['#3d6fb5', '#7a2f3a', '#2f5a34', '#c98a5b', '#6f8db3', '#e8e4dc', '#232427', '#c8b496', '#9e1c22', '#5b5f45'];
 const TOY = 0.3 / 1.8;
 const KEY = 'provis.v1';
@@ -471,7 +471,7 @@ const rectWalls = (w, d) => [
   { id: 'right', a: [w / 2, -d / 2], b: [w / 2, d / 2] }, { id: 'front', a: [w / 2, d / 2], b: [-w / 2, d / 2] }
 ];
 const ROOM_DEF = {
-  id: 'room', title: 'Комната', v: 1, builtin: true,
+  id: 'room', title: 'Room', v: 1, builtin: true,
   room: { h: 3.2, wall: '#d8d3ca' },
   walls: rectWalls(7, 9),
   floor: { type: 'checker', color: '#b9b0a2', color2: '#a49a8a', tile: 1.2 },
@@ -489,8 +489,8 @@ const ROOM_DEF = {
     { type: 'floorLamp', pos: [-2.95, -1.4] }
   ],
   actors: [
-    { id: 'a1', name: 'Актёр 1', desc: 'a man', h: 1.8, color: '#c98a5b', pos: [-0.6, -0.4], rot: 20, pose: 'stand' },
-    { id: 'a2', name: 'Актёр 2', desc: 'a woman', h: 1.68, color: '#6f8db3', pos: [1.2, -1.4], rot: -35, pose: 'walk' }
+    { id: 'a1', name: 'Actor 1', desc: 'a man', h: 1.8, color: '#c98a5b', pos: [-0.6, -0.4], rot: 20, pose: 'stand' },
+    { id: 'a2', name: 'Actor 2', desc: 'a woman', h: 1.68, color: '#6f8db3', pos: [1.2, -1.4], rot: -35, pose: 'walk' }
   ],
   camera: { mm: 18, sensor: 'ff', aspect: '16:9', pos: [-0.4, 1.55, 2.6], yaw: -8, pitch: -4 },
   shots: [],
@@ -524,7 +524,7 @@ try {
 let saveTimer = 0;
 function save(now) {
   clearTimeout(saveTimer);
-  const run = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('Не хватает места в памяти браузера. Удалите часть кадров или дублей.'); } };
+  const run = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('The browser is out of storage. Delete some frames or takes.'); } };
   if (now) run(); else saveTimer = setTimeout(run, 400);
 }
 let DEF = ROOM_DEF, C = null; // current scene definition and its saved state
@@ -716,9 +716,9 @@ const ITEM_EN = {
   sign: 'an exit sign', sofa: 'a sofa', table: 'a table', chair: 'a chair', shelf: 'a shelf unit', pendant: 'a pendant lamp', floorLamp: 'a floor lamp',
   box: 'a box', cyl: 'a column', car: 'a car', wallSeg: 'a free-standing wall', rug: null, strip: null, ceilLight: null
 };
-const ITEM_RU = { coatRack: 'Вешалка', door: 'Дверь', window: 'Окно', panel: 'Доска', clock: 'Часы', wreath: 'Венок', garland: 'Гирлянда', sign: 'Табличка', sofa: 'Диван', table: 'Стол', chair: 'Стул', shelf: 'Стеллаж', pendant: 'Светильник', floorLamp: 'Торшер', box: 'Куб', cyl: 'Колонна', car: 'Машина', wallSeg: 'Стена', rug: 'Ковёр', strip: 'Полоса на полу', ceilLight: 'Свет на потолке' };
+const ITEM_NAME = { coatRack: 'Coat rack', door: 'Door', window: 'Window', panel: 'Board', clock: 'Clock', wreath: 'Wreath', garland: 'Garland', sign: 'Sign', sofa: 'Sofa', table: 'Table', chair: 'Chair', shelf: 'Shelf', pendant: 'Pendant lamp', floorLamp: 'Floor lamp', box: 'Cube', cyl: 'Column', car: 'Car', wallSeg: 'Wall', rug: 'Rug', strip: 'Floor strip', ceilLight: 'Ceiling light' };
 function itemEn(it) { if (it.label !== undefined) return it.label; const v = ITEM_EN[it.type]; return typeof v === 'function' ? v(it) : (v === undefined ? null : v); }
-function itemRu(it) { return it.name || ITEM_RU[it.type] || it.type; }
+function itemName(it) { return it.name || ITEM_NAME[it.type] || it.type; }
 
 function disposeObj(g) {
   g.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material && o.material.map) { o.material.map.dispose(); o.material.dispose(); } });
@@ -950,7 +950,7 @@ function applyOrientation() {
 function currentRoll() { _e.setFromQuaternion(camera.quaternion, 'YXZ'); return _e.z * R2D; }
 
 async function toggleGyro() {
-  if (gyro.on) { gyro.on = false; $('tGyro').classList.remove('on'); toast('Гироскоп выключен. Ведите пальцем по экрану.'); return; }
+  if (gyro.on) { gyro.on = false; $('tGyro').classList.remove('on'); toast('Gyro off. Drag on the screen to look around.'); return; }
   try {
     if (typeof DeviceOrientationEvent === 'undefined') throw new Error('none');
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -962,9 +962,9 @@ async function toggleGyro() {
     const ok = gyro.got || await new Promise(res => { const t = setTimeout(() => { gyro.first = null; res(false); }, 1500); gyro.first = () => { clearTimeout(t); res(true); }; });
     if (!ok) throw new Error('silent');
     gyro.on = true; recalibrateGyro(); $('tGyro').classList.add('on');
-    toast('Гироскоп включён. Двигайте телефоном как камерой.');
+    toast('Gyro on. Move the phone like a camera.');
   } catch (e) {
-    toast('Датчики движения недоступны в этом окне. Внутри claude.ai поворачивайте камеру пальцем, гироскоп работает в отдельной ссылке.');
+    toast('Motion sensors are not available here. Inside claude.ai drag to turn the camera, the gyro works on the standalone link.');
   }
 }
 
@@ -1016,29 +1016,29 @@ function classify(forceOcc) {
   });
   const pitch = C.cam.pitch * R2D, roll = currentRoll();
   const tags = [];
-  if (pitch < -55) tags.push('сверху');
-  if (Math.abs(roll) > 4 && Math.abs(Math.abs(roll) - 180) > 4) tags.push(Math.abs(roll) > 60 ? 'мир повёрнут' : 'голландский угол');
-  if (!best) return { name: 'Актёров нет в кадре', off: true, tags, dist: null };
+  if (pitch < -55) tags.push('top down');
+  if (Math.abs(roll) > 4 && Math.abs(Math.abs(roll) - 180) > 4) tags.push(Math.abs(roll) > 60 ? 'world rotated' : 'dutch angle');
+  if (!best) return { name: 'No actors in frame', off: true, tags, dist: null };
   const { a, P, vis } = best;
-  if (pitch > 25 && C.cam.y < a.root.position.y + a.h * (S.toy ? TOY : 1) * 0.4) tags.unshift('с пола');
+  if (pitch > 25 && C.cam.y < a.root.position.y + a.h * (S.toy ? TOY : 1) * 0.4) tags.unshift('from the floor');
   const v = n => vis[CHAIN.indexOf(n)];
   let name;
-  if (!v('eyes') && !v('chin')) name = 'Деталь';
+  if (!v('eyes') && !v('chin')) name = 'Insert';
   else if (v('top') && v('foot')) {
     const pts = CHAIN.map(n => P[n]).filter(Boolean);
     const xs = pts.map(p => p.x), ys = pts.map(p => p.y), r = view.rect;
     const size = Math.max((Math.max(...xs) - Math.min(...xs)) / r.w, (Math.max(...ys) - Math.min(...ys)) / r.h);
-    name = size < 0.22 ? 'Сверхобщий' : size < 0.62 ? 'Общий' : 'Полный рост';
-  } else if (v('knee') && !v('foot')) name = 'Средне-общий';
-  else if ((v('hips') || v('waist')) && !v('knee')) name = 'Средний';
-  else if (v('chest') && !v('waist')) name = 'Первый план';
-  else if (v('shoulders') && !v('chest')) name = 'Крупный';
-  else if (!v('shoulders')) name = (v('top') && v('chin')) ? 'Крупный' : 'Сверхкрупный';
-  else name = 'Общий';
+    name = size < 0.22 ? 'Extreme wide' : size < 0.62 ? 'Wide' : 'Full shot';
+  } else if (v('knee') && !v('foot')) name = 'Medium wide';
+  else if ((v('hips') || v('waist')) && !v('knee')) name = 'Medium';
+  else if (v('chest') && !v('waist')) name = 'Medium close-up';
+  else if (v('shoulders') && !v('chest')) name = 'Close-up';
+  else if (!v('shoulders')) name = (v('top') && v('chin')) ? 'Close-up' : 'Extreme close-up';
+  else name = 'Wide';
   if (v('eyes')) {
     occCache.frame++;
     if (forceOcc || occCache.i !== best.i || occCache.frame % 8 === 0) { occCache.i = best.i; occCache.hidden = !!occluderOf(a.L.eyes); }
-    if (occCache.hidden) tags.push('лицо закрыто');
+    if (occCache.hidden) tags.push('face hidden');
   }
   a.L.eyes.getWorldPosition(_v);
   const dist = _v.distanceTo(camera.position);
@@ -1141,29 +1141,29 @@ function drawOverlay() {
   const live = play || rec;
   octx.strokeStyle = live ? '#e5322d' : '#ffb31a'; octx.lineWidth = live ? 2.5 : 1.5; octx.strokeRect(r.x + 0.5, r.y + 0.5, r.w - 1, r.h - 1);
   octx.fillStyle = 'rgba(255,179,26,0.9)'; octx.font = '500 11px "IBM Plex Mono", monospace';
-  octx.fillText(S.aspect + (play ? '   ▶ ' + play.name : '') + (rec ? '   ● запись дубля' : ''), r.x + 6, r.y + 15);
+  octx.fillText(S.aspect + (play ? '   ▶ ' + play.name : '') + (rec ? '   ● recording take' : ''), r.x + 6, r.y + 15);
 }
 
 // ---------- HUD ----------
 let lastHud = '';
-function fmtDist(m) { if (m == null) return '—'; return S.toy ? (m * 100).toFixed(m < 0.1 ? 1 : 0) + ' см' : (m < 1 ? m.toFixed(2) : m.toFixed(1)) + ' м'; }
-function fmtH(m) { return S.toy ? (m * 100).toFixed(m < 0.1 ? 1 : 0) + ' см' : m.toFixed(2) + ' м'; }
+function fmtDist(m) { if (m == null) return '—'; return S.toy ? (m * 100).toFixed(m < 0.1 ? 1 : 0) + ' cm' : (m < 1 ? m.toFixed(2) : m.toFixed(1)) + ' m'; }
+function fmtH(m) { return S.toy ? (m * 100).toFixed(m < 0.1 ? 1 : 0) + ' cm' : m.toFixed(2) + ' m'; }
 function fmtDeg(d) { const r = Math.round(d); return (r > 0 ? '+' : r < 0 ? '−' : '') + Math.abs(r) + '°'; }
-function lensLabel() { const L = lens(); return S.zoom ? 'zoom ' + Math.round(S.zoom) + ' мм' : (L.probe ? 'Probe ' : '') + L.mm + ' мм'; }
+function lensLabel() { const L = lens(); return S.zoom ? 'zoom ' + Math.round(S.zoom) + 'mm' : (L.probe ? 'Probe ' : '') + L.mm + 'mm'; }
 let shotInfo = { name: '', tags: [], dist: null };
 function updateHud() {
   shotInfo = classify();
   const L = lens(), fv = fovs(), roll = currentRoll();
   const key = [S.lens, S.zoom && Math.round(S.zoom), S.sensor, S.aspect, shotInfo.name, shotInfo.tags.join(), (shotInfo.dist || 0).toFixed(2), C.cam.y.toFixed(2), Math.round(C.cam.pitch * R2D), Math.round(roll), S.toy, DEF.id].join('|');
   if (key === lastHud) return; lastHud = key;
-  $('lensMm').innerHTML = (S.zoom ? Math.round(S.zoom) : (L.probe ? 'P' : '') + L.mm) + '<small>мм' + (S.zoom ? ' zoom' : '') + '</small>';
+  $('lensMm').innerHTML = (S.zoom ? Math.round(S.zoom) : (L.probe ? 'P' : '') + L.mm) + '<small>mm' + (S.zoom ? ' zoom' : '') + '</small>';
   $('lensMeta').textContent = SENSORS[S.sensor].short + ' · ' + S.aspect + ' · HFOV ' + Math.round(fv.h * R2D) + '°';
   $('sceneName').textContent = DEF.title;
   const chip = $('shotChip');
   chip.textContent = shotInfo.name + (shotInfo.tags.length ? ' · ' + shotInfo.tags.join(' · ') : '');
   chip.classList.toggle('off', !!shotInfo.off);
-  $('shotSub').textContent = shotInfo.dist != null ? (actors.length > 2 || DEF.id !== 'room' ? shotInfo.who + ' · ' : '') + 'до лица ' + fmtDist(shotInfo.dist) : 'поверните камеру к актёрам';
-  $('readout').innerHTML = '<span>выс</span> <b>' + fmtH(C.cam.y) + '</b><br><span>наклон</span> <b>' + fmtDeg(C.cam.pitch * R2D) + '</b><br><span>крен</span> <b>' + fmtDeg(roll) + '</b>';
+  $('shotSub').textContent = shotInfo.dist != null ? (actors.length > 2 || DEF.id !== 'room' ? shotInfo.who + ' · ' : '') + 'face ' + fmtDist(shotInfo.dist) : 'turn the camera to the actors';
+  $('readout').innerHTML = '<span>height</span> <b>' + fmtH(C.cam.y) + '</b><br><span>tilt</span> <b>' + fmtDeg(C.cam.pitch * R2D) + '</b><br><span>roll</span> <b>' + fmtDeg(roll) + '</b>';
   placeKnob();
 }
 
@@ -1246,7 +1246,7 @@ function groundAt(x, y) { const p = new THREE.Vector3(); return rayAt(x, y).ray.
 function tapActors(x, y) { // a tap only selects; moving takes a drag, so a stray tap never relocates anyone
   const hitA = rayAt(x, y).intersectObjects(actors.map(a => a.rig), true)[0];
   if (hitA) { sel = hitA.object.userData.actorIdx; clearAnim(); refreshActorBar(); return; }
-  toast('Чтобы переставить актёра, тащите его пальцем по полу.');
+  toast('To move an actor, drag them across the floor.');
 }
 
 const keys = {};
@@ -1382,7 +1382,7 @@ function startTake(sh) {
   if (sh) { applySrcAt({ kind: 'shot', item: sh }, 0); setMm(focal()); syncRoll(); recalibrateGyro(); }
   rec = { t0: performance.now(), samples: [], shot: sh || null, last: -1 };
   $('recBar').hidden = false; $('shootBar').hidden = true;
-  toast(sh ? 'Запись дубля под «' + sh.name + '». Актёры играют по плану, камера ваша.' : 'Запись дубля. Ведите камеру, потом нажмите «Стоп».');
+  toast(sh ? 'Recording a take of “' + sh.name + '”. The actors follow the plan, the camera is yours.' : 'Recording a take. Move the camera, then press Stop.');
 }
 function recordSample(now) {
   if (!rec) return;
@@ -1393,29 +1393,29 @@ function recordSample(now) {
 }
 function stopTake() {
   const r = rec; rec = null; $('recBar').hidden = true; $('shootBar').hidden = false;
-  if (!r || r.samples.length < 6) { toast('Дубль слишком короткий, не сохранён.'); return; }
+  if (!r || r.samples.length < 6) { toast('Take too short, not saved.'); return; }
   C.takes = C.takes || [];
-  const tk = { id: 't' + Date.now(), name: (r.shot ? r.shot.name + ' · ' : '') + 'дубль ' + (C.takes.length + 1), shotId: r.shot ? r.shot.id : null, dur: r.samples[r.samples.length - 1][0], samples: r.samples };
+  const tk = { id: 't' + Date.now(), name: (r.shot ? r.shot.name + ' · ' : '') + 'take ' + (C.takes.length + 1), shotId: r.shot ? r.shot.id : null, dur: r.samples[r.samples.length - 1][0], samples: r.samples };
   C.takes.push(tk); save(true);
-  toast('Сохранён «' + tk.name + '», ' + tk.dur.toFixed(1) + ' с. Он в «Кадры → Дубли».');
+  toast('Saved “' + tk.name + '”, ' + tk.dur.toFixed(1) + ' s. Find it in Shots → Takes.');
 }
 $('recBar').addEventListener('click', stopTake);
 
 function shotToBoard(sh) {
   const src = { kind: 'shot', item: sh }, T = shotTimes(sh);
   applySrcAt(src, 0); setMm(focal());
-  capture({ move: sh.move || (sh.to ? 'наезд' : 'статика'), note: sh.name + (sh.to ? ' · старт' : '') + (sh.note ? '. ' + sh.note : ''), silent: true });
-  if (sh.to || Object.keys(sh.actors || {}).length) { applySrcAt(src, T.total); setMm(focal()); capture({ move: sh.move || 'наезд', note: sh.name + ' · финиш', silent: true }); }
-  toast('Кадр «' + sh.name + '» в раскадровке.');
+  capture({ move: sh.move || (sh.to ? 'push in' : 'static'), note: sh.name + (sh.to ? ' · start' : '') + (sh.note ? '. ' + sh.note : ''), silent: true });
+  if (sh.to || Object.keys(sh.actors || {}).length) { applySrcAt(src, T.total); setMm(focal()); capture({ move: sh.move || 'push in', note: sh.name + ' · end', silent: true }); }
+  toast('“' + sh.name + '” added to the storyboard.');
 }
 function buildShotPop() {
   const p = $('shotPop'); p.textContent = '';
   const h = t => { const e = document.createElement('h4'); e.textContent = t; p.appendChild(e); };
   const btn = (cls, text, label, fn) => { const b = document.createElement('button'); b.className = cls; b.textContent = text; if (label) b.setAttribute('aria-label', label); b.addEventListener('click', fn); return b; };
-  const free = btn('wide', '● Записать дубль', 'Записать дубль камеры', () => startTake(null)); p.appendChild(free);
-  h('План кадров');
+  const free = btn('wide', '● Record a take', 'Record a camera take', () => startTake(null)); p.appendChild(free);
+  h('Shot plan');
   const shots = DEF.shots || [];
-  if (!shots.length) { const e = document.createElement('div'); e.className = 'empty'; e.textContent = 'В этой сцене нет плана кадров. Он есть в сценах проектов, которые я собираю по вашей идее.'; p.appendChild(e); }
+  if (!shots.length) { const e = document.createElement('div'); e.className = 'empty'; e.textContent = 'This scene has no shot plan. Project scenes built from your idea come with one.'; p.appendChild(e); }
   shots.forEach((s, i) => {
     const row = document.createElement('div'); row.className = 'shotrow';
     const go = document.createElement('button'); go.className = 'go'; go.innerHTML = '<span></span><small></small>';
@@ -1423,24 +1423,24 @@ function buildShotPop() {
     go.addEventListener('click', () => startSrc({ kind: 'shot', item: s }, false));
     const T = shotTimes(s);
     row.append(go,
-      btn('mini play', '▶ ' + T.total.toFixed(1) + ' с', 'Проиграть кадр ' + (i + 1), () => startSrc({ kind: 'shot', item: s }, true)),
-      btn('mini recd', '● дубль', 'Записать дубль под кадр ' + (i + 1), () => startTake(s)),
-      btn('mini', 'видео', 'Видео кадра ' + (i + 1), () => openVideo({ kind: 'shot', item: s })),
-      btn('mini', '+ кадр', 'Добавить кадр ' + (i + 1) + ' в раскадровку', () => { closePops(); shotToBoard(s); }));
+      btn('mini play', '▶ ' + T.total.toFixed(1) + ' s', 'Play shot ' + (i + 1), () => startSrc({ kind: 'shot', item: s }, true)),
+      btn('mini recd', '● take', 'Record a take of shot ' + (i + 1), () => startTake(s)),
+      btn('mini', 'video', 'Video of shot ' + (i + 1), () => openVideo({ kind: 'shot', item: s })),
+      btn('mini', '+ board', 'Add shot ' + (i + 1) + ' to the storyboard', () => { closePops(); shotToBoard(s); }));
     p.appendChild(row);
   });
   const takes = C.takes || [];
   if (takes.length) {
-    h('Дубли');
+    h('Takes');
     takes.forEach((tk, i) => {
       const row = document.createElement('div'); row.className = 'shotrow';
       const go = document.createElement('button'); go.className = 'go'; go.innerHTML = '<span></span><small></small>';
-      go.firstChild.textContent = tk.name; go.lastChild.textContent = tk.dur.toFixed(1) + ' с' + (tk.shotId ? ' · с актёрами' : '');
+      go.firstChild.textContent = tk.name; go.lastChild.textContent = tk.dur.toFixed(1) + ' s' + (tk.shotId ? ' · with actors' : '');
       go.addEventListener('click', () => startSrc({ kind: 'take', item: tk }, false));
-      let arm = 0; const del = btn('mini', '✕', 'Удалить дубль', () => { if (!arm) { arm = 1; del.textContent = 'точно?'; setTimeout(() => { arm = 0; del.textContent = '✕'; }, 2500); return; } C.takes.splice(i, 1); save(true); buildShotPop(); });
-      row.append(go, btn('mini play', '▶', 'Проиграть дубль', () => startSrc({ kind: 'take', item: tk }, true)),
-        btn('mini', 'видео', 'Видео дубля', () => openVideo({ kind: 'take', item: tk })),
-        btn('mini', '+ кадр', 'Первый кадр дубля в раскадровку', () => { closePops(); startSrc({ kind: 'take', item: tk }, false); capture({ move: 'с рук', note: tk.name }); }), del);
+      let arm = 0; const del = btn('mini', '✕', 'Delete take', () => { if (!arm) { arm = 1; del.textContent = 'sure?'; setTimeout(() => { arm = 0; del.textContent = '✕'; }, 2500); return; } C.takes.splice(i, 1); save(true); buildShotPop(); });
+      row.append(go, btn('mini play', '▶', 'Play take', () => startSrc({ kind: 'take', item: tk }, true)),
+        btn('mini', 'video', 'Video of the take', () => openVideo({ kind: 'take', item: tk })),
+        btn('mini', '+ board', 'First frame of the take to the storyboard', () => { closePops(); startSrc({ kind: 'take', item: tk }, false); capture({ move: 'handheld', note: tk.name }); }), del);
       p.appendChild(row);
     });
   }
@@ -1469,9 +1469,9 @@ function capture(opts) {
   opts = opts || {};
   const img = grabFrame(960);
   const si = classify(true);
-  C.frames.push(Object.assign({ img, move: opts.move || 'статика', note: opts.note || '', example: !!opts.example, t: Date.now() + Math.random() }, snapshotCaption(si)));
+  C.frames.push(Object.assign({ img, move: opts.move || 'static', note: opts.note || '', example: !!opts.example, t: Date.now() + Math.random() }, snapshotCaption(si)));
   save(true); refreshBoardBtn();
-  if (!opts.example && !opts.silent) { flash(); toast('Кадр ' + C.frames.length + ' в раскадровке'); }
+  if (!opts.example && !opts.silent) { flash(); toast('Frame ' + C.frames.length + ' in the storyboard'); }
 }
 function flash() {
   const f = document.createElement('div');
@@ -1483,23 +1483,23 @@ function refreshBoardBtn() {
   const last = C.frames[C.frames.length - 1];
   $('boardBtn').style.backgroundImage = last ? 'url(' + last.img + ')' : 'none';
 }
-function capLine(f) { return f.lens + ' ' + f.sensor + ' · ' + f.aspect + ' · выс ' + f.h + ' · до лица ' + f.dist + ' · наклон ' + f.tilt + ' · крен ' + f.roll; }
+function capLine(f) { return f.lens + ' ' + f.sensor + ' · ' + f.aspect + ' · height ' + f.h + ' · face ' + f.dist + ' · tilt ' + f.tilt + ' · roll ' + f.roll; }
 function renderBoard() {
   const b = $('board'); b.textContent = '';
-  $('boardTitle').textContent = 'Раскадровка · ' + DEF.title + ' · ' + C.frames.length;
+  $('boardTitle').textContent = 'Storyboard · ' + DEF.title + ' · ' + C.frames.length;
   if (!C.frames.length) {
     const p = document.createElement('p'); p.className = 'empty';
-    p.textContent = 'Пока пусто. Найдите кадр и нажмите красную кнопку, или добавьте кадры из плана через «Кадры». Кадр попадёт сюда с подписью: крупность, линза, высота, дистанция.';
+    p.textContent = 'Nothing here yet. Find a frame and press the red button, or add shots from the plan in Shots. Each frame lands here with a caption: shot size, lens, height, distance.';
     b.appendChild(p); return;
   }
   C.frames.forEach((f, i) => {
     const card = document.createElement('article'); card.className = 'card';
     card.innerHTML = '<div class="pic"><img alt=""><span class="num"></span></div><div class="body"><div class="cap"><b></b><br><span class="ln"></span></div>' +
-      '<select aria-label="Движение камеры"></select><input type="text" placeholder="Заметка: что происходит в кадре" aria-label="Заметка">' +
-      '<div class="row"><button class="btn" data-a="l" aria-label="Сдвинуть влево">←</button><button class="btn" data-a="r" aria-label="Сдвинуть вправо">→</button><button class="btn" data-a="d">Удалить</button></div></div>';
+      '<select aria-label="Camera move"></select><input type="text" placeholder="Note: what happens in the frame" aria-label="Note">' +
+      '<div class="row"><button class="btn" data-a="l" aria-label="Move left">←</button><button class="btn" data-a="r" aria-label="Move right">→</button><button class="btn" data-a="d">Delete</button></div></div>';
     card.querySelector('img').src = f.img;
     card.querySelector('.num').textContent = String(i + 1).padStart(2, '0');
-    if (f.example) { const ex = document.createElement('span'); ex.className = 'ex'; ex.textContent = 'пример'; card.querySelector('.pic').appendChild(ex); }
+    if (f.example) { const ex = document.createElement('span'); ex.className = 'ex'; ex.textContent = 'example'; card.querySelector('.pic').appendChild(ex); }
     card.querySelector('.cap b').textContent = f.shot;
     card.querySelector('.cap .ln').textContent = capLine(f);
     const sel2 = card.querySelector('select'); sel2.id = 'mv' + String(f.t).replace('.', '');
@@ -1525,7 +1525,7 @@ function wrapText(g, text, maxW) {
 }
 async function exportBoard() {
   const F = C.frames;
-  if (!F.length) { toast('Сначала снимите хотя бы один кадр.'); return; }
+  if (!F.length) { toast('Take at least one frame first.'); return; }
   const cols = 3, cell = 640, gap = 36, pad = 56, imgs = await Promise.all(F.map(f => loadImg(f.img)));
   const g0 = document.createElement('canvas').getContext('2d');
   const rows = [];
@@ -1546,7 +1546,7 @@ async function exportBoard() {
   g.fillStyle = '#121316'; g.font = '700 40px "Barlow Semi Condensed", "Arial Narrow", sans-serif';
   g.fillText('PROVIS · ' + DEF.title.toUpperCase(), pad, pad + 36);
   g.font = '400 20px "IBM Plex Mono", monospace'; g.fillStyle = '#6a6e75';
-  g.fillText('Раскадровка · ' + new Date().toLocaleDateString('ru-RU') + ' · кадров ' + F.length, pad, pad + 70);
+  g.fillText('Storyboard · ' + new Date().toLocaleDateString('en-GB') + ' · ' + F.length + ' frames', pad, pad + 70);
   let y = pad + 100;
   rows.forEach((rh, ri) => {
     for (let k = 0; k < cols; k++) {
@@ -1567,8 +1567,8 @@ async function exportBoard() {
   const blob = await new Promise(res => c.toBlob(res, 'image/png'));
   if (await saveBlob(blob, 'provis-' + DEF.id + '.png', 'image/png', true)) return;
   const pv = $('preview'); pv.hidden = false; pv.textContent = '';
-  const p = document.createElement('p'); p.className = 'empty'; p.textContent = 'Удерживайте картинку, чтобы сохранить её в Фото.';
-  const im = document.createElement('img'); im.alt = 'Раскадровка'; im.src = URL.createObjectURL(blob);
+  const p = document.createElement('p'); p.className = 'empty'; p.textContent = 'Press and hold the image to save it to Photos.';
+  const im = document.createElement('img'); im.alt = 'Storyboard'; im.src = URL.createObjectURL(blob);
   pv.appendChild(p); pv.appendChild(im); im.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -1577,19 +1577,19 @@ async function saveBlob(blob, name, type, quiet) {
   let dl = null;
   try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
   if (dl) {
-    try { await dl.save({ filename: name, data: blob }); toast('Сохранено: ' + name); return true; }
-    catch (e) { if (e && e.code === 'declined') { toast('Сохранение отменено.'); return true; } }
+    try { await dl.save({ filename: name, data: blob }); toast('Saved: ' + name); return true; }
+    catch (e) { if (e && e.code === 'declined') { toast('Save cancelled.'); return true; } }
   }
   const file = new File([blob], name, { type });
   if (navigator.canShare && navigator.canShare({ files: [file] })) {
     try { await navigator.share({ files: [file] }); return true; } catch (e) { if (e && e.name === 'AbortError') return true; }
   }
-  if (!quiet) toast('Сохранить файл здесь не получилось. Удерживайте картинку или видео пальцем.');
+  if (!quiet) toast('Could not save the file here. Press and hold the image or video.');
   return false;
 }
 function copyText(ta) {
-  try { navigator.clipboard.writeText(ta.value).then(() => toast('Скопировано.'), () => { ta.select(); toast('Текст выделен, скопируйте его вручную.'); }); }
-  catch (e) { ta.select(); toast('Текст выделен, скопируйте его вручную.'); }
+  try { navigator.clipboard.writeText(ta.value).then(() => toast('Copied.'), () => { ta.select(); toast('Text selected, copy it by hand.'); }); }
+  catch (e) { ta.select(); toast('Text selected, copy it by hand.'); }
 }
 
 // ---------- offscreen renders: frame, depth, mask, contours, clay ----------
@@ -1713,8 +1713,8 @@ function renderSet(longSide) { // frame, depth, mask, contours from the current 
 }
 
 // ---------- prompts ----------
-const SHOT_EN = { 'Сверхобщий': 'Extreme wide shot', 'Общий': 'Wide shot', 'Полный рост': 'Full shot', 'Средне-общий': 'Medium wide shot', 'Средний': 'Medium shot',
-  'Первый план': 'Medium close-up', 'Крупный': 'Close-up', 'Сверхкрупный': 'Extreme close-up', 'Деталь': 'Insert detail shot', 'Актёров нет в кадре': 'Wide establishing shot' };
+const SHOT_EN = { 'Extreme wide': 'Extreme wide shot', 'Wide': 'Wide shot', 'Full shot': 'Full shot', 'Medium wide': 'Medium wide shot', 'Medium': 'Medium shot',
+  'Medium close-up': 'Medium close-up', 'Close-up': 'Close-up', 'Extreme close-up': 'Extreme close-up', 'Insert': 'Insert detail shot', 'No actors in frame': 'Wide establishing shot' };
 function angleEn(pitchDeg) { return pitchDeg < -55 ? 'top-down overhead angle' : pitchDeg < -12 ? 'high angle looking down' : pitchDeg > 25 ? 'low angle looking up from the floor' : pitchDeg > 8 ? 'slightly low angle' : 'eye-level angle'; }
 function shotEn(si) {
   const roll = currentRoll(), dutch = Math.abs(roll) > 4 ? ', dutch tilt of ' + Math.round(Math.abs(roll)) + ' degrees' : '';
@@ -1734,7 +1734,7 @@ async function openWeavy() {
   closePops(); stopPlay();
   const si = classify(true), stamp = DEF.id + '-' + new Date().toTimeString().slice(0, 5).replace(':', '');
   const set = renderSet(1920);
-  const items = [['frame', 'Кадр', 'Референс композиции.'], ['depth', 'Глубина', 'Светлое ближе, тёмное дальше. Для depth control.'], ['edges', 'Контуры', 'Для line art или canny.'], ['mask', 'Маска', 'Каждый цвет это объект, расшифровка в промпте.']];
+  const items = [['frame', 'Frame', 'Composition reference.'], ['depth', 'Depth', 'Light is near, dark is far. For depth control.'], ['edges', 'Contours', 'For line art or canny.'], ['mask', 'Mask', 'Each colour is one object, the legend is in the prompt.']];
   const blobs = await Promise.all(items.map(x => canvasBlob(set[x[0]])));
   if (wv) wv.urls.forEach(u => URL.revokeObjectURL(u));
   wv = { files: [], urls: [] };
@@ -1745,7 +1745,7 @@ async function openWeavy() {
     const fig = document.createElement('figure'); fig.innerHTML = '<img alt=""><figcaption><b></b><span></span></figcaption>';
     fig.querySelector('img').src = url; fig.querySelector('img').alt = title; fig.querySelector('b').textContent = title;
     fig.querySelector('span').textContent = (k === 'frame' ? set.frame.width + ' × ' + set.frame.height + ' · ' + si.name + ' · ' + lensLabel() + '. ' : '') + note;
-    const b = document.createElement('button'); b.className = 'btn' + (k === 'frame' ? ' primary' : ''); b.textContent = 'Сохранить'; b.addEventListener('click', () => saveBlob(blobs[i], name, 'image/png'));
+    const b = document.createElement('button'); b.className = 'btn' + (k === 'frame' ? ' primary' : ''); b.textContent = 'Save'; b.addEventListener('click', () => saveBlob(blobs[i], name, 'image/png'));
     fig.querySelector('figcaption').appendChild(b); grid.appendChild(fig);
   });
   $('wvPrompt').value = weavyPrompt(si, set);
@@ -1798,15 +1798,15 @@ function seedancePrompt(src) {
 }
 function openVideo(src) {
   closePops(); stopPlay();
-  vd.src = src; $('vdTitle').textContent = 'Видео · ' + src.item.name;
+  vd.src = src; $('vdTitle').textContent = 'Video · ' + src.item.name;
   if (vd.url) { URL.revokeObjectURL(vd.url); vd.url = null; }
-  $('vdFig').hidden = true; $('vdProg').textContent = srcTotal(src).toFixed(1) + ' с';
+  $('vdFig').hidden = true; $('vdProg').textContent = srcTotal(src).toFixed(1) + ' s';
   applySrcAt(src, 0); setMm(focal()); applyOrientation(); camera.updateMatrixWorld();
   $('vdPrompt').value = seedancePrompt(src);
   buildVideoChips(); $('videoSheet').hidden = false;
 }
 function buildVideoChips() {
-  chips($('vdLook'), [['clay', 'Clay'], ['color', 'Цвет как в превью']], v => v === vd.look, v => { vd.look = v; buildVideoChips(); });
+  chips($('vdLook'), [['clay', 'Clay'], ['color', 'Colour as in preview']], v => v === vd.look, v => { vd.look = v; buildVideoChips(); });
   chips($('vdRes'), [[1080, '1080p'], [720, '720p']], v => v === vd.res, v => { vd.res = v; buildVideoChips(); });
 }
 async function encodeMp4(w, h, n, fps, draw, prog) { // frame-exact: each frame is rendered, then encoded with its own timestamp
@@ -1847,7 +1847,7 @@ async function makeVideo() {
   const fps = 25, total = srcTotal(src) + 0.4, n = Math.max(2, Math.round(total * fps));
   const [w, h] = exportSize(vd.res === 1080 ? 1920 : 1280);
   const keep = { cam: clone(C.cam), lens: S.lens, zoom: S.zoom, roll: S.roll, anim: animOv };
-  $('vdMake').disabled = true; $('vdProg').textContent = 'Рендер 0%';
+  $('vdMake').disabled = true; $('vdProg').textContent = 'Rendering 0%';
   const st = beginOff(w, h), bg = scene.background;
   const clay = vd.look === 'clay';
   const draw = t => {
@@ -1856,19 +1856,19 @@ async function makeVideo() {
     renderer.render(scene, camera);
     if (clay) { scene.overrideMaterial = null; scene.background = bg; renderer.toneMappingExposure = 1.05; }
   };
-  const prog = f => { $('vdProg').textContent = 'Рендер ' + Math.round(f * 100) + '%'; };
+  const prog = f => { $('vdProg').textContent = 'Rendering ' + Math.round(f * 100) + '%'; };
   let out = null;
   try { out = await encodeMp4(w, h, n, fps, draw, prog); } catch (e) { console.warn(e); out = null; }
-  if (!out) { $('vdProg').textContent = 'Запись в реальном времени…'; try { out = await recordRealtime(w, h, total, fps, draw, prog); } catch (e) { console.warn(e); out = null; } }
+  if (!out) { $('vdProg').textContent = 'Recording in real time…'; try { out = await recordRealtime(w, h, total, fps, draw, prog); } catch (e) { console.warn(e); out = null; } }
   scene.overrideMaterial = null; scene.background = bg; endOff(st);
   Object.assign(C.cam, keep.cam); S.lens = keep.lens; S.zoom = keep.zoom; S.roll = keep.roll; animOv = keep.anim; placeActors(); updateProjection();
   $('vdMake').disabled = false;
-  if (!out) { $('vdProg').textContent = 'Видео в этом браузере не записывается. Откройте Provis в Safari или Chrome.'; return; }
+  if (!out) { $('vdProg').textContent = 'This browser cannot record video. Open Provis in Safari or Chrome.'; return; }
   vd.blob = out.blob; vd.name = 'provis-' + DEF.id + '-' + (src.item.id || 'take') + (clay ? '-clay' : '') + '.' + out.ext;
   if (vd.url) URL.revokeObjectURL(vd.url); vd.url = URL.createObjectURL(out.blob);
   $('vdVideo').src = vd.url; $('vdFig').hidden = false;
-  $('vdInfo').textContent = w + ' × ' + h + ' · ' + fps + ' к/с · ' + total.toFixed(1) + ' с · ' + (out.blob.size / 1e6).toFixed(1) + ' МБ · ' + out.ext + (out.codec === 'live' ? ' · записано вживую, возможны пропуски кадров' : ' · ' + out.codec);
-  $('vdProg').textContent = 'Готово';
+  $('vdInfo').textContent = w + ' × ' + h + ' · ' + fps + ' fps · ' + total.toFixed(1) + ' s · ' + (out.blob.size / 1e6).toFixed(1) + ' MB · ' + out.ext + (out.codec === 'live' ? ' · recorded live, frames may drop' : ' · ' + out.codec);
+  $('vdProg').textContent = 'Done';
 }
 $('vdMake').addEventListener('click', makeVideo);
 $('vdSave').addEventListener('click', () => vd.blob && saveBlob(vd.blob, vd.name, vd.blob.type));
@@ -1919,7 +1919,7 @@ function renderPlan() {
     const A = pts[pts.length - 2], B = pts[pts.length - 1], an = Math.atan2(B[1] - A[1], B[0] - A[0]);
     g.beginPath(); g.moveTo(B[0], B[1]); g.lineTo(B[0] - 22 * Math.cos(an - 0.4), B[1] - 22 * Math.sin(an - 0.4)); g.lineTo(B[0] - 22 * Math.cos(an + 0.4), B[1] - 22 * Math.sin(an + 0.4)); g.closePath(); g.fill();
     g.font = '500 18px "IBM Plex Mono", monospace';
-    ks.forEach((k, j) => { const q = pts[j]; g.beginPath(); g.arc(q[0], q[1], 6, 0, Math.PI * 2); g.fill(); g.fillText((i + 1) + ': ' + k.t.toFixed(1) + ' с', q[0] + 10, q[1] + 24); });
+    ks.forEach((k, j) => { const q = pts[j]; g.beginPath(); g.arc(q[0], q[1], 6, 0, Math.PI * 2); g.fill(); g.fillText((i + 1) + ': ' + k.t.toFixed(1) + ' s', q[0] + 10, q[1] + 24); });
   }));
   const spots = []; // shots that start from the same point share one label
   shots.forEach((s, i) => {
@@ -1937,8 +1937,8 @@ function renderPlan() {
   g.textBaseline = 'alphabetic';
   g.font = '600 24px "Barlow Semi Condensed", "Arial Narrow", sans-serif'; g.fillStyle = '#ffffff';
   actors.forEach(a => { const p = P(a.root.position.x, a.root.position.z), tw = g.measureText(a.def.name).width; g.fillText(a.def.name, p[0] + 16 + tw > W - 8 ? p[0] - 16 - tw : p[0] + 16, p[1] - 14); });
-  g.fillStyle = '#ffffff'; g.fillRect(24, Hh - 34, ppm, 6); g.font = '500 18px "IBM Plex Mono", monospace'; g.fillText('1 м', 24 + ppm + 10, Hh - 26);
-  g.font = '700 28px "Barlow Semi Condensed", "Arial Narrow", sans-serif'; g.fillText('PROVIS · ' + DEF.title.toUpperCase() + ' · ПЛАН', 24, 40);
+  g.fillStyle = '#ffffff'; g.fillRect(24, Hh - 34, ppm, 6); g.font = '500 18px "IBM Plex Mono", monospace'; g.fillText('1 m', 24 + ppm + 10, Hh - 26);
+  g.font = '700 28px "Barlow Semi Condensed", "Arial Narrow", sans-serif'; g.fillText('PROVIS · ' + DEF.title.toUpperCase() + ' · PLAN', 24, 40);
   return c;
 }
 function describeAt(sh, t) { // apply a moment of a shot and read the frame
@@ -1948,29 +1948,29 @@ function describeAt(sh, t) { // apply a moment of a shot and read the frame
 }
 function shotlistMd() {
   const keep = { cam: clone(C.cam), lens: S.lens, zoom: S.zoom, roll: S.roll, anim: animOv };
-  const L = ['# ' + DEF.title + ' · шотлист', ''];
+  const L = ['# ' + DEF.title + ' · shot list', ''];
   if (DEF.about) L.push(DEF.about, '');
-  L.push('Камера: ' + SENSORS[S.sensor].name + ', формат ' + S.aspect + '.', '');
+  L.push('Camera: ' + SENSORS[S.sensor].name + ', aspect ' + S.aspect + '.', '');
   (DEF.shots || []).forEach((sh, i) => {
     const T = shotTimes(sh), a = describeAt(sh, 0), b = sh.to || T.total > 0.5 ? describeAt(sh, T.total) : null;
     L.push('## ' + (i + 1) + '. ' + sh.name, '');
-    L.push('- **Движение:** ' + (sh.move || (sh.to ? 'движение' : 'статика')) + (sh.to ? ', ' + T.mv.toFixed(2) + ' с' + (T.hold ? ' после паузы ' + T.hold.toFixed(1) + ' с' : '') : ''));
-    L.push('- **Линза:** ' + a.mm + ' мм' + (b && b.mm !== a.mm ? ' → ' + b.mm + ' мм' : '') + ', ' + SENSORS[S.sensor].short);
-    L.push('- **Камера:** высота ' + a.h.toFixed(2) + ' м, наклон ' + fmtDeg(a.tilt) + (b && Math.abs(b.h - a.h) > 0.05 ? ' → высота ' + b.h.toFixed(2) + ' м' : ''));
-    L.push('- **Крупность:** ' + a.si.name + (a.si.tags.length ? ' (' + a.si.tags.join(', ') + ')' : '') + (b && b.si.name !== a.si.name ? ' → ' + b.si.name + (b.si.tags.length ? ' (' + b.si.tags.join(', ') + ')' : '') : '') + (a.si.dist ? ', до лица ' + fmtDist(a.si.dist) : ''));
-    L.push('- **Длительность:** ' + T.total.toFixed(1) + ' с');
-    Object.keys(sh.actors || {}).forEach(id => { const c = C.cast.find(x => x.id === id); if (!c) return; L.push('- **' + c.name + ':** ' + sh.actors[id].slice().sort((p, q) => p.t - q.t).map(k => k.t.toFixed(1) + ' с ' + (k.pose ? poseRu(k.pose) : 'движется')).join(' → ')); });
-    if (sh.note) L.push('- **Заметка:** ' + sh.note);
+    L.push('- **Move:** ' + (sh.move || (sh.to ? 'move' : 'static')) + (sh.to ? ', ' + T.mv.toFixed(2) + ' s' + (T.hold ? ' after a ' + T.hold.toFixed(1) + ' s hold' : '') : ''));
+    L.push('- **Lens:** ' + a.mm + 'mm' + (b && b.mm !== a.mm ? ' → ' + b.mm + 'mm' : '') + ', ' + SENSORS[S.sensor].short);
+    L.push('- **Camera:** height ' + a.h.toFixed(2) + ' m, tilt ' + fmtDeg(a.tilt) + (b && Math.abs(b.h - a.h) > 0.05 ? ' → height ' + b.h.toFixed(2) + ' m' : ''));
+    L.push('- **Shot size:** ' + a.si.name + (a.si.tags.length ? ' (' + a.si.tags.join(', ') + ')' : '') + (b && b.si.name !== a.si.name ? ' → ' + b.si.name + (b.si.tags.length ? ' (' + b.si.tags.join(', ') + ')' : '') : '') + (a.si.dist ? ', face at ' + fmtDist(a.si.dist) : ''));
+    L.push('- **Duration:** ' + T.total.toFixed(1) + ' s');
+    Object.keys(sh.actors || {}).forEach(id => { const c = C.cast.find(x => x.id === id); if (!c) return; L.push('- **' + c.name + ':** ' + sh.actors[id].slice().sort((p, q) => p.t - q.t).map(k => k.t.toFixed(1) + ' s ' + (k.pose ? poseName(k.pose) : 'moves')).join(' → ')); });
+    if (sh.note) L.push('- **Note:** ' + sh.note);
     L.push('');
   });
-  if ((C.takes || []).length) { L.push('## Дубли', ''); C.takes.forEach(tk => L.push('- ' + tk.name + ', ' + tk.dur.toFixed(1) + ' с')); L.push(''); }
+  if ((C.takes || []).length) { L.push('## Takes', ''); C.takes.forEach(tk => L.push('- ' + tk.name + ', ' + tk.dur.toFixed(1) + ' s')); L.push(''); }
   Object.assign(C.cam, keep.cam); S.lens = keep.lens; S.zoom = keep.zoom; S.roll = keep.roll; animOv = keep.anim; placeActors(); updateProjection();
   return L.join('\n');
 }
 async function openPlan() {
   closePops(); stopPlay();
   const c = renderPlan(); planBlob = await canvasBlob(c);
-  $('plImg').src = URL.createObjectURL(planBlob); $('plTitle').textContent = 'План · ' + DEF.title;
+  $('plImg').src = URL.createObjectURL(planBlob); $('plTitle').textContent = 'Plan · ' + DEF.title;
   $('plMd').value = shotlistMd(); $('planSheet').hidden = false;
 }
 $('tPlan').addEventListener('click', openPlan);
@@ -1985,7 +1985,7 @@ const freeItem = it => !!(it && it.pos && !it.wall);
 function refreshSelBox() {
   if (selBox) { scene.remove(selBox); selBox = null; }
   if (mode === 'edit' && editSel >= 0 && ITEM_OBJS[editSel]) { selBox = new THREE.BoxHelper(ITEM_OBJS[editSel], 0xffb31a); scene.add(selBox); }
-  const it = C && C.items[editSel]; $('editName').textContent = it ? itemRu(it) : 'Коснитесь предмета';
+  const it = C && C.items[editSel]; $('editName').textContent = it ? itemName(it) : 'Tap an object';
 }
 function tapEdit(x, y) {
   const h = rayAt(x, y).intersectObject(world, true).find(o => o.object.userData.itemIdx !== undefined && o.object.visible);
@@ -2007,13 +2007,13 @@ function moveSel(dx, dz) {
   }
   rebuildItem(editSel); save();
 }
-function rotSel(deg) { const it = C.items[editSel]; if (!it) return; if (it.wall || !it.pos) { toast(it.wall ? 'Этот предмет висит на стене, его можно только сдвигать.' : 'Этот предмет можно только сдвигать.'); return; } it.rot = ((it.rot || 0) + deg) % 360; rebuildItem(editSel); save(); }
+function rotSel(deg) { const it = C.items[editSel]; if (!it) return; if (it.wall || !it.pos) { toast(it.wall ? 'This object hangs on a wall, it can only slide along it.' : 'This object can only be moved.'); return; } it.rot = ((it.rot || 0) + deg) % 360; rebuildItem(editSel); save(); }
 function liftSel(d) {
   const it = C.items[editSel]; if (!it) return; const st = S.toy ? 0.02 : 0.05;
   if (it.wall && it.y != null) it.y = r3(it.y + d * st);
   else if (it.from) { it.from[1] = r3(it.from[1] + d * st); it.to[1] = r3(it.to[1] + d * st); }
   else if (it.pos && it.pos.length === 3) it.pos[1] = r3(it.pos[1] + d * st);
-  else { toast('Этот предмет стоит на полу.'); return; }
+  else { toast('This object stands on the floor.'); return; }
   rebuildItem(editSel); save();
 }
 function dupSel() {
@@ -2026,33 +2026,33 @@ function dupSel() {
 let delArmE = 0;
 function delSel() {
   if (editSel < 0) return; const b = $('edDel');
-  if (!delArmE) { delArmE = setTimeout(() => { delArmE = 0; b.textContent = 'Удалить'; }, 2500); b.textContent = 'Точно?'; return; }
-  clearTimeout(delArmE); delArmE = 0; b.textContent = 'Удалить';
+  if (!delArmE) { delArmE = setTimeout(() => { delArmE = 0; b.textContent = 'Delete'; }, 2500); b.textContent = 'Sure?'; return; }
+  clearTimeout(delArmE); delArmE = 0; b.textContent = 'Delete';
   C.items.splice(editSel, 1); editSel = -1; rebuildAllItems(); save();
 }
 const LIB = [
-  ['Куб 50 см', () => ({ type: 'box', size: [0.5, 0.5, 0.5], color: '#a59d91' }), 0.25],
-  ['Стена 2 м', () => ({ type: 'wallSeg', w: 2, d: 0.12 })],
-  ['Колонна', () => ({ type: 'cyl', r: 0.2, h: H, color: '#d6d0c6' }), 'half'],
-  ['Стол', () => ({ type: 'table', size: [1.4, 0.8], h: 0.75 })],
-  ['Стул', () => ({ type: 'chair' })],
-  ['Диван', () => ({ type: 'sofa', w: 2.1 })],
-  ['Стеллаж', () => ({ type: 'shelf', w: 1.6, h: 2, d: 0.4 })],
-  ['Вешалка', () => ({ type: 'coatRack', w: 1.6, h: 1.68, coats: [{ color: '#3c3f44' }, { color: '#2b3550', hood: true }, { color: '#5b5f45' }, { color: '#c8b496', wide: true }, { color: '#232427' }, { color: '#283a5c' }] })],
-  ['Торшер', () => ({ type: 'floorLamp' })],
-  ['Ковёр', () => ({ type: 'rug', size: [2, 1.4], color: '#7b4b3a' })],
-  ['Машина', () => ({ type: 'car', color: '#9c2b2b' })],
-  ['Дверь', () => ({ type: 'door', w: 0.95, h: 2.1, color: '#6b4630' }), 'wall'],
-  ['Окно', () => ({ type: 'window', w: 1.6, h: 1.4, y: 0.9, cols: 3, rows: 2 }), 'wall'],
-  ['Доска', () => ({ type: 'panel', w: 1.1, h: 0.9, y: 1.5, color: '#5d5b59', frame: '#9a9184', papers: 5 }), 'wall'],
-  ['Постер', () => ({ type: 'panel', w: 0.5, h: 0.7, y: 1.55, color: '#1d2b4a', frame: '#111318' }), 'wall'],
-  ['Часы', () => ({ type: 'clock', y: 2.2, r: 0.17 }), 'wall']
+  ['Cube 50 cm', () => ({ type: 'box', size: [0.5, 0.5, 0.5], color: '#a59d91' }), 0.25],
+  ['Wall 2 m', () => ({ type: 'wallSeg', w: 2, d: 0.12 })],
+  ['Column', () => ({ type: 'cyl', r: 0.2, h: H, color: '#d6d0c6' }), 'half'],
+  ['Table', () => ({ type: 'table', size: [1.4, 0.8], h: 0.75 })],
+  ['Chair', () => ({ type: 'chair' })],
+  ['Sofa', () => ({ type: 'sofa', w: 2.1 })],
+  ['Shelf', () => ({ type: 'shelf', w: 1.6, h: 2, d: 0.4 })],
+  ['Coat rack', () => ({ type: 'coatRack', w: 1.6, h: 1.68, coats: [{ color: '#3c3f44' }, { color: '#2b3550', hood: true }, { color: '#5b5f45' }, { color: '#c8b496', wide: true }, { color: '#232427' }, { color: '#283a5c' }] })],
+  ['Floor lamp', () => ({ type: 'floorLamp' })],
+  ['Rug', () => ({ type: 'rug', size: [2, 1.4], color: '#7b4b3a' })],
+  ['Car', () => ({ type: 'car', color: '#9c2b2b' })],
+  ['Door', () => ({ type: 'door', w: 0.95, h: 2.1, color: '#6b4630' }), 'wall'],
+  ['Window', () => ({ type: 'window', w: 1.6, h: 1.4, y: 0.9, cols: 3, rows: 2 }), 'wall'],
+  ['Notice board', () => ({ type: 'panel', w: 1.1, h: 0.9, y: 1.5, color: '#5d5b59', frame: '#9a9184', papers: 5 }), 'wall'],
+  ['Poster', () => ({ type: 'panel', w: 0.5, h: 0.7, y: 1.55, color: '#1d2b4a', frame: '#111318' }), 'wall'],
+  ['Clock', () => ({ type: 'clock', y: 2.2, r: 0.17 }), 'wall']
 ];
 function addItem(entry) {
   const it = entry[1](), A = camAxes();
   if (entry[2] === 'wall') {
     const h = rayAt(view.rect.x + view.rect.w / 2, view.rect.y + view.rect.h / 2).intersectObject(world, true).find(o => o.object.userData.wallId);
-    if (!h) { toast('Наведите центр кадра на стену и нажмите ещё раз.'); return; }
+    if (!h) { toast('Point the frame centre at a wall and tap again.'); return; }
     const f = WALLS[h.object.userData.wallId]; it.wall = f.id; it.u = r3((h.point.x - f.ax) * f.ux + (h.point.z - f.az) * f.uz);
     if (it.type !== 'door' && it.type !== 'window') it.y = r3(clamp(h.point.y, 0.5, H - 0.4));
   } else {
@@ -2061,13 +2061,13 @@ function addItem(entry) {
     it.rot = rot;
   }
   C.items.push(it); editSel = C.items.length - 1; buildItem(editSel); refreshSelBox(); save();
-  $('libPop').hidden = true; toast('Добавлено: ' + entry[0] + '. Двигайте стрелками или пальцем.');
+  $('libPop').hidden = true; toast('Added: ' + entry[0] + '. Move it with the arrows or drag it.');
 }
 function buildLib() {
   const p = $('libPop'); p.textContent = '';
-  const h1 = document.createElement('h4'); h1.textContent = 'На пол, в 2 м перед камерой'; p.appendChild(h1);
+  const h1 = document.createElement('h4'); h1.textContent = 'On the floor, 2 m in front of the camera'; p.appendChild(h1);
   const g1 = document.createElement('div'); g1.className = 'libgrid'; p.appendChild(g1);
-  const h2 = document.createElement('h4'); h2.textContent = 'На стену в центре кадра'; p.appendChild(h2);
+  const h2 = document.createElement('h4'); h2.textContent = 'On the wall at frame centre'; p.appendChild(h2);
   const g2 = document.createElement('div'); g2.className = 'libgrid'; p.appendChild(g2);
   LIB.forEach(e => { const b = document.createElement('button'); b.textContent = e[0]; b.addEventListener('click', () => addItem(e)); (e[2] === 'wall' ? g2 : g1).appendChild(b); });
 }
@@ -2083,26 +2083,26 @@ $('edDone').addEventListener('click', () => setMode('camera'));
 
 // actors editing
 function rebuildCast() { buildCast(); placeActors(); refreshActorBar(); save(); }
-$('hMinus').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; a.h = r3(clamp((a.h || 1.75) - 0.05, 0.9, 2.2)); rebuildCast(); toast(a.name + ': ' + a.h.toFixed(2) + ' м'); });
-$('hPlus').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; a.h = r3(clamp((a.h || 1.75) + 0.05, 0.9, 2.2)); rebuildCast(); toast(a.name + ': ' + a.h.toFixed(2) + ' м'); });
+$('hMinus').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; a.h = r3(clamp((a.h || 1.75) - 0.05, 0.9, 2.2)); rebuildCast(); toast(a.name + ': ' + a.h.toFixed(2) + ' m'); });
+$('hPlus').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; a.h = r3(clamp((a.h || 1.75) + 0.05, 0.9, 2.2)); rebuildCast(); toast(a.name + ': ' + a.h.toFixed(2) + ' m'); });
 $('buildBtn').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; const i = BUILDS.findIndex(b => b[0] === (a.build || 'normal')); a.build = BUILDS[(i + 1) % BUILDS.length][0]; rebuildCast(); toast(a.name + ': ' + BUILDS.find(b => b[0] === a.build)[1]); });
 $('clothBtn').addEventListener('click', () => { const a = C.cast[sel]; if (!a) return; const cur = a.top || a.color; const i = CLOTHES.indexOf(cur); a.top = CLOTHES[(i + 1) % CLOTHES.length]; if (!a.bottom) a.bottom = '#3a3a40'; if (!a.skin) a.skin = '#e2b48c'; rebuildCast(); });
 $('actorAdd').addEventListener('click', () => {
   const A = camAxes(), n = C.cast.length;
-  C.cast.push({ id: 'a' + Date.now(), name: 'Актёр ' + (n + 1), desc: 'a person', h: 1.75, top: CLOTHES[n % CLOTHES.length], bottom: '#3a3a40', skin: '#e2b48c', hair: '#3b2a20',
+  C.cast.push({ id: 'a' + Date.now(), name: 'Actor ' + (n + 1), desc: 'a person', h: 1.75, top: CLOTHES[n % CLOTHES.length], bottom: '#3a3a40', skin: '#e2b48c', hair: '#3b2a20',
     pos: [r3(C.cam.x + A.fx * 2.2), r3(C.cam.z + A.fz * 2.2)], rot: Math.round(Math.atan2(-A.fx, -A.fz) * R2D), pose: 'stand' });
   sel = C.cast.length - 1; rebuildCast();
 });
 $('actorReset').addEventListener('click', () => {
   const a = C.cast[sel]; if (!a) return; const orig = (DEF.actors || []).find(x => x.id === a.id);
-  if (!orig) { toast('Этого актёра нет в исходной сцене, его можно только удалить.'); return; }
-  C.cast[sel] = clone(orig); clearAnim(); rebuildCast(); toast(orig.name + ' на месте, как в сцене.');
+  if (!orig) { toast('This actor is not in the original scene, you can only delete them.'); return; }
+  C.cast[sel] = clone(orig); clearAnim(); rebuildCast(); toast(orig.name + ' is back in place.');
 });
 let delArmA = 0;
 $('actorDel').addEventListener('click', () => {
   if (!C.cast[sel]) return; const b = $('actorDel');
-  if (!delArmA) { delArmA = setTimeout(() => { delArmA = 0; b.textContent = 'Удалить'; }, 2500); b.textContent = 'Точно?'; return; }
-  clearTimeout(delArmA); delArmA = 0; b.textContent = 'Удалить';
+  if (!delArmA) { delArmA = setTimeout(() => { delArmA = 0; b.textContent = 'Delete'; }, 2500); b.textContent = 'Sure?'; return; }
+  clearTimeout(delArmA); delArmA = 0; b.textContent = 'Delete';
   C.cast.splice(sel, 1); sel = 0; clearAnim(); rebuildCast();
 });
 
@@ -2159,17 +2159,17 @@ function importScene(def) {
     per.items = clone(def.items || []); per.cast = clone(def.actors || []); // the scene changed at the source: take its props and cast, keep frames and takes
   }
   S.defs[def.id] = def; switchScene(def.id);
-  toast('Сцена «' + def.title + '» загружена. План кадров в кнопке «Кадры».');
+  toast('Scene “' + def.title + '” loaded. The shot plan is under Shots.');
 }
 async function openSceneText(text) {
   try { importScene(await parseSceneText(text)); $('sceneText').value = ''; buildSettings(); }
-  catch (e) { toast('Не получилось прочитать сцену. Проверьте, что ссылка скопирована целиком.'); }
+  catch (e) { toast('Could not read the scene. Check that the whole link was copied.'); }
 }
 function editedDef() {
   const d = clone(DEF); delete d.builtin;
   d.items = clone(C.items); d.actors = clone(C.cast);
   d.camera = { mm: Math.round(focal()), sensor: S.sensor, aspect: S.aspect, pos: [r3(C.cam.x), r3(C.cam.y), r3(C.cam.z)], yaw: Math.round(C.cam.yaw * R2D * 10) / 10, pitch: Math.round(C.cam.pitch * R2D * 10) / 10, roll: S.roll };
-  if (d.id === 'room') { d.id = 'room-' + Date.now().toString(36); d.title = 'Комната · правки'; }
+  if (d.id === 'room') { d.id = 'room-' + Date.now().toString(36); d.title = 'Room · edits'; }
   return d;
 }
 async function sceneLink(d) {
@@ -2179,7 +2179,7 @@ async function sceneLink(d) {
 }
 $('sceneLinkBtn').addEventListener('click', async () => {
   const link = await sceneLink(editedDef()); const ta = $('sceneText'); ta.value = link;
-  try { await navigator.clipboard.writeText(link); toast('Ссылка на сцену скопирована. Пришлите её мне или откройте на другом устройстве.'); } catch (e) { ta.select(); toast('Ссылка в поле выше, скопируйте её.'); }
+  try { await navigator.clipboard.writeText(link); toast('Scene link copied. Send it to Claude or open it on another device.'); } catch (e) { ta.select(); toast('The link is in the field above, copy it.'); }
 });
 $('sceneSaveBtn').addEventListener('click', () => { const d = editedDef(); saveBlob(new Blob([JSON.stringify(d, null, 2)], { type: 'application/json' }), d.id + '.json', 'application/json'); });
 
@@ -2202,17 +2202,17 @@ function buildSettings() {
   $('sceneDelete').hidden = S.sceneId === 'room';
   chips($('sensorChips'), Object.keys(SENSORS).map(k => [k, SENSORS[k].name]), v => v === S.sensor, v => { S.sensor = v; updateProjection(); save(); });
   chips($('aspectChips'), ASPECTS.map(a => [a[0], a[0]]), v => v === S.aspect, v => { S.aspect = v; layout(); save(); });
-  chips($('speedChips'), [['slow', 'Медленно'], ['norm', 'Обычно'], ['fast', 'Быстро']], v => v === S.speed, v => { S.speed = v; save(); });
-  chips($('scaleChips'), [[false, '1:1'], [true, 'Игрушки 30 см']], v => v === S.toy, v => {
+  chips($('speedChips'), [['slow', 'Slow'], ['norm', 'Normal'], ['fast', 'Fast']], v => v === S.speed, v => { S.speed = v; save(); });
+  chips($('scaleChips'), [[false, '1:1'], [true, 'Toys 30 cm']], v => v === S.toy, v => {
     const was = S.toy; S.toy = v; placeActors(); updateProjection();
     if (was !== v) C.cam.y = clamp(v ? C.cam.y * TOY : C.cam.y / TOY, HMIN(), HMAX());
     save();
   });
   chips($('rollChips'), [[0, '0°'], [-15, '−15°'], [15, '+15°'], [-45, '−45°'], [90, '90°'], [180, '180°']], v => v === S.roll, v => { S.roll = v; syncRoll(); save(); });
-  chips($('horizonChips'), [[true, 'Горизонт зафиксирован'], [false, 'Свободный']], v => v === S.horizonLock, v => { S.horizonLock = v; save(); });
-  chips($('ceilChips'), [['auto', 'Авто'], ['show', 'Показать'], ['hide', 'Скрыть']], v => v === S.ceiling, v => { S.ceiling = v; save(); });
+  chips($('horizonChips'), [[true, 'Horizon locked'], [false, 'Free']], v => v === S.horizonLock, v => { S.horizonLock = v; save(); });
+  chips($('ceilChips'), [['auto', 'Auto'], ['show', 'Show'], ['hide', 'Hide']], v => v === S.ceiling, v => { S.ceiling = v; save(); });
   const G = S.grid;
-  chips($('gridChips'), [['thirds', 'Трети'], ['center', 'Центр и ось'], ['vp', 'Точки схода'], ['horizon', 'Горизонт']], v => G[v], v => { G[v] = !G[v]; save(); });
+  chips($('gridChips'), [['thirds', 'Thirds'], ['center', 'Centre and axis'], ['vp', 'Vanishing points'], ['horizon', 'Horizon']], v => G[v], v => { G[v] = !G[v]; save(); });
   syncRoll();
 }
 $('roll').addEventListener('input', () => { S.roll = +$('roll').value; $('rollOut').textContent = fmtDeg(S.roll); save(); });
@@ -2222,8 +2222,8 @@ $('sceneFile').addEventListener('change', async () => { const f = $('sceneFile')
 let delArm = 0;
 $('sceneDelete').addEventListener('click', () => {
   const b = $('sceneDelete');
-  if (!delArm) { delArm = setTimeout(() => { delArm = 0; b.textContent = 'Удалить эту сцену'; }, 3000); b.textContent = 'Точно удалить с кадрами?'; return; }
-  clearTimeout(delArm); delArm = 0; b.textContent = 'Удалить эту сцену';
+  if (!delArm) { delArm = setTimeout(() => { delArm = 0; b.textContent = 'Delete this scene'; }, 3000); b.textContent = 'Delete it with its frames?'; return; }
+  clearTimeout(delArm); delArm = 0; b.textContent = 'Delete this scene';
   const id = S.sceneId; delete S.defs[id]; delete S.per[id]; switchScene('room'); buildSettings();
 });
 
@@ -2246,7 +2246,7 @@ $('tSet').addEventListener('click', () => { closePops(); buildSettings(); $('set
 $('setClose').addEventListener('click', () => { $('setSheet').hidden = true; lastHud = ''; });
 $('resetScene').addEventListener('click', () => {
   const k = C; S.per[S.sceneId] = freshPer(DEF); Object.assign(S.per[S.sceneId], { frames: k.frames, takes: k.takes || [], seeded: true }); S.toy = false;
-  C = S.per[S.sceneId]; applyOptics(DEF); editSel = -1; animOv = {}; buildWorld(DEF); buildCast(); placeActors(); layout(); buildSettings(); save(); toast('Предметы, актёры и камера на исходных местах сцены.');
+  C = S.per[S.sceneId]; applyOptics(DEF); editSel = -1; animOv = {}; buildWorld(DEF); buildCast(); placeActors(); layout(); buildSettings(); save(); toast('Objects, actors and camera are back where the scene has them.');
 });
 function setMode(m) {
   mode = m; $('tActors').classList.toggle('on', m === 'actors'); $('tEdit').classList.toggle('on', m === 'edit');
@@ -2257,8 +2257,8 @@ function setMode(m) {
 }
 function refreshActorBar() {
   const box = $('actorChips'); box.textContent = '';
-  actors.forEach((a, i) => { const b = document.createElement('button'); b.className = 'chip' + (i === sel ? ' on' : ''); b.textContent = a.def.name || ('Актёр ' + (i + 1)); b.addEventListener('click', () => { sel = i; refreshActorBar(); placeActors(); }); box.appendChild(b); });
-  const st = C && C.cast[sel]; $('poseBtn').textContent = 'Поза: ' + (st ? poseRu(st.pose) : '');
+  actors.forEach((a, i) => { const b = document.createElement('button'); b.className = 'chip' + (i === sel ? ' on' : ''); b.textContent = a.def.name || ('Actor ' + (i + 1)); b.addEventListener('click', () => { sel = i; refreshActorBar(); placeActors(); }); box.appendChild(b); });
+  const st = C && C.cast[sel]; $('poseBtn').textContent = 'Pose: ' + (st ? poseName(st.pose) : '');
 }
 $('tActors').addEventListener('click', () => { closePops(); setMode(mode === 'actors' ? 'camera' : 'actors'); });
 $('tEdit').addEventListener('click', () => { closePops(); setMode(mode === 'edit' ? 'camera' : 'edit'); });
@@ -2276,8 +2276,8 @@ $('boardSave').addEventListener('click', exportBoard);
 let clearArm = 0;
 $('boardClear').addEventListener('click', () => {
   const b = $('boardClear');
-  if (!clearArm) { clearArm = setTimeout(() => { clearArm = 0; b.textContent = 'Очистить'; }, 3000); b.textContent = 'Точно очистить?'; return; }
-  clearTimeout(clearArm); clearArm = 0; b.textContent = 'Очистить';
+  if (!clearArm) { clearArm = setTimeout(() => { clearArm = 0; b.textContent = 'Clear'; }, 3000); b.textContent = 'Clear them all?'; return; }
+  clearTimeout(clearArm); clearArm = 0; b.textContent = 'Clear';
   C.frames = []; save(true); renderBoard(); refreshBoardBtn();
 });
 
@@ -2324,9 +2324,9 @@ buildSettings();
 if (DEF.id === 'room' && !C.seeded) {
   const keep = clone({ cam: C.cam, lens: S.lens, zoom: S.zoom, roll: S.roll });
   const shot = (k, mm, opts) => { applySrcAt({ kind: 'shot', item: { name: '', from: Object.assign({ mm }, k) } }, 0); setMm(mm); capture(Object.assign({ example: true }, opts)); };
-  shot({ pos: [0, 1.45, 4.1], yaw: 0, pitch: -2 }, 21, { move: 'статика', note: 'Фронтальная симметрия по оси комнаты' });
-  preset('widecu', 0); capture({ example: true, move: 'наезд', note: 'Широкий крупный: лицо у самой линзы' });
-  S.lens = lensIndex(21); updateProjection(); preset('top', 1); capture({ example: true, move: 'сверху', note: 'Кадр сверху, узор пола работает как графика' });
+  shot({ pos: [0, 1.45, 4.1], yaw: 0, pitch: -2 }, 21, { move: 'static', note: 'Frontal symmetry along the room axis' });
+  preset('widecu', 0); capture({ example: true, move: 'push in', note: 'Wide close-up: the face right at the lens' });
+  S.lens = lensIndex(21); updateProjection(); preset('top', 1); capture({ example: true, move: 'top shot', note: 'Top shot, the floor pattern reads as graphics' });
   Object.assign(C, { cam: keep.cam, seeded: true }); Object.assign(S, { lens: keep.lens, zoom: keep.zoom, roll: keep.roll });
   updateProjection(); syncRoll(); refreshBoardBtn(); save(true);
 }
