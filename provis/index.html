@@ -212,8 +212,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 
   <div class="hud-top">
     <button class="lens-btn" id="lensBtn" aria-label="Выбрать линзу">
-      <span class="mm" id="lensMm">35<small>мм</small></span>
-      <span class="meta" id="lensMeta">S35 · 2.39 · HFOV 39°</span>
+      <span class="mm" id="lensMm">18<small>мм</small></span>
+      <span class="meta" id="lensMeta">FF · 16:9 · HFOV 90°</span>
     </button>
     <div class="shot">
       <div class="shot-chip" id="shotChip">Средний</div>
@@ -314,8 +314,11 @@ const ROOM = { w: 7, d: 9, h: 3.2 };
 const TOY = 0.3 / 1.8;
 const KEY = 'provis.v1';
 
+// camera and optics defaults: Full Frame, 16:9, 18 mm. Bump CFG when they change so saved sessions pick them up.
+const CFG = 2;
+const DEFAULT_LENS = LENSES.findIndex(l => l.mm === 18 && !l.probe);
 const DEFAULTS = () => ({
-  lens: 8, sensor: 's35', aspect: '2.39', toy: false, horizonLock: true, ceiling: 'auto', roll: 0,
+  cfg: CFG, lens: DEFAULT_LENS, sensor: 'ff', aspect: '16:9', toy: false, horizonLock: true, ceiling: 'auto', roll: 0,
   grid: { thirds: true, center: true, vp: true, horizon: true }, gridOn: true,
   cam: { x: -0.4, y: 1.55, z: 2.6, yaw: -8 * D2R, pitch: -4 * D2R },
   actors: [{ x: -0.6, z: -0.4, rot: 20, pose: 'stand' }, { x: 1.2, z: -1.4, rot: -35, pose: 'walk' }],
@@ -325,7 +328,10 @@ const DEFAULTS = () => ({
 let S = DEFAULTS();
 try {
   const raw = localStorage.getItem(KEY);
-  if (raw) { const o = JSON.parse(raw); S = Object.assign(DEFAULTS(), o, { grid: Object.assign(DEFAULTS().grid, o.grid || {}) }); }
+  if (raw) {
+    const o = JSON.parse(raw); S = Object.assign(DEFAULTS(), o, { grid: Object.assign(DEFAULTS().grid, o.grid || {}) });
+    if ((o.cfg || 1) < CFG) { const d = DEFAULTS(); Object.assign(S, { cfg: CFG, lens: d.lens, sensor: d.sensor, aspect: d.aspect }); }
+  }
 } catch (e) { /* storage unavailable: run with defaults */ }
 let saveTimer = 0;
 function save(now) {
@@ -1012,8 +1018,8 @@ $('posPop').querySelectorAll('[data-preset]').forEach(b => b.addEventListener('c
 $('tSet').addEventListener('click', () => { closePops(); buildSettings(); $('setSheet').hidden = false; });
 $('setClose').addEventListener('click', () => { $('setSheet').hidden = true; lastHud = ''; });
 $('resetScene').addEventListener('click', () => {
-  const d = DEFAULTS(); S.actors = d.actors; S.cam = d.cam; S.roll = 0; S.toy = false; S.lens = d.lens;
-  placeActors(); updateProjection(); buildSettings(); save(); toast('Актёры и камера на исходных местах.');
+  const d = DEFAULTS(); S.actors = d.actors; S.cam = d.cam; S.roll = 0; S.toy = false; S.lens = d.lens; S.sensor = d.sensor; S.aspect = d.aspect;
+  placeActors(); layout(); buildSettings(); save(); toast('Актёры и камера на исходных местах: FF, 16:9, 18 мм.');
 });
 function setMode(m) {
   mode = m; $('tActors').classList.toggle('on', m === 'actors'); $('actorBar').hidden = m !== 'actors';
