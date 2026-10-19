@@ -452,7 +452,7 @@ const LENSES = [12, 14, 16, 18, 21, 25, 27, 32, 35, 40, 50, 65, 75, 85, 100, 135
   .concat([{ mm: 24, label: 'P24', probe: true }, { mm: 24, label: '24' }]); // appended, so lens numbers saved on devices keep their meaning
 const SENSORS = { s35: { name: 'Super 35', short: 'S35', w: 24.89 }, ff: { name: 'Full Frame', short: 'FF', w: 36.0 } };
 const ASPECTS = [['16:9', 16 / 9], ['2.39', 2.39], ['1.85', 1.85], ['1.44', 1.44], ['4:3', 4 / 3], ['4:5', 0.8], ['9:16', 9 / 16]];
-const POSES = [['stand', 'standing'], ['walk', 'walking'], ['sit', 'sitting'], ['arms', 'arms up'], ['lie', 'lying'], ['tuck', 'tucked away'], ['hide', 'peeking out']];
+const POSES = [['stand', 'standing'], ['walk', 'walking'], ['sit', 'sitting'], ['arms', 'arms up'], ['lie', 'lying'], ['tuck', 'tucked away'], ['hide', 'peeking out'], ['reach', 'reaching up']];
 const poseName = p => (POSES.find(x => x[0] === p) || [p, p])[1];
 const MOVES = ['static', 'push in', 'pull out', 'crash zoom', 'pan', 'tracking', 'crane', 'orbit', 'handheld', 'top shot', 'whip pan'];
 const BUILDS = [['slim', 'slim'], ['normal', 'average'], ['heavy', 'heavy']];
@@ -847,6 +847,8 @@ function poseVals(pose, s) {
     v.rigRot[0] = -Math.PI / 2; v.rigPos = [0, 0.075 * s, 0.45 * s]; v.shL[2] = 0.25; v.shR[2] = -0.25;
   } else if (pose === 'hide') { // leans forward so the head comes out between hanging coats
     v.spine[0] = 0.4; v.neck[0] = 0.6; v.head[0] = -0.75; v.shL[0] = v.shR[0] = 0.35; v.elL[0] = v.elR[0] = -0.2;
+  } else if (pose === 'reach') { // one arm up to a hook or a shelf, looking at it
+    v.shR = [-2.75, 0, -0.08]; v.elR = [-0.35, 0, 0]; v.shL = [0.05, 0, 0.12]; v.head[0] = -0.25; v.spine[0] = -0.05;
   } else if (pose === 'tuck') { // stands upright and still, hidden behind whatever is in front
     v.spine[0] = -0.04; v.neck = [0.08, -0.5, 0]; v.head = [-0.06, -0.8, 0]; v.shL[2] = 0.05; v.shR[2] = -0.05; // head turned so a long nose stays behind the coats
   }
@@ -1056,7 +1058,7 @@ function whereFrac(fx, fy) {
   const vt = fy < 0.25 ? ', high in the frame' : fy > 0.78 ? ', low in the frame' : '';
   return hz + vt;
 }
-function actorsText() { // who is where and what hides them, from the actors' landmarks and the on-screen projection
+function actorsText() { // who is where and what hides them, from the actors' landmarks and the on-screen projection; one entry per actor
   camera.updateMatrixWorld();
   const parts = [];
   actors.forEach((a, i) => {
@@ -1064,16 +1066,16 @@ function actorsText() { // who is where and what hides them, from the actors' la
     const eyes = toScreen(a.L.eyes), chest = toScreen(a.L.chest), foot = toScreen(a.L.footL) || toScreen(a.L.footR), hips = toScreen(a.L.hips);
     const any = [eyes, chest, foot, hips].some(p => inFrame(p, 4)); if (!any) return;
     const who = a.def.desc || 'a person', st = C.cast[i], o = animOv[i], pose = (o && (o.f > 0.5 ? o.pose2 : o.pose)) || st.pose;
-    const act = { stand: 'stands', walk: 'walks', sit: 'sits', arms: 'stands with arms raised', lie: 'lies on the floor', tuck: 'stands hidden', hide: 'leans forward' }[pose] || 'stands';
+    const act = { stand: 'stands', walk: 'walks', sit: 'sits', arms: 'stands with arms raised', lie: 'lies on the floor', tuck: 'stands hidden', hide: 'leans forward', reach: 'reaches up' }[pose] || 'stands';
     const anchor = inFrame(eyes) ? eyes : (inFrame(chest) ? chest : (inFrame(hips) ? hips : foot));
     let line = who.charAt(0).toUpperCase() + who.slice(1) + ' ' + act + ' ' + whereInFrame(anchor);
     const occE = inFrame(eyes) ? occluderOf(a.L.eyes) : null, occC = inFrame(chest) ? occluderOf(a.L.chest) : null, occF = inFrame(foot) ? occluderOf(a.L.footL) : null;
     if (inFrame(eyes) && !occE && occC) line += '; the body is hidden behind ' + ownerLabel(occC) + ', only the head shows' + (inFrame(foot) && !occF ? ' and the legs show below it' : '');
     else if (inFrame(eyes) && occE && !occF && inFrame(foot)) line += '; hidden behind ' + ownerLabel(occE) + ' except the legs';
     else if (occE) line += '; the face is hidden behind ' + ownerLabel(occE);
-    parts.push(line + '.');
+    parts.push({ i, line: line + '.' });
   });
-  return parts.join(' ');
+  return parts;
 }
 function itemsText(vis) { // props that really show in the frame, biggest first; pieces with the same label read as one prop
   const G = {};
@@ -1697,7 +1699,7 @@ function contours(mask, depth) { // outlines where the surface changes or the de
 }
 function renderSet(longSide) { // frame, depth, mask, contours from the current camera
   updateProjection(); applyOrientation(); camera.updateMatrixWorld();
-  const actorTxt = actorsText(); // landmarks are read with the on-screen projection
+  const actorLines = actorsText(); // landmarks are read with the on-screen projection
   const [w, h] = exportSize(longSide), st = beginOff(w, h);
   aimExport(w, h);
   renderer.render(scene, camera); const frame = canvasFromGL(w, h);
@@ -1709,7 +1711,7 @@ function renderSet(longSide) { // frame, depth, mask, contours from the current 
   renderMaskPass(plan); const mask = canvasFromGL(w, h);
   renderIdPass(); const ids = canvasFromGL(w, h);
   endOff(st);
-  return { frame, depth, mask, edges: contours(ids, depth), legend: plan.legend, layoutTxt: [actorTxt, itemsText(vis)].filter(Boolean).join(' ') };
+  return { frame, depth, mask, edges: contours(ids, depth), legend: plan.legend, layoutTxt: actorLines.filter(a => vis['a' + a.i] && vis['a' + a.i].cov > 0.0004).map(a => a.line).concat(itemsText(vis) || []).join(' ') }; // actors behind walls are left out
 }
 
 // ---------- prompts ----------
@@ -1781,8 +1783,8 @@ function motionEn(src) {
 }
 function actionEn(src) { // the actors' beats in plain English, from the shot's actor tracks
   const sh = actShotOf(src); if (!sh || !sh.actors) return '';
-  const STATE = { tuck: 'stays hidden', hide: 'has the head pushed out', walk: 'walks', stand: 'stands', sit: 'sits', arms: 'has the arms raised', lie: 'lies on the floor' };
-  const CHANGE = { tuck: 'hides', hide: 'pushes the head out', walk: 'starts walking', stand: 'stops', sit: 'sits down', arms: 'raises the arms', lie: 'lies down' };
+  const STATE = { tuck: 'stays hidden', hide: 'has the head pushed out', walk: 'walks', stand: 'stands', sit: 'sits', arms: 'has the arms raised', lie: 'lies on the floor', reach: 'reaches up to hang a coat' };
+  const CHANGE = { tuck: 'hides', hide: 'pushes the head out', walk: 'starts walking', stand: 'stops', sit: 'sits down', arms: 'raises the arms', lie: 'lies down', reach: 'reaches up' };
   return Object.keys(sh.actors).map(id => {
     const a = C.cast.find(c => c.id === id); if (!a) return '';
     const ks = sh.actors[id].slice().sort((p, q) => p.t - q.t); let pose = ks[0].pose || a.pose;
